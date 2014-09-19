@@ -7,6 +7,7 @@ package cs544.wamp_blog_engine.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,9 +36,9 @@ public class User {
     private Credential userCredential;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<LoginHistory> userLogins;
+    private List<LoginHistory> userLogins;
     @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Blog> userBlogs;
+    private List<Blog> userBlogs;
 
     public User() {
     }
@@ -105,7 +106,7 @@ public class User {
         this.userCredential = userCredential;
     }
 
-    public ArrayList<LoginHistory> getUserLogins() {
+    public List<LoginHistory> getUserLogins() {
         return userLogins;
     }
 
@@ -113,7 +114,7 @@ public class User {
         this.userLogins.add(loginHistory);
     }
 
-    public ArrayList<Blog> getUserBlogs() {
+    public List<Blog> getUserBlogs() {
         return userBlogs;
     }
 

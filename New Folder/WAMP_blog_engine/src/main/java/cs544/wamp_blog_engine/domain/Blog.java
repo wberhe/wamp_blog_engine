@@ -7,6 +7,7 @@ package cs544.wamp_blog_engine.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Blog {
     private String description;
     private String comm_approval;
     @OneToMany(cascade = CascadeType.ALL)
-    private ArrayList<Post> blogPosts;
+    private List<Post> blogPosts;
 
     public Blog() {
     }
@@ -81,7 +82,7 @@ public class Blog {
         this.comm_approval = comm_approval;
     }
 
-    public ArrayList<Post> getBlogPosts() {
+    public List<Post> getBlogPosts() {
         return blogPosts;
     }
 
