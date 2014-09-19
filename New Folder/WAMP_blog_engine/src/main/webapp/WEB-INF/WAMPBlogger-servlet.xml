@@ -30,12 +30,8 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-    <!-- Forwards requests to the "/addContact" resource to the "addContact" 
-    view -->
-	
+ 
 
-
-    <!--<mvc:view-controller path="" view-name="">-->
 
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
     up static resources in the ${webappRoot}/resources/ directory -->
