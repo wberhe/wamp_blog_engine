@@ -8,6 +8,7 @@ package cs544.wamp_blog_engine.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.hibernate.validator.constraints.Range;
 
 /**
  *
@@ -15,15 +16,18 @@ import javax.persistence.Id;
  */
 @Entity
 public class Rating {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
-    private String rate;
+
+    @Range(min = 1, max = 5)
+    private int rate;
 
     public Rating() {
     }
 
-    public Rating(String rate) {
+    public Rating(int rate) {
         this.rate = rate;
     }
 
@@ -31,11 +35,11 @@ public class Rating {
         return id;
     }
 
-    public String getRate() {
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 

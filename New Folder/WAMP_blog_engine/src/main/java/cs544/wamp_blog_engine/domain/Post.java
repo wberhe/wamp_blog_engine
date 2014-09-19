@@ -16,6 +16,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -23,23 +27,38 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Post {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
+    
+    @NotBlank
+    @SafeHtml
     private String title;
-    private String status;
+    
+    private boolean draft;
+    
+    @NotBlank
+    @SafeHtml
     private String body;
+    
+    @Past
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date creation_time;
+    
     private byte[] image;
 
-    @ManyToMany(mappedBy ="catogorizedPosts",cascade = CascadeType.ALL )
+    @ManyToMany(mappedBy = "catogorizedPosts", cascade = CascadeType.ALL)
     private List<Category> categories;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Rating> postRatings;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> postComments;
-    @ManyToMany(cascade =CascadeType.ALL,mappedBy = "taggedPosts")
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "taggedPosts")
     private List<Tag> postTags;
 
     public Post() {
@@ -57,12 +76,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isDraft() {
+        return draft;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDraft(boolean draft) {
+        this.draft = draft;
     }
 
     public String getBody() {

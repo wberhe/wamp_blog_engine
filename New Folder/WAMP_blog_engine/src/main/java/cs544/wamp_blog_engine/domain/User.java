@@ -16,6 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Past;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -23,23 +27,43 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class User {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
+
+    @NotBlank
+    @SafeHtml
     private String firstname;
+
+    @NotBlank
+    @SafeHtml
     private String lastname;
+
+    @NotBlank
+    @SafeHtml
+    @Email
     private String email;
-    private String status;
+
+    private boolean blocked;
+
+    @Past
     @Temporal(TemporalType.DATE)
     private Date dob;
+
     private byte[] profilepic;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Credential userCredential;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<LoginHistory> userLogins;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Blog> userBlogs;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Rating> ratings;
 
     public User() {
     }
@@ -127,12 +151,24 @@ public class User {
         this.userBlogs.remove(blog);
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isBlocked() {
+        return blocked;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
-    
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+    }
+
+    public void removeRating(Rating rating) {
+        this.ratings.remove(rating);
+    }
+
 }

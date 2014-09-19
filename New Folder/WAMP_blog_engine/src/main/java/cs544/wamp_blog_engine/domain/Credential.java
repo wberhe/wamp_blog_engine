@@ -8,6 +8,9 @@ package cs544.wamp_blog_engine.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -15,11 +18,30 @@ import javax.persistence.Id;
  */
 @Entity
 public class Credential {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
+    
+    //
+    //create validation
+    @NotBlank
     private String previledge;
+    
+    @NotBlank
+    @SafeHtml
     private String username;
+
+//    (			# Start of group
+//  (?=.*\d)		#   must contains one digit from 0-9
+//  (?=.*[a-z])		#   must contains one lowercase characters
+//  (?=.*[A-Z])		#   must contains one uppercase characters
+//  (?=.*[@#$%])		#   must contains one special symbols in the list "@#$%"
+//              .		#     match anything with previous condition checking
+//                {6,20}	#        length at least 6 characters and maximum of 20	
+//)	
+    @NotBlank
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
     private String password;
 
     public Credential() {

@@ -15,7 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -27,28 +31,29 @@ public class Blog {
     @Id
     @GeneratedValue
     private int id;
+
+    @NotBlank
+    @SafeHtml
     private String name;
+
+    @Past
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date creationg_time;
+
+    @SafeHtml
     private String description;
-    private String comm_approval;
-    private String status;
+
+    private boolean comm_approval;
+
+    private boolean blocked;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Post> blogPosts;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    
     public Blog() {
     }
 
-    public Blog(String name, Date creationg_time, String description, String comm_approval, ArrayList<Post> blogPosts) {
+    public Blog(String name, Date creationg_time, String description, boolean comm_approval, ArrayList<Post> blogPosts) {
         this.name = name;
         this.creationg_time = creationg_time;
         this.description = description;
@@ -84,11 +89,11 @@ public class Blog {
         this.description = description;
     }
 
-    public String getComm_approval() {
+    public boolean isComm_approval() {
         return comm_approval;
     }
 
-    public void setComm_approval(String comm_approval) {
+    public void setComm_approval(boolean comm_approval) {
         this.comm_approval = comm_approval;
     }
 
@@ -102,6 +107,14 @@ public class Blog {
 
     public void removeBlogPost(Post post) {
         this.blogPosts.remove(post);
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
 }
