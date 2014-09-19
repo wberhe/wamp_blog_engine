@@ -133,4 +133,44 @@ public class Blog {
     public void removeFollwoer(User user){
         getFollowers().remove(user);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 29 * hash + (this.creationg_time != null ? this.creationg_time.hashCode() : 0);
+        hash = 29 * hash + (this.description != null ? this.description.hashCode() : 0);
+        hash = 29 * hash + (this.comm_approval ? 1 : 0);
+        hash = 29 * hash + (this.blocked ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Blog other = (Blog) obj;
+        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+            return false;
+        }
+        if (this.creationg_time != other.creationg_time && (this.creationg_time == null || !this.creationg_time.equals(other.creationg_time))) {
+            return false;
+        }
+        if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
+            return false;
+        }
+        if (this.comm_approval != other.comm_approval) {
+            return false;
+        }
+        if (this.blocked != other.blocked) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

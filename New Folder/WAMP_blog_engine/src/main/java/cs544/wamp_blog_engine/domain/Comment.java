@@ -86,4 +86,36 @@ public class Comment {
         this.approved = approved;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (this.comment != null ? this.comment.hashCode() : 0);
+        hash = 29 * hash + (this.comm_time != null ? this.comm_time.hashCode() : 0);
+        hash = 29 * hash + (this.approved ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Comment other = (Comment) obj;
+        if ((this.comment == null) ? (other.comment != null) : !this.comment.equals(other.comment)) {
+            return false;
+        }
+        if (this.comm_time != other.comm_time && (this.comm_time == null || !this.comm_time.equals(other.comm_time))) {
+            return false;
+        }
+        if (this.approved != other.approved) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+
 }

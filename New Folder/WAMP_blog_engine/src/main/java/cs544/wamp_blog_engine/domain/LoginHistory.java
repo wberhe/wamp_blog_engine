@@ -63,4 +63,30 @@ public class LoginHistory {
         this.logout_time = logout_time;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + (this.login_time != null ? this.login_time.hashCode() : 0);
+        hash = 67 * hash + (this.logout_time != null ? this.logout_time.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LoginHistory other = (LoginHistory) obj;
+        if (this.login_time != other.login_time && (this.login_time == null || !this.login_time.equals(other.login_time))) {
+            return false;
+        }
+        if (this.logout_time != other.logout_time && (this.logout_time == null || !this.logout_time.equals(other.logout_time))) {
+            return false;
+        }
+        return true;
+    }
+
 }

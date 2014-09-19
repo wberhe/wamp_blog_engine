@@ -6,6 +6,7 @@
 package cs544.wamp_blog_engine.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -187,5 +188,48 @@ public class User {
     public void removeFollows(Blog blog){
         getFollows().remove(blog);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + (this.firstname != null ? this.firstname.hashCode() : 0);
+        hash = 89 * hash + (this.lastname != null ? this.lastname.hashCode() : 0);
+        hash = 89 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash = 89 * hash + (this.blocked ? 1 : 0);
+        hash = 89 * hash + (this.dob != null ? this.dob.hashCode() : 0);
+        hash = 89 * hash + Arrays.hashCode(this.profilepic);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if ((this.firstname == null) ? (other.firstname != null) : !this.firstname.equals(other.firstname)) {
+            return false;
+        }
+        if ((this.lastname == null) ? (other.lastname != null) : !this.lastname.equals(other.lastname)) {
+            return false;
+        }
+        if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
+            return false;
+        }
+        if (this.blocked != other.blocked) {
+            return false;
+        }
+        if (this.dob != other.dob && (this.dob == null || !this.dob.equals(other.dob))) {
+            return false;
+        }
+        if (!Arrays.equals(this.profilepic, other.profilepic)) {
+            return false;
+        }
+        return true;
+    }
+
     
 }

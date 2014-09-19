@@ -6,6 +6,7 @@
 package cs544.wamp_blog_engine.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -151,4 +152,43 @@ public class Post {
     public void removeTag(Tag tag) {
         this.postTags.remove(tag);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + (this.title != null ? this.title.hashCode() : 0);
+        hash = 67 * hash + (this.draft ? 1 : 0);
+        hash = 67 * hash + (this.body != null ? this.body.hashCode() : 0);
+        hash = 67 * hash + (this.creation_time != null ? this.creation_time.hashCode() : 0);
+        hash = 67 * hash + Arrays.hashCode(this.image);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Post other = (Post) obj;
+        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
+            return false;
+        }
+        if (this.draft != other.draft) {
+            return false;
+        }
+        if ((this.body == null) ? (other.body != null) : !this.body.equals(other.body)) {
+            return false;
+        }
+        if (this.creation_time != other.creation_time && (this.creation_time == null || !this.creation_time.equals(other.creation_time))) {
+            return false;
+        }
+        if (!Arrays.equals(this.image, other.image)) {
+            return false;
+        }
+        return true;
+    }
+
 }

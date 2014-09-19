@@ -81,4 +81,34 @@ public class Credential {
         this.password = password;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + (this.previledge != null ? this.previledge.hashCode() : 0);
+        hash = 37 * hash + (this.username != null ? this.username.hashCode() : 0);
+        hash = 37 * hash + (this.password != null ? this.password.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Credential other = (Credential) obj;
+        if ((this.previledge == null) ? (other.previledge != null) : !this.previledge.equals(other.previledge)) {
+            return false;
+        }
+        if ((this.username == null) ? (other.username != null) : !this.username.equals(other.username)) {
+            return false;
+        }
+        if ((this.password == null) ? (other.password != null) : !this.password.equals(other.password)) {
+            return false;
+        }
+        return true;
+    }
+
 }

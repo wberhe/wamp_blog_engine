@@ -43,4 +43,26 @@ public class Rating {
         this.rate = rate;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + this.rate;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rating other = (Rating) obj;
+        if (this.rate != other.rate) {
+            return false;
+        }
+        return true;
+    }
+
 }
