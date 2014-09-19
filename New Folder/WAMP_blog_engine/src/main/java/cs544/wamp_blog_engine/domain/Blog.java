@@ -7,20 +7,30 @@ package cs544.wamp_blog_engine.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author priya
  */
-
+@Entity
 public class Blog {
 
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationg_time;
     private String description;
     private String comm_approval;
-
+    @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<Post> blogPosts;
 
     public Blog() {
@@ -33,8 +43,6 @@ public class Blog {
         this.comm_approval = comm_approval;
         this.blogPosts = blogPosts;
     }
-    
-    
 
     public int getId() {
         return id;
