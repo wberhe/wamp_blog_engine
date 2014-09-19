@@ -7,26 +7,37 @@ package cs544.wamp_blog_engine.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
-import javax.print.DocFlavor;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author priya
  */
+@Entity
 public class User {
-
+@Id
+@GeneratedValue
     private int id;
     private String firstname;
     private String lastname;
     private String email;
+    @Temporal(TemporalType.DATE)
     private Date dob;
     private byte[] profilepic;
-
+    @OneToOne(cascade = CascadeType.ALL)
     private Credential userCredential;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<LoginHistory> userLogins;
-
-    private ArrayList<Blog> userBolgs;
+    @OneToMany(cascade = CascadeType.ALL)
+    private ArrayList<Blog> userBlogs;
 
     public User() {
     }
@@ -39,7 +50,7 @@ public class User {
         this.profilepic = profilepic;
         this.userCredential = userCredential;
         this.userLogins = userLogins;
-        this.userBolgs = userBolgs;
+        this.userBlogs = userBolgs;
     }
 
     public int getId() {
@@ -102,15 +113,15 @@ public class User {
         this.userLogins.add(loginHistory);
     }
 
-    public ArrayList<Blog> getUserBolgs() {
-        return userBolgs;
+    public ArrayList<Blog> getUserBlogs() {
+        return userBlogs;
     }
 
     public void addBlog(Blog blog) {
-        this.userBolgs.add(blog);
+        this.userBlogs.add(blog);
     }
 
     public void removeBlog(Blog blog) {
-        this.userBolgs.remove(blog);
+        this.userBlogs.remove(blog);
     }
 }

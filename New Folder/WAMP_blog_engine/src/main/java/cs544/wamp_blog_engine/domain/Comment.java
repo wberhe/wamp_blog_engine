@@ -6,17 +6,36 @@
 package cs544.wamp_blog_engine.domain;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author priya
  */
+@Entity
 public class Comment {
-
+@Id
+@GeneratedValue
     private int id;
     private String comment;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date comm_time;
     // todo: adding parent id?
+    @OneToOne
+    private Comment parentComment;
+
+    public Comment getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Comment parentComment) {
+        this.parentComment = parentComment;
+    }
 
     public Comment() {
     }

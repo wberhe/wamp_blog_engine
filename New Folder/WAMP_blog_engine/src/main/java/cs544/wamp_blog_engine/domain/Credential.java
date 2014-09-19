@@ -5,12 +5,18 @@
  */
 package cs544.wamp_blog_engine.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author priya
  */
+@Entity
 public class Credential {
-
+@Id
+@GeneratedValue
     private int id;
     private String previledge;
     private String username;

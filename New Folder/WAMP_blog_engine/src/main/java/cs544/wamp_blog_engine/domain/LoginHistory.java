@@ -6,15 +6,24 @@
 package cs544.wamp_blog_engine.domain;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author priya
  */
+@Entity
 public class LoginHistory {
-
+@Id
+@GeneratedValue
     private int id;
+@Temporal(TemporalType.TIMESTAMP)
     private Date login_time;
+@Temporal(TemporalType.TIMESTAMP)
     private Date logout_time;
 
     public LoginHistory() {
