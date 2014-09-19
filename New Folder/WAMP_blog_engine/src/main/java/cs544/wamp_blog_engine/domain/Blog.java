@@ -8,6 +8,7 @@ package cs544.wamp_blog_engine.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 /**
  *
  * @author priya
