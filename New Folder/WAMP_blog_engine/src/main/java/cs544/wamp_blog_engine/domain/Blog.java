@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,6 +51,8 @@ public class Blog {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Post> blogPosts;
 
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy ="follows" )
+    private List<User> followers;
     public Blog() {
     }
 
@@ -117,4 +120,17 @@ public class Blog {
         this.blocked = blocked;
     }
 
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+    public void addFollower(User user){
+        getFollowers().add(user);
+    }
+    public void removeFollwoer(User user){
+        getFollowers().remove(user);
+    }
 }

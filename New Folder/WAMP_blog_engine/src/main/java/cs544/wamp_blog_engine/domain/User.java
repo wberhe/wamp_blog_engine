@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -65,6 +66,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Blog> follows;
     public User() {
     }
 
@@ -171,4 +174,18 @@ public class User {
         this.ratings.remove(rating);
     }
 
+    public List<Blog> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(List<Blog> follows) {
+        this.follows = follows;
+    }
+    public void addFollows(Blog blog){
+        getFollows().add(blog);
+    }
+    public void removeFollows(Blog blog){
+        getFollows().remove(blog);
+    }
+    
 }
