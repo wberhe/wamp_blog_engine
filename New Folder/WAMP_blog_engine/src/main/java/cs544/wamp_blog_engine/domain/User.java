@@ -29,6 +29,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+    private String status;
     @Temporal(TemporalType.DATE)
     private Date dob;
     private byte[] profilepic;
@@ -125,4 +126,13 @@ public class User {
     public void removeBlog(Blog blog) {
         this.userBlogs.remove(blog);
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
 }

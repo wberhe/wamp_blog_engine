@@ -32,9 +32,19 @@ public class Blog {
     private Date creationg_time;
     private String description;
     private String comm_approval;
+    private String status;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Post> blogPosts;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
     public Blog() {
     }
 
