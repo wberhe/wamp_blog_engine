@@ -88,5 +88,13 @@
     <bean id="userDAO" class="cs544.wamp_blog_engine.dao.impl.UserDAOImpl">
         <property name="sf" ref="sessionFactory"/>
     </bean> 
+    
+    
+    <!-- User service injection beans-->
+    <bean id="userService" class="cs544.wamp_blog_engine.service.impl.UserService">
+         <constructor-arg name="userDAO" ref="userDAO"/>
+         <constructor-arg name="credentialDAO" ref="credentialDAO"/>
+         <constructor-arg name="notificationSevice" ref=""/>
+    </bean>
 
 </beans>
