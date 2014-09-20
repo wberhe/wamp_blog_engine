@@ -27,22 +27,22 @@ public class CredentialDAOImpl implements CredentialDAO{
     }
 
     @Override
-    public void createComment(Credential credential) {
+    public void createCredential(Credential credential) {
         sf.getCurrentSession().save(credential);
     }
 
     @Override
-    public void updateComment(Credential credential) {
+    public void updateCredential(Credential credential) {
         sf.getCurrentSession().saveOrUpdate(credential);
     }
 
     @Override
-    public void removeComment(Credential credential) {
+    public void removeCredential(Credential credential) {
         sf.getCurrentSession().delete(credential);
     }
 
     @Override
-    public Credential getComment(int credentialid) {
+    public Credential getCredential(int credentialid) {
         Credential cre= (Credential) sf.getCurrentSession().get(Credential.class, credentialid);
         return cre;
     }
