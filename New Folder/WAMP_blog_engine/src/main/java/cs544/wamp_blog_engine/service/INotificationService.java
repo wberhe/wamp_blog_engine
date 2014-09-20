@@ -19,7 +19,7 @@ public interface INotificationService {
     public void notifyFollowers(List<User> followers, Post post);
 
     public void notifyBlogger(List<User> user,String message);
-    public void notifyBloggerNewComment(List<User> user,Comment comment);
+    public void notifyBloggerNewComment(User user,Comment comment);
 
     public void contactAdmin(User user,String message);
 
