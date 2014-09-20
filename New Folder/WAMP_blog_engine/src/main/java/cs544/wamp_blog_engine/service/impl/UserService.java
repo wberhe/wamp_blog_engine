@@ -80,14 +80,18 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void notifyBlogger(User user) {
-        notificationSevice.notifyBlogger(user);
-        
+    public void notifyBlogger(List<User> user, String message) {
+        //TODO
     }
 
     @Override
-    public void contactAdmin() {
-         notificationSevice.contactAdmin();
+    public void contactAdmin(User user, String message) {
+        //TODO
     }
+
+    
+    
+
+    
     
 }
