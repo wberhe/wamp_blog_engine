@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,6 +42,12 @@ public class Comment {
 
     @OneToOne
     private Comment parentComment;
+    
+    @ManyToOne
+    private User commentAuthor;
+    
+    @ManyToOne
+    private Post parentPost;
 
     public Comment getParentComment() {
         return parentComment;
@@ -88,6 +95,22 @@ public class Comment {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getCommentAuthor() {
+        return commentAuthor;
+    }
+
+    public void setCommentAuthor(User commentAuthor) {
+        this.commentAuthor = commentAuthor;
+    }
+
+    public Post getParentPost() {
+        return parentPost;
+    }
+
+    public void setParentPost(Post parentPost) {
+        this.parentPost = parentPost;
     }
 
     

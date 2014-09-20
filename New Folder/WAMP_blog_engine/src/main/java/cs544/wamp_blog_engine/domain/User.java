@@ -55,7 +55,7 @@ public class User {
     @Past
     @Temporal(TemporalType.DATE)
     private Date dob;
-    
+
     //profile picture
     private byte[] profilepic;
     
@@ -66,14 +66,15 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<LoginHistory> userLogins;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "blogger", cascade = CascadeType.ALL)
     private List<Blog> userBlogs;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Rating> ratings;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Blog> follows;
+
     public User() {
     }
 
@@ -172,8 +173,6 @@ public class User {
         return ratings;
     }
 
-   
-
     public void addRating(Rating rating) {
         this.ratings.add(rating);
     }
@@ -189,10 +188,12 @@ public class User {
     public void setFollows(List<Blog> follows) {
         this.follows = follows;
     }
-    public void addFollows(Blog blog){
+
+    public void addFollows(Blog blog) {
         getFollows().add(blog);
     }
-    public void removeFollows(Blog blog){
+
+    public void removeFollows(Blog blog) {
         getFollows().remove(blog);
     }
 
@@ -212,7 +213,6 @@ public class User {
         this.ratings = ratings;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -255,5 +255,4 @@ public class User {
         return true;
     }
 
-    
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public interface RatingDAO {
     public void addRating(Rating rating);
     public void updateRating(Rating rating);
-    public void removeRatingt(Rating rating);
+    public void removeRating(Rating rating);
     public Rating getBlog(int id);
     public List<Rating> getAllRatings();
 }

@@ -56,7 +56,7 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Rating> postRatings;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
     private List<Comment> postComments;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "taggedPosts")
