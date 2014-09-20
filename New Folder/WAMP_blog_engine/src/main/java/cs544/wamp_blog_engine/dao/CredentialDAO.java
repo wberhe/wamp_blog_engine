@@ -13,9 +13,9 @@ import java.util.List;
  * @author Weldino
  */
 public interface CredentialDAO {
-    public void createComment(Credential credential);
-    public void updateComment(Credential credential);
-    public void removeComment(Credential credential);
-    public Credential getComment(int credentialid);
+    public void createCredential(Credential credential);
+    public void updateCredential(Credential credential);
+    public void removeCredential(Credential credential);
+    public Credential getCredential(int credentialid);
     public List<Credential> getAllCredentials();
 }
