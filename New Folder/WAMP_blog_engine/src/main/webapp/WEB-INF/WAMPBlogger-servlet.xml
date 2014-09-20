@@ -17,6 +17,7 @@
 
 
     <mvc:annotation-driven />
+    <context:component-scan base-package="cs544" />
     <tx:annotation-driven transaction-manager="txManager" />
     <!--<context:component-scan base-package="cs544.exercise00_1" />-->
 
