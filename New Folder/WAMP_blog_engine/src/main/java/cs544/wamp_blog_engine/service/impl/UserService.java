@@ -45,7 +45,6 @@ public class UserService implements IUserService{
             this.userDAO.addUser(user);
         }
         catch(Exception e){
-            
         }
          
     }
