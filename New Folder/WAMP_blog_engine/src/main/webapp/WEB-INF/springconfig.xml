@@ -61,4 +61,32 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 	
+    <bean id="blogDAO" class="cs544.wamp_blog_engine.dao.impl.BlogDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="categoryDAO" class="cs544.wamp_blog_engine.dao.impl.CategoryDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="commentDAO" class="cs544.wamp_blog_engine.dao.impl.CommentDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="credentialDAO" class="cs544.wamp_blog_engine.dao.impl.CredentialDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="loginHistoryDAO" class="cs544.wamp_blog_engine.dao.impl.LoginHistoryDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="postDAO" class="cs544.wamp_blog_engine.dao.impl.PostDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="ratingDAO" class="cs544.wamp_blog_engine.dao.impl.RatingDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="tagDAO" class="cs544.wamp_blog_engine.dao.impl.TagDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    <bean id="userDAO" class="cs544.wamp_blog_engine.dao.impl.UserDAOImpl">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+
 </beans>
