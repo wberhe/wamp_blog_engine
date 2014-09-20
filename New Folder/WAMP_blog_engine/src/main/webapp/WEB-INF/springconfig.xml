@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -107,26 +108,26 @@
     
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-	<property name="host" value="smtp.gmail.com" />
-	<property name="port" value="587" />
-	<property name="username" value="mum.ea.project@gmail.com" />
-	<property name="password" value="mum.ea.project@2014" /> 
-	<property name="javaMailProperties">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="mum.ea.project@gmail.com" />
+        <property name="password" value="mum.ea.project@2014" /> 
+        <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
                 <prop key="mail.smtp.starttls.enable">true</prop>                                
                 <prop key="mail.smtp.auth">true</prop>
             </props>
-	</property>
-</bean>
+        </property>
+    </bean>
   
- <bean id="fromAdminTemplate"
-	class="org.springframework.mail.SimpleMailMessage"> 
-	<property name="from" value="mum.ea.project@gmail.com" />
-	<property name="to" value="wel.berhe@gmail.com" />
-	<property name="subject" value="WAMPBlogger: Notification" />
-	<property name="text">
-	   <value>
+    <bean id="fromAdminTemplate"
+          class="org.springframework.mail.SimpleMailMessage"> 
+        <property name="from" value="mum.ea.project@gmail.com" />
+        <property name="to" value="wel.berhe@gmail.com" />
+        <property name="subject" value="WAMPBlogger: Notification" />
+        <property name="text">
+            <value>
 		<![CDATA[
 Dear %1$s,
 
@@ -135,16 +136,16 @@ Dear %1$s,
 Regards,
 Administrator.
 		]]>
-	   </value>
-    </property>
-</bean>
-<bean id="toAdminTemplate"
-	class="org.springframework.mail.SimpleMailMessage"> 
-	<property name="from" value="mum.ea.project@gmail.com" />
-	<property name="to" value="wel.berhe@gmail.com" />
-	<property name="subject" value="WAMPBlogger: Support" />
-	<property name="text">
-	   <value>
+            </value>
+        </property>
+    </bean>
+    <bean id="toAdminTemplate"
+          class="org.springframework.mail.SimpleMailMessage"> 
+        <property name="from" value="mum.ea.project@gmail.com" />
+        <property name="to" value="wel.berhe@gmail.com" />
+        <property name="subject" value="WAMPBlogger: Support" />
+        <property name="text">
+            <value>
 		<![CDATA[
 Dear Administrator,
 
@@ -153,16 +154,16 @@ Dear Administrator,
 Regards,
 %2s.
 		]]>
-	   </value>
-    </property>
-</bean>
-<bean id="toFollowersTemplate"
-	class="org.springframework.mail.SimpleMailMessage"> 
-	<property name="from" value="mum.ea.project@gmail.com" />
-	<property name="to" value="wel.berhe@gmail.com" />
-	<property name="subject" value="WAMPBlogger: New Post Notification" />
-	<property name="text">
-	   <value>
+            </value>
+        </property>
+    </bean>
+    <bean id="toFollowersTemplate"
+          class="org.springframework.mail.SimpleMailMessage"> 
+        <property name="from" value="mum.ea.project@gmail.com" />
+        <property name="to" value="wel.berhe@gmail.com" />
+        <property name="subject" value="WAMPBlogger: New Post Notification" />
+        <property name="text">
+            <value>
 		<![CDATA[
 Dear %1$s,
 
@@ -171,16 +172,16 @@ a new post titled:%2$s was posted on the Blog:%3$s at: %4$tD %4$tT
 Regards,
 Administrator.
 		]]>
-	   </value>
-    </property>
-</bean>
-<bean id="toBloggerTemplate"
-	class="org.springframework.mail.SimpleMailMessage"> 
-	<property name="from" value="mum.ea.project@gmail.com" />
-	<property name="to" value="wel.berhe@gmail.com" />
-	<property name="subject" value="WAMPBlogger: a New Comment needs approval" />
-	<property name="text">
-	   <value>
+            </value>
+        </property>
+    </bean>
+    <bean id="toBloggerTemplate"
+          class="org.springframework.mail.SimpleMailMessage"> 
+        <property name="from" value="mum.ea.project@gmail.com" />
+        <property name="to" value="wel.berhe@gmail.com" />
+        <property name="subject" value="WAMPBlogger: a New Comment needs approval" />
+        <property name="text">
+            <value>
 		<![CDATA[
 Dear %1$s,
 
@@ -189,9 +190,9 @@ a new comment was posted on the post: %2$s of the Blog: %3$ at %4$tD %4$tT that 
 Regards,
 Administrator.
 		]]>
-	   </value>
-    </property>
-</bean>
+            </value>
+        </property>
+    </bean>
 
     <!--Email Service-->
 </beans>
