@@ -12,6 +12,7 @@ import cs544.wamp_blog_engine.domain.Comment;
 import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.Rating;
 import cs544.wamp_blog_engine.domain.Tag;
+import cs544.wamp_blog_engine.domain.User;
 import java.util.List;
 
 /**
@@ -23,11 +24,12 @@ public interface IPostService {
     public void modifyPost(Post post);
     public Post getPost(int postId);
     public List<Post> getAllPosts();
+    public List<Post> getAllDrafts();
     public List<Post> getPostsByCategory(Category category);
     public List<Post> getPostsByTag(Tag tag);
     public void addRating(Rating rating, Post post);
     public double  getRating(Post post);
-    public void addComment(Comment comment, Post post);
+    public void addComment(Comment comment, Post post, User user);
     public void approveComment(Comment comment, Post post);
     public List<Comment> getAllComments(Post post);
     public void deleteComment(Post post);

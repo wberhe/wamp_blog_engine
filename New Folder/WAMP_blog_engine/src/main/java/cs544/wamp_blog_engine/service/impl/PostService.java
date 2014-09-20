@@ -15,8 +15,10 @@ import cs544.wamp_blog_engine.domain.Comment;
 import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.Rating;
 import cs544.wamp_blog_engine.domain.Tag;
+import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IPostService;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +37,7 @@ public class PostService implements IPostService {
         postDAO.addPost(post);
 
         post.getParentBlog().addBlogPost(post);
+
         blogDAO.updateBlog(post.getParentBlog());
 
         notificationService.notifyFollowers(post.getParentBlog().getFollowers(), post);
@@ -54,6 +57,11 @@ public class PostService implements IPostService {
     @Override
     public List<Post> getAllPosts() {
         return postDAO.getAllPosts();
+    }
+
+    @Override
+    public List<Post> getAllDrafts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -84,21 +92,39 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void addComment(Comment comment, Post post) {
-        post.addComment(comment);
-        postDAO.updatePost(post);
+    public void addComment(Comment comment, Post post, User user) {
+        if (post.getParentBlog().isComm_approval()) {
+            notificationService.notifyBloggerNewComment(post.getParentBlog().getBlogger(), comment);
+
+        } else {
+
+            comment.setApproved(true);
+            comment.setCommentAuthor(user);
+            post.addComment(comment);
+            comment.setParentPost(post);
+            postDAO.updatePost(post);
+        }
+
     }
 
     @Override
     public void approveComment(Comment comment, Post post) {
         comment.setApproved(true);
         post.addComment(comment);
+        comment.setParentPost(post);
         postDAO.updatePost(post);
     }
 
     @Override
     public List<Comment> getAllComments(Post post) {
-        return post.getPostComments();
+        List<Comment> approvedComments = new ArrayList<Comment>();
+        for (int i = 0; i < post.getPostComments().size(); i++) {
+            Comment c = post.getPostComments().get(i);
+            if (c.isApproved()) {
+                approvedComments.add(c);
+            }
+        }
+        return approvedComments;
     }
 
     @Override
