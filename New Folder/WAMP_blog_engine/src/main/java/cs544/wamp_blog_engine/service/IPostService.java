@@ -29,8 +29,8 @@ public interface IPostService {
     public double  getRating(Post post);
     public void addComment(Comment comment, Post post);
     public void approveComment(Comment comment, Post post);
-    public void getAllComments();
-    public void deleteComment();
+    public List<Comment> getAllComments(Post post);
+    public void deleteComment(Post post);
     
     
 }
