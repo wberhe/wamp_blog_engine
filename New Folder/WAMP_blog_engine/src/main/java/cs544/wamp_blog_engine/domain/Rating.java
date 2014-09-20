@@ -8,6 +8,7 @@ package cs544.wamp_blog_engine.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -24,6 +25,10 @@ public class Rating {
     @Range(min = 1, max = 5)
     private int rate;
 
+    @OneToOne
+    private User user;
+    @OneToOne
+    private Post post;
     public Rating() {
     }
 
@@ -43,10 +48,27 @@ public class Rating {
         this.rate = rate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + this.rate;
+        hash = 89 * hash + (this.user != null ? this.user.hashCode() : 0);
+        hash = 89 * hash + (this.post != null ? this.post.hashCode() : 0);
         return hash;
     }
 
@@ -59,10 +81,16 @@ public class Rating {
             return false;
         }
         final Rating other = (Rating) obj;
-        if (this.rate != other.rate) {
+        if (this.user != other.user && (this.user == null || !this.user.equals(other.user))) {
+            return false;
+        }
+        if (this.post != other.post && (this.post == null || !this.post.equals(other.post))) {
             return false;
         }
         return true;
     }
+    
+    
 
+  
 }

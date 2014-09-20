@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -166,6 +167,8 @@ public class User {
     public List<Rating> getRatings() {
         return ratings;
     }
+
+   
 
     public void addRating(Rating rating) {
         this.ratings.add(rating);
