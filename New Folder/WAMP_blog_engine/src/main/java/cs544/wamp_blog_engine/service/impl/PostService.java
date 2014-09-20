@@ -17,7 +17,6 @@ import cs544.wamp_blog_engine.domain.Rating;
 import cs544.wamp_blog_engine.domain.Tag;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IPostService;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,8 +27,6 @@ public class PostService implements IPostService {
 
     private PostDAO postDAO;
     private BlogDAO blogDAO;
-    private TagDAO tagDAO;
-    private CategoryDAO categoryDAO;
 
     private INotificationService notificationService;
 
@@ -39,7 +36,7 @@ public class PostService implements IPostService {
 
         post.getParentBlog().addBlogPost(post);
         blogDAO.updateBlog(post.getParentBlog());
-      
+
         notificationService.notifyFollowers(post.getParentBlog().getFollowers(), post);
     }
 
@@ -79,10 +76,10 @@ public class PostService implements IPostService {
     public double getRating(Post post) {
         double totalRating = 0.0;
         int size = post.getPostRatings().size();
-        for(int i=0; i< size; i++){
-            totalRating+=post.getPostRatings().get(i).getRate();
+        for (int i = 0; i < size; i++) {
+            totalRating += post.getPostRatings().get(i).getRate();
         }
-        
+
         return totalRating / size;
     }
 
@@ -94,19 +91,20 @@ public class PostService implements IPostService {
 
     @Override
     public void approveComment(Comment comment, Post post) {
-        if(post.getParentBlog().isComm_approval()){
-            
-        }
+        comment.setApproved(true);
+        post.addComment(comment);
+        postDAO.updatePost(post);
     }
 
     @Override
-    public void getAllComments() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Comment> getAllComments(Post post) {
+        return post.getPostComments();
     }
 
     @Override
-    public void deleteComment() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteComment(Post post) {
+        post.removeComment(null);
+        postDAO.updatePost(post);
     }
 
     public void setPostDAO(PostDAO postDAO) {
@@ -117,17 +115,8 @@ public class PostService implements IPostService {
         this.blogDAO = blogDAO;
     }
 
-    public void setTagDAO(TagDAO tagDAO) {
-        this.tagDAO = tagDAO;
-    }
-
     public void setNotificationService(INotificationService notificationService) {
         this.notificationService = notificationService;
     }
 
-    public void setCategoryDAO(CategoryDAO categoryDAO) {
-        this.categoryDAO = categoryDAO;
-    }
-
-    
 }
