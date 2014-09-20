@@ -67,8 +67,16 @@ public class Category {
         this.id = id;
     }
 
-    public void setCatogorizedPosts(List<Post> catogorizedPosts) {
-        this.catogorizedPosts = catogorizedPosts;
+//    public void setCatogorizedPosts(List<Post> catogorizedPosts) {
+//        this.catogorizedPosts = catogorizedPosts;
+//    }
+    
+    public void addPostToCategory(Post post){
+        this.catogorizedPosts.add(post);
+    }
+    
+    public void removePostFromCategory(Post post){
+        this.catogorizedPosts.remove(post);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class PostDAOImpl implements PostDAO{
     }
 
     @Override
-    public Post getBlog(int id) {
+    public Post getPost(int id) {
         Post post= (Post) sf.getCurrentSession().get(Post.class, id);
         return post;
     }

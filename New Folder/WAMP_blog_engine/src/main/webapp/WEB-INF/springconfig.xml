@@ -89,4 +89,11 @@
         <property name="sf" ref="sessionFactory"/>
     </bean> 
 
+    <bean id="postService" class="cs544.wamp_blog_engine.service.impl.PostService">
+        <property name="postDAO" ref="postDAO"/>
+        <property name="blogDAO" ref="blogDAO"/>
+        <property name="tagDAO" ref="tagDAO"/>
+        <property name="notificationService" ref="notificationService"/>
+        <property name="categoryDAO" ref="categoryDAO"/>
+    </bean>
 </beans>
