@@ -18,6 +18,6 @@ public interface PostDAO {
     public void addPost(Post post);
     public void updatePost(Post post);
     public void removePost(Post post);
-    public Post getBlog(int id);
+    public Post getPost(int id);
     public List<Post> getAllPosts();
 }

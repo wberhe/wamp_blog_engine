@@ -5,7 +5,6 @@
  */
 package cs544.wamp_blog_engine.domain;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,22 +32,22 @@ public class Post {
     @Id
     @GeneratedValue
     private int id;
-    
+
     @NotBlank
     @SafeHtml
     private String title;
-    
+
     private boolean draft;
-    
+
     @NotBlank
     @SafeHtml
     private String body;
-    
+
     @Past
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date creation_time;
-    
+
     private byte[] image;
 
     @ManyToMany(mappedBy = "catogorizedPosts", cascade = CascadeType.ALL)
@@ -62,6 +61,9 @@ public class Post {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "taggedPosts")
     private List<Tag> postTags;
+
+    @ManyToOne
+    private Blog parentBlog;
 
     public Post() {
     }
@@ -114,12 +116,14 @@ public class Post {
         return categories;
     }
 
-    public void addCategory(Category cateegory) {
-        this.categories.add(cateegory);
+    public void addCategory(Category category) {
+        this.categories.add(category);
+        category.addPostToCategory(this);
     }
 
     public void removeCategory(Category category) {
         this.categories.remove(category);
+        category.removePostFromCategory(this);
     }
 
     public void addPostRating(Rating rating) {
@@ -148,34 +152,42 @@ public class Post {
 
     public void addTag(Tag tag) {
         this.postTags.add(tag);
+        tag.addPost(this);
     }
 
     public void removeTag(Tag tag) {
         this.postTags.remove(tag);
+        tag.removePost(this);
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setCategories(List<Category> categories) {
+    public Blog getParentBlog() {
+        return parentBlog;
+    }
+
+    public void setParentBlog(Blog parentBlog) {
+        this.parentBlog = parentBlog;
+    }
+
+    private void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
-    public void setPostRatings(List<Rating> postRatings) {
+    private void setPostRatings(List<Rating> postRatings) {
         this.postRatings = postRatings;
     }
 
-    public void setPostComments(List<Comment> postComments) {
+    private void setPostComments(List<Comment> postComments) {
         this.postComments = postComments;
     }
 
-    public void setPostTags(List<Tag> postTags) {
+    private void setPostTags(List<Tag> postTags) {
         this.postTags = postTags;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 3;

@@ -24,7 +24,7 @@
 	
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory"
-              class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties" ref="hibernateProperties" />
         <!-- OR mapping files. -->
@@ -35,7 +35,7 @@
 
     <!-- the datasource -->
     <bean id="dataSource"
-              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost/blog_engine" />
         <property name="username" value="root" />
@@ -44,7 +44,7 @@
 
     <!-- hibernate Properties -->
     <bean id="hibernateProperties"
-              class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
                 <prop key="hibernate.hbm2ddl.auto">create</prop>
@@ -57,7 +57,7 @@
     </bean>
 
     <bean id="txManager"
-              class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 	
@@ -97,4 +97,103 @@
          <constructor-arg name="notificationSevice" ref=""/>
     </bean>
 
+    <bean id="postService" class="cs544.wamp_blog_engine.service.impl.PostService">
+        <property name="postDAO" ref="postDAO"/>
+        <property name="blogDAO" ref="blogDAO"/>
+      
+        <property name="notificationService" ref="notificationService"/>
+     
+    </bean>
+    
+    
+    
+    <!--Email Service--> 
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp.gmail.com" />
+	<property name="port" value="587" />
+	<property name="username" value="mum.ea.project@gmail.com" />
+	<property name="password" value="mum.ea.project@2014" /> 
+	<property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>                                
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+	</property>
+</bean>
+  
+ <bean id="fromAdminTemplate"
+	class="org.springframework.mail.SimpleMailMessage"> 
+	<property name="from" value="mum.ea.project@gmail.com" />
+	<property name="to" value="wel.berhe@gmail.com" />
+	<property name="subject" value="WAMPBlogger: Notification" />
+	<property name="text">
+	   <value>
+		<![CDATA[
+Dear %1$s,
+
+%2$s
+
+Regards,
+Administrator.
+		]]>
+	   </value>
+    </property>
+</bean>
+<bean id="toAdminTemplate"
+	class="org.springframework.mail.SimpleMailMessage"> 
+	<property name="from" value="mum.ea.project@gmail.com" />
+	<property name="to" value="wel.berhe@gmail.com" />
+	<property name="subject" value="WAMPBlogger: Support" />
+	<property name="text">
+	   <value>
+		<![CDATA[
+Dear Administrator,
+
+%1$s
+
+Regards,
+%2s.
+		]]>
+	   </value>
+    </property>
+</bean>
+<bean id="toFollowersTemplate"
+	class="org.springframework.mail.SimpleMailMessage"> 
+	<property name="from" value="mum.ea.project@gmail.com" />
+	<property name="to" value="wel.berhe@gmail.com" />
+	<property name="subject" value="WAMPBlogger: New Post Notification" />
+	<property name="text">
+	   <value>
+		<![CDATA[
+Dear %1$s,
+
+a new post titled:%2$s was posted on the Blog:%3$s at: %4$tD %4$tT 
+
+Regards,
+Administrator.
+		]]>
+	   </value>
+    </property>
+</bean>
+<bean id="toBloggerTemplate"
+	class="org.springframework.mail.SimpleMailMessage"> 
+	<property name="from" value="mum.ea.project@gmail.com" />
+	<property name="to" value="wel.berhe@gmail.com" />
+	<property name="subject" value="WAMPBlogger: a New Comment needs approval" />
+	<property name="text">
+	   <value>
+		<![CDATA[
+Dear %1$s,
+
+a new comment was posted on the post: %2$s of the Blog: %3$ at %4$tD %4$tT that needs approval.
+
+Regards,
+Administrator.
+		]]>
+	   </value>
+    </property>
+</bean>
+
+    <!--Email Service-->
 </beans>
