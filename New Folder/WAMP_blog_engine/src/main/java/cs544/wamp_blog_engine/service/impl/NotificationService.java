@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cs544.wamp_blog_engine.service.impl;
 
 import cs544.wamp_blog_engine.domain.Comment;
@@ -22,13 +21,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  *
  * @author aalzamer
  */
-public class NotificationService implements INotificationService{
-	private SimpleMailMessage fromAdminTemplate;
-	private SimpleMailMessage toAdminTemplate;
-	private SimpleMailMessage toFollowersTemplate;
-	private SimpleMailMessage toBloggerTemplate;
+public class NotificationService implements INotificationService {
 
-	private JavaMailSenderImpl javaMailSender;
+    private SimpleMailMessage fromAdminTemplate;
+    private SimpleMailMessage toAdminTemplate;
+    private SimpleMailMessage toFollowersTemplate;
+    private SimpleMailMessage toBloggerTemplate;
+
+    private JavaMailSenderImpl javaMailSender;
 
     public SimpleMailMessage getFromAdminTemplate() {
         return fromAdminTemplate;
@@ -62,8 +62,6 @@ public class NotificationService implements INotificationService{
         this.toBloggerTemplate = toBloggerTemplate;
     }
 
-   
-
     public JavaMailSenderImpl getJavaMailSender() {
         return javaMailSender;
     }
@@ -72,67 +70,64 @@ public class NotificationService implements INotificationService{
         this.javaMailSender = javaMailSender;
     }
 
-        
     @Override
     public void notifyFollowers(List<User> followers, Post post) {
-            SimpleMailMessage template=getToFollowersTemplate();
-        for(User user:followers){
-            String message=String.format(template.getText(), user.getUserBlogs()+" "+user.getLastname(),post.getTitle(),"Blog Title",post.getCreation_time());
+        SimpleMailMessage template = getToFollowersTemplate();
+        for (User user : followers) {
+            String message = String.format(template.getText(), user.getUserBlogs() + " " + user.getLastname(), post.getTitle(), "Blog Title", post.getCreation_time());
             sendMail(template.getFrom(), user.getEmail(), template.getSubject(), message);
         }
     }
 
     @Override
     public void notifyBlogger(List<User> users, String message) {
-            SimpleMailMessage template=getFromAdminTemplate();
-         for(User user:users){
-            String emailMessage=String.format(template.getText(), user.getUserBlogs()+" "+user.getLastname(),message);
+        SimpleMailMessage template = getFromAdminTemplate();
+        for (User user : users) {
+            String emailMessage = String.format(template.getText(), user.getUserBlogs() + " " + user.getLastname(), message);
             sendMail(template.getFrom(), user.getEmail(), template.getSubject(), emailMessage);
         }
     }
 
     @Override
     public void notifyBloggerNewComment(User user, Comment comment) {
-            SimpleMailMessage template=getToBloggerTemplate();
+        SimpleMailMessage template = getToBloggerTemplate();
 //            String emailMessage=String.format(template.getText(), user.getUserBlogs()+" "+user.getLastname(),message);
 //            sendMail(template.getFrom(), user.getEmail(), template.getSubject(), emailMessage);
     }
 
     @Override
     public void contactAdmin(User user, String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SimpleMailMessage template = getToAdminTemplate();
+        String emailMessage = String.format(template.getText(),message, user.getUserBlogs() + " " + user.getLastname());
+        sendMail(user.getEmail(), template.getFrom(), template.getSubject(), emailMessage);
     }
- 
-    
-    
-    	public void sendMail(String fromEmail,String toEmail,String emailSubject,String emailBody ) {
+
+    public void sendMail(String fromEmail, String toEmail, String emailSubject, String emailBody) {
 //		String fromEmail = emailTemplate.getFrom();
 //		String[] toEmail = emailTemplate.getTo();
-                String[] toEmails =new String[]{toEmail};
+//        String[] toEmails = new String[]{toEmail};
 //		String emailSubject = emailTemplate.getSubject();
 //		String emailBody = String.format(emailTemplate.getText(), dear, content);
 
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		try {
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-			helper.setFrom(fromEmail);
-			helper.setTo(toEmail);
-			helper.setSubject(emailSubject);
-			helper.setText(emailBody);
+            helper.setFrom(fromEmail);
+            helper.setTo(toEmail);
+            helper.setSubject(emailSubject);
+            helper.setText(emailBody);
 
-			/*
-			  uncomment the following lines for attachment FileSystemResource
-			  file = new FileSystemResource("attachment.jpg");
-			  helper.addAttachment(file.getFilename(), file);
-			 */
+            /*
+             uncomment the following lines for attachment FileSystemResource
+             file = new FileSystemResource("attachment.jpg");
+             helper.addAttachment(file.getFilename(), file);
+             */
+            javaMailSender.send(mimeMessage);
+            System.out.println("Mail sent successfully.");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
-			javaMailSender.send(mimeMessage);
-			System.out.println("Mail sent successfully.");
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-	
-	
-	}
+    }
 }
