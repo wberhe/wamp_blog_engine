@@ -100,6 +100,8 @@
     <bean id="postService" class="cs544.wamp_blog_engine.service.impl.PostService">
         <property name="postDAO" ref="postDAO"/>
         <property name="blogDAO" ref="blogDAO"/>
+        <property name="commentDao" ref="commentDAO"/>
+        <property name="categoryDAO" ref="categoryDAO"/>
       
         <property name="notificationService" ref="notificationService"/>
      

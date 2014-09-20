@@ -24,9 +24,12 @@ public interface IPostService {
     public void modifyPost(Post post);
     public Post getPost(int postId);
     public List<Post> getAllPosts();
-    public List<Post> getAllDrafts();
+    public List<Post> getAllDrafts(Blog blog);
+    public List<Post> getAllPublishedPosts(Blog blog);
     public List<Post> getPostsByCategory(Category category);
     public List<Post> getPostsByTag(Tag tag);
+    public List<Post> getPostByCategoryInBlog(Category category, Blog blog);
+    public List<Post> getPostsByTagInBlog(Tag tag, Blog blog);
     public void addRating(Rating rating, Post post);
     public double  getRating(Post post);
     public void addComment(Comment comment, Post post, User user);
