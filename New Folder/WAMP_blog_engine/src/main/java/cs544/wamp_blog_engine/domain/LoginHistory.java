@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 /**
  *
@@ -18,12 +20,19 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class LoginHistory {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
-@Temporal(TemporalType.TIMESTAMP)
+    
+    @Past
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date login_time;
-@Temporal(TemporalType.TIMESTAMP)
+    
+    //what to do with this when we add remember me feature?
+    @Past
+    @Temporal(TemporalType.TIMESTAMP)
     private Date logout_time;
 
     public LoginHistory() {
@@ -31,7 +40,7 @@ public class LoginHistory {
 
     public LoginHistory(Date login_time) {
         this.login_time = login_time;
-       
+
     }
 
     public int getId() {

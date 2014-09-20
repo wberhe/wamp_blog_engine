@@ -5,13 +5,14 @@
  */
 package cs544.wamp_blog_engine.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -19,10 +20,15 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 public class Category {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
+
+    @NotBlank
+    @SafeHtml
     private String name;
+
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Post> catogorizedPosts;
 

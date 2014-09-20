@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -19,11 +21,16 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 public class Tag {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
+
+    @NotBlank
+    @SafeHtml
     private String name;
-@ManyToMany(cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Post> taggedPosts;
 
     public Tag() {

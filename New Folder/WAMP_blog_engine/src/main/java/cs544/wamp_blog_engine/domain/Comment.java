@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 /**
  *
@@ -19,13 +23,22 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Comment {
-@Id
-@GeneratedValue
+
+    @Id
+    @GeneratedValue
     private int id;
+
+    @NotBlank
+    @SafeHtml
     private String comment;
+
+    @Past
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
     private Date comm_time;
-    // todo: adding parent id?
+
+    private boolean approved;
+
     @OneToOne
     private Comment parentComment;
 
@@ -63,6 +76,14 @@ public class Comment {
 
     public void setComm_time(Date comm_time) {
         this.comm_time = comm_time;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
 }
