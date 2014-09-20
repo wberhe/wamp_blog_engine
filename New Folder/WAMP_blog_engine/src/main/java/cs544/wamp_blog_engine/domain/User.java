@@ -14,6 +14,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -65,7 +66,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Blog> userBlogs;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private List<Rating> ratings;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -192,6 +193,23 @@ public class User {
         getFollows().remove(blog);
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserLogins(List<LoginHistory> userLogins) {
+        this.userLogins = userLogins;
+    }
+
+    public void setUserBlogs(List<Blog> userBlogs) {
+        this.userBlogs = userBlogs;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

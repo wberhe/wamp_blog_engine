@@ -64,6 +64,15 @@ public class Tag {
         this.taggedPosts.remove(post);
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTaggedPosts(List<Post> taggedPosts) {
+        this.taggedPosts = taggedPosts;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

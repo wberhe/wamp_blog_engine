@@ -5,10 +5,12 @@
  */
 package cs544.wamp_blog_engine.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -25,9 +27,11 @@ public class Rating {
     @Range(min = 1, max = 5)
     private int rate;
 
-    @OneToOne
+    @ManyToOne(cascade =CascadeType.ALL)
     private User user;
-    @OneToOne
+    
+    @ManyToOne
+    @JoinColumn(name="post_id")
     private Post post;
     public Rating() {
     }
@@ -64,6 +68,11 @@ public class Rating {
         this.post = post;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

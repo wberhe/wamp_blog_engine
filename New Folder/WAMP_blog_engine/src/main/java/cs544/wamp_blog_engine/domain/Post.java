@@ -13,6 +13,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -53,7 +54,7 @@ public class Post {
     @ManyToMany(mappedBy = "catogorizedPosts", cascade = CascadeType.ALL)
     private List<Category> categories;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post")
     private List<Rating> postRatings;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -153,6 +154,28 @@ public class Post {
         this.postTags.remove(tag);
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void setPostRatings(List<Rating> postRatings) {
+        this.postRatings = postRatings;
+    }
+
+    public void setPostComments(List<Comment> postComments) {
+        this.postComments = postComments;
+    }
+
+    public void setPostTags(List<Tag> postTags) {
+        this.postTags = postTags;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;

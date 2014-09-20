@@ -63,6 +63,14 @@ public class Category {
         this.catogorizedPosts.remove(post);
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCatogorizedPosts(List<Post> catogorizedPosts) {
+        this.catogorizedPosts = catogorizedPosts;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

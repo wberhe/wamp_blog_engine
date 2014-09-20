@@ -63,6 +63,11 @@ public class LoginHistory {
         this.logout_time = logout_time;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+
     @Override
     public int hashCode() {
         int hash = 7;

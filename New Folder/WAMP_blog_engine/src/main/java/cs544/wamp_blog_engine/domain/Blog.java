@@ -134,6 +134,15 @@ public class Blog {
         getFollowers().remove(user);
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBlogPosts(List<Post> blogPosts) {
+        this.blogPosts = blogPosts;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 5;

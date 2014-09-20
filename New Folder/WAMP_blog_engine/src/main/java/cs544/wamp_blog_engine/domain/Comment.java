@@ -86,6 +86,11 @@ public class Comment {
         this.approved = approved;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
