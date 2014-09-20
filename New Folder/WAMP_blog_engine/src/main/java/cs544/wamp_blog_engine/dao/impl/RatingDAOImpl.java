@@ -40,7 +40,7 @@ public class RatingDAOImpl implements RatingDAO {
 
     @Transactional(propagation = Propagation.MANDATORY)
     @Override
-    public void removeRatingt(Rating rating) {
+    public void removeRating(Rating rating) {
         sf.getCurrentSession().delete(rating);
     }
 

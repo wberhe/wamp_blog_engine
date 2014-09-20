@@ -45,7 +45,6 @@ public class UserService implements IUserService{
             this.userDAO.addUser(user);
         }
         catch(Exception e){
-            
         }
          
     }
@@ -81,12 +80,12 @@ public class UserService implements IUserService{
 
     @Override
     public void notifyBlogger(List<User> user, String message) {
-        //TODO
+        notificationSevice.notifyBlogger(user, message);
     }
 
     @Override
     public void contactAdmin(User user, String message) {
-        //TODO
+        notificationSevice.contactAdmin(user, message);
     }
 
     

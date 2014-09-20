@@ -6,7 +6,9 @@
 package cs544.wamp_blog_engine.dao;
 
 import cs544.wamp_blog_engine.domain.Blog;
+import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Post;
+import cs544.wamp_blog_engine.domain.Tag;
 import java.util.List;
 
 /**
@@ -24,6 +26,14 @@ public interface PostDAO {
     public Post getPost(int id);
 
     public List<Post> getAllPosts();
+    
+    public List<Post> getPostsByCategory(Category category);
+    
+    public List<Post> getPostsByTag(Tag tag);
+    
+    public List<Post> getBlogPostsByCategory(Category category, Blog blog);
+    
+    public List<Post> getBlogPostsByTag(Tag tag, Blog blog);
 
     public List<Post> getAllDrafts(Blog blog);
 
