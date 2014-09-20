@@ -54,7 +54,8 @@ public class User {
     @Past
     @Temporal(TemporalType.DATE)
     private Date dob;
-
+    
+    //profile picture
     private byte[] profilepic;
 
     @OneToOne(cascade = CascadeType.ALL)

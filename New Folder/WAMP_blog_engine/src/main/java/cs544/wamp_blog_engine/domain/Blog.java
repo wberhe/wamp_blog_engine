@@ -47,7 +47,7 @@ public class Blog {
 
     private boolean comm_approval;
 
-    private boolean blocked;
+    private boolean blocked;    
     @OneToMany(cascade = CascadeType.ALL)
     private List<Post> blogPosts;
 
