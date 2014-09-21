@@ -118,7 +118,6 @@
     <!-- Setting Service injection beans -->
     <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService"/>
     
-    
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com" />
