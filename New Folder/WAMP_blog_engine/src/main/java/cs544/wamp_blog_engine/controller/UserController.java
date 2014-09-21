@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package cs544.wamp_blog_engine.contoller;
+package cs544.wamp_blog_engine.controller;
 
 
 import cs544.wamp_blog_engine.domain.User;

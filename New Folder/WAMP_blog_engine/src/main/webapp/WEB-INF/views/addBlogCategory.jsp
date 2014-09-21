@@ -14,10 +14,10 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form:form modelAttribute="category">
+        <form:form modelAttribute="category" action="addBlogCategory">
             <form:input path="name" />
             <form:errors path="name" cssClass="errorBlock" element="div"/>
-            
+            <form:button name="submit"/>
         </form:form>
     </body>
 </html>
