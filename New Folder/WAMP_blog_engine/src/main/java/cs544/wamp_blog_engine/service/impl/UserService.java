@@ -50,9 +50,15 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void updateUserInfo(User user) {
-        if(user!=null)
-            this.userDAO.updateUser(user);
+    public void updateUserInfo(int Id,User user) {
+        
+         User person=(User)userDAO.getUser(Id);
+         person.setFirstname(user.getFirstname());
+         person.setLastname(user.getLastname());
+         person.setDob(user.getDob());
+         person.setEmail(user.getEmail());
+         person.setProfilepic(user.getProfilepic());
+       
     }
 
     @Override
