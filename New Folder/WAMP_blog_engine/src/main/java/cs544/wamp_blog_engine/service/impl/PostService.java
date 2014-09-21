@@ -20,6 +20,7 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IPostService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class PostService implements IPostService {
         postDAO.addPost(post);
 
         post.getParentBlog().addBlogPost(post);
+        post.setCreation_time(new Date());
 
         blogDAO.updateBlog(post.getParentBlog());
 

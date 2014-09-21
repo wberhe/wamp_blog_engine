@@ -38,6 +38,8 @@ public class Post {
     private String title;
 
     private boolean draft;
+    
+    private String blogName;
 
     @NotBlank
     @SafeHtml
@@ -170,6 +172,7 @@ public class Post {
 
     public void setParentBlog(Blog parentBlog) {
         this.parentBlog = parentBlog;
+        this.blogName = parentBlog.getName();
     }
 
     private void setCategories(List<Category> categories) {
