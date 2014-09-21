@@ -12,7 +12,7 @@ import cs544.wamp_blog_engine.domain.Tag;
  *
  * @author aalzamer
  */
-public interface ISettingService {
+public interface ISettingsService {
 
     public void addBlogCategory(Category category);
 

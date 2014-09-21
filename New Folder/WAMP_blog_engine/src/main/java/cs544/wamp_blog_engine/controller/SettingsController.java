@@ -7,7 +7,7 @@
 package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Category;
-import cs544.wamp_blog_engine.service.ISettingService;
+import cs544.wamp_blog_engine.service.ISettingsService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SettingsController {
     @Autowired
-    private ISettingService settingService;
+    private ISettingsService settingService;
 
-    public ISettingService getSettingService() {
+    public ISettingsService getSettingService() {
         return settingService;
     }
 
-    public void setSettingService(ISettingService settingService) {
+    public void setSettingService(ISettingsService settingService) {
         this.settingService = settingService;
     }
     

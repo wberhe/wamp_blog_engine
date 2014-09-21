@@ -7,9 +7,11 @@
 package cs544.wamp_blog_engine.controller;
 
 
+import cs544.wamp_blog_engine.domain.Credential;
 import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IUserService;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,16 +41,33 @@ public class UserController {
     
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") User user) {
-        return "addUser";
+        return "signup";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String add(@Valid User user, BindingResult result, RedirectAttributes re) {
+    public String add(@Valid User user, BindingResult result, RedirectAttributes re,HttpSession session) {
         String view = "redirect:/users";
         if (!result.hasErrors()) {
+            user.setUserCredential((Credential) session.getAttribute("credential"));
+            session.removeAttribute("credential");
             userService.addUser(user);
         } else {
             view = "addUser";
+        }
+        return view;
+    }
+     @RequestMapping(value = "/addCredential", method = RequestMethod.GET)
+    public String addCredential(@ModelAttribute("credential") Credential credential) {
+        return "addCredential";
+    }
+
+    @RequestMapping(value = "/addCredential", method = RequestMethod.POST)
+    public String addCredential(@Valid Credential credential, BindingResult result, HttpSession session) {
+        String view = "redirect:/addUser";
+        if (!result.hasErrors()) {
+            session.setAttribute("credential", credential);
+        } else {
+            view = "addCredential";
         }
         return view;
     }

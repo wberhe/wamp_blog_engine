@@ -23,6 +23,13 @@
     <aop:aspectj-autoproxy/>
 
  
+    <bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+                        <value>cs544\wamp_blog_engine\messages</value>
+		</property>
+	</bean>
+ 
     <bean id = "blogService" class = "cs544.wamp_blog_engine.service.impl.BlogService">
         <property name="blogDAO" ref="blogDAO" />
     </bean>    	
@@ -44,7 +51,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost/blog_engine" />
         <property name="username" value="root" />
-        <property name="password" value="" />
+        <property name="password" value="weldu" />
     </bean>
 
     <!-- hibernate Properties -->

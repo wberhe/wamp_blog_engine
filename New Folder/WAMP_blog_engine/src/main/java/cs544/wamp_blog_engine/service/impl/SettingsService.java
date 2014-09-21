@@ -11,13 +11,13 @@ import cs544.wamp_blog_engine.dao.CategoryDAO;
 import cs544.wamp_blog_engine.dao.TagDAO;
 import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Tag;
-import cs544.wamp_blog_engine.service.ISettingService;
+import cs544.wamp_blog_engine.service.ISettingsService;
 
 /**
  *
  * @author aalzamer
  */
-public class SettingService implements ISettingService {
+public class SettingsService implements ISettingsService {
     private CategoryDAO categoryDAO;
     private TagDAO tagDAO;
     @Override
