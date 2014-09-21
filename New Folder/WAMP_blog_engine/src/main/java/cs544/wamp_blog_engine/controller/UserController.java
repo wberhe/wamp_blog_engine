@@ -4,14 +4,13 @@
  * and open the template in the editor.
  */
 
-package cs544.wamp_blog_engine.contoller;
+package cs544.wamp_blog_engine.controller;
 
 
 import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IUserService;
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,7 +48,7 @@ public class UserController {
         if (!result.hasErrors()) {
             userService.addUser(user);
         } else {
-            view = "signup";
+            view = "addUser";
         }
         return view;
     }
