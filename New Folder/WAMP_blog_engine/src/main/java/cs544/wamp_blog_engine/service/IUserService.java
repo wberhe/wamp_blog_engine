@@ -25,8 +25,8 @@ public interface IUserService {
 
     public List<User> getAllUsers();
 
-    public void notifyBlogger(User user);
+    public void notifyBlogger(List<User> user,String message);
 
-    public void contactAdmin();
+    public void contactAdmin(User user,String message);
 
 }

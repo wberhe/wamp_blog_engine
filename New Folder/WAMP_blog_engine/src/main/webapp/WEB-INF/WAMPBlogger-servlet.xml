@@ -19,7 +19,7 @@
     <mvc:annotation-driven />
     <context:component-scan base-package="cs544" />
     <tx:annotation-driven transaction-manager="txManager" />
-    <!--<context:component-scan base-package="cs544.exercise00_1" />-->
+    <context:component-scan base-package="cs544.wamp_blog_engine" />
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
     in the /WEB-INF/views directory -->

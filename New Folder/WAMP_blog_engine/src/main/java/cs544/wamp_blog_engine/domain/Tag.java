@@ -68,11 +68,9 @@ public class Tag {
         this.id = id;
     }
 
-    public void setTaggedPosts(List<Post> taggedPosts) {
-        this.taggedPosts = taggedPosts;
-    }
-
-    
+//    public void setTaggedPosts(List<Post> taggedPosts) {
+//        this.taggedPosts = taggedPosts;
+//    }
     @Override
     public int hashCode() {
         int hash = 7;
@@ -95,5 +93,4 @@ public class Tag {
         return true;
     }
 
-    
 }

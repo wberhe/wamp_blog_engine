@@ -5,6 +5,8 @@
  */
 package cs544.wamp_blog_engine.service;
 
+import cs544.wamp_blog_engine.domain.Comment;
+import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.User;
 import java.util.List;
 
@@ -14,10 +16,11 @@ import java.util.List;
  */
 public interface INotificationService {
 
-    public void notifyFollowers(List<User> followers);
+    public void notifyFollowers(List<User> followers, Post post);
 
-    public void notifyBlogger(User user);
+    public void notifyBlogger(List<User> user,String message);
+    public void notifyBloggerNewComment(User user,Comment comment);
 
-    public void contactAdmin();
+    public void contactAdmin(User user,String message);
 
 }
