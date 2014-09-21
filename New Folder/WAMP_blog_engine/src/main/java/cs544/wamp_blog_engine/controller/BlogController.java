@@ -45,12 +45,21 @@ public class BlogController {
     @RequestMapping(value="/blog/{id}", method=RequestMethod.POST)
     public String update(Blog blog, @PathVariable int id) {
         System.out.print("@@@@@@@@@@@@@@@@@@"+blog.getName());
-        blogerService.modifyBlog(blog); 
+        Blog blg = blogerService.getBlog(id);
+        blg.setName(blog.getName());
+        blg.setDescription(blog.getDescription());
+        blogerService.modifyBlog(blg); 
         return "redirect:/blog";
     }
     @RequestMapping(value="/blog/{id}", method=RequestMethod.GET)
     public String getBlogDetail(@PathVariable int id, Model model) {
         model.addAttribute("blog", blogerService.getBlog(id));
 	return "blogDetail";
+    }
+    @RequestMapping(value="/blog/delete/{id}", method=RequestMethod.GET)
+    public String deleteBlog(@PathVariable int id, Model model) {
+        System.out.print("@@@@@@@@@@@@@@@@@@ -> Delete Id: "+id);
+       blogerService.removeBlog(blogerService.getBlog(id)); 
+       return "redirect:/blog";
     }
 }

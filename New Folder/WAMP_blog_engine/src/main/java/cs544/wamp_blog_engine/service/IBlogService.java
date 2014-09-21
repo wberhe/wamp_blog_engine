@@ -18,4 +18,5 @@ public interface IBlogService {
     public void modifyBlog(Blog blog);
     public Blog getBlog(int blogId);
     public List<Blog> getAllBlogs();
+    public void removeBlog(Blog blog);
 }
