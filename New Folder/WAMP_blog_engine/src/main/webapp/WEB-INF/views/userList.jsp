@@ -12,14 +12,14 @@
         <title>Blog engine</title>
     </head>
     <body>
-        <h1>Here are all the current users :</h1>
+        <h3>Here are the current users :</h3>
         <table>
             <c:forEach var="user" items="${users}">
                 <tr>
                     <td>${user.firstname}</td>
                     <td>${user.lastname}</td>
                     <td>${user.email}</td>
-                    <td><a href="users/${user.id}">Add user</a></td>
+                    <td><a href="users/${user.id}">Add User</a></td>
                 </tr>
             </c:forEach>
         </table>
