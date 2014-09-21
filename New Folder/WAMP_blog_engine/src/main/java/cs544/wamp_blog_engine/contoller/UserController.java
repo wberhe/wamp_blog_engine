@@ -9,6 +9,7 @@ package cs544.wamp_blog_engine.contoller;
 
 import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IUserService;
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,11 +28,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UserController {
     
-    @Autowired
+    
+    @Resource
     private IUserService userService;
     
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String getAll(Model model) {
+    public String getAll(Model model) {        
         model.addAttribute("users", userService.getAllUsers());
         return "userList";
     }
