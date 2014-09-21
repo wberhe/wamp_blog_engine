@@ -17,6 +17,7 @@
 
 
     <mvc:annotation-driven />
+    <context:component-scan base-package="cs544" />
     <tx:annotation-driven transaction-manager="txManager" />
     <context:component-scan base-package="cs544.wamp_blog_engine" />
 
@@ -40,5 +41,7 @@
     <!-- Lets us find resources (.html etc) through the default servlet -->
     <mvc:default-servlet-handler />
 
+
     <mvc:view-controller path="settings" view-name="settings"/>
 </beans>
+

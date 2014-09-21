@@ -20,6 +20,11 @@
     
 	    <aop:aspectj-autoproxy/>
 
+ 
+    <bean id = "blogService" class = "cs544.wamp_blog_engine.service.impl.BlogService">
+        <property name="blogDAO" ref="blogDAO" />
+    </bean>    	
+
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -37,7 +42,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost/blog_engine" />
         <property name="username" value="root" />
-        <property name="password" value="weldu" />
+        <property name="password" value="" />
     </bean>
 
     <!-- hibernate Properties -->
