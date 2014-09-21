@@ -10,16 +10,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Add Category</title>
+        <title>Add Tag</title>
     
         <link rel="stylesheet" type="text/css" href="/resources/style.css">
     </head>
     <body>
-        <h1>Add Category</h1>
-        <form:form modelAttribute="category" action="addBlogCategory">
+        <h1>Add Tag</h1>
+        <form:form modelAttribute="tag" action="addTag">
             <table>
                 <tr>
-                    <td>Category</td>
+                    <td>Tag</td>
                     <td><form:input path="name" /></td>
                     <td><form:errors path="name" cssClass="errorBlock" element="div"/></td>
                 </tr>

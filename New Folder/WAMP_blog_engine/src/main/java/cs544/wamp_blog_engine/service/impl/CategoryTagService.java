@@ -6,24 +6,22 @@
 
 package cs544.wamp_blog_engine.service.impl;
 
-import cs544.wamp_blog_engine.dao.BlogDAO;
 import cs544.wamp_blog_engine.dao.CategoryDAO;
 import cs544.wamp_blog_engine.dao.TagDAO;
 import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Tag;
-import cs544.wamp_blog_engine.service.ISettingsService;
-
+import cs544.wamp_blog_engine.service.ICategoryTagService;
+import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  *
  * @author aalzamer
  */
-public class SettingsService implements ISettingsService {
-    private CategoryDAO categoryDAO;
-    private TagDAO tagDAO;
+public class CategoryTagService implements ICategoryTagService{
+private CategoryDAO categoryDAO;
+private TagDAO tagDAO;
 
     public CategoryDAO getCategoryDAO() {
         return categoryDAO;
@@ -40,23 +38,6 @@ public class SettingsService implements ISettingsService {
     public void setTagDAO(TagDAO tagDAO) {
         this.tagDAO = tagDAO;
     }
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void addBlogCategory(Category category) {
-        categoryDAO.createCategory(category);
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyBlogCategory(Category category) {
-        categoryDAO.updateCategory(category);
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    @Override
-    public void deleteBlogCategory(Category category) {
-        categoryDAO.removeCategory(category);
-    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
@@ -66,7 +47,7 @@ public class SettingsService implements ISettingsService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void modifyTag(Tag tag) {
+    public void updateTag(Tag tag) {
         tagDAO.updateTag(tag);
     }
 
@@ -74,6 +55,46 @@ public class SettingsService implements ISettingsService {
     @Override
     public void deleteTag(Tag tag) {
         tagDAO.removeTag(tag);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public List<Tag> getAllTags() {
+        return tagDAO.getAllTags();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void addCategory(Category category) {
+        categoryDAO.createCategory(category);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void updateCategory(Category category) {
+        categoryDAO.updateCategory(category);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void deleteCategory(Category category) {
+        categoryDAO.removeCategory(category);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public List<Category> getAllcategories() {
+        return categoryDAO.getAllCategorys();
+    }
+
+    @Override
+    public Tag getTag(int tagId) {
+        return getTagDAO().getTag(tagId);
+    }
+
+    @Override
+    public Category getCategory(int categoryId) {
+        return getCategoryDAO().getCategory(categoryId);
     }
     
 }

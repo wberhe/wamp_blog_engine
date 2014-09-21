@@ -49,7 +49,7 @@ public class Blog {
     private boolean comm_approval;
 
     private boolean blocked;    
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "parentBlog")
     private List<Post> blogPosts;
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy ="follows" )
@@ -108,6 +108,7 @@ public class Blog {
         return blogPosts;
     }
 
+    
     public void addBlogPost(Post post) {
         this.blogPosts.add(post);
         

@@ -23,6 +23,6 @@
                 </tr>
             </c:forEach>
         </table>
-        <a href="addUser"> Add new User</a>
+        <a href="addCredential"> Add new User</a>
     </body>
 </html>

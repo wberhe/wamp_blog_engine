@@ -23,6 +23,10 @@
     <aop:aspectj-autoproxy/>
 
  
+   
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+            <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
     <bean id = "blogService" class = "cs544.wamp_blog_engine.service.impl.BlogService">
         <property name="blogDAO" ref="blogDAO" />
     </bean>    	
@@ -60,7 +64,8 @@
             </props>
         </property>
     </bean>
-<tx:annotation-driven transaction-manager="txManager" />
+
+    <tx:annotation-driven transaction-manager="txManager" />
     <bean id="txManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
@@ -101,6 +106,11 @@
         <constructor-arg name="credentialDAO" ref="credentialDAO"/>
         <constructor-arg name="notificationSevice" ref="notificationService"/>
     </bean>
+    <!-- Category Tag injection beans-->
+    <bean id="categoryTag" class="cs544.wamp_blog_engine.service.impl.CategoryTagService">
+        <property  name="categoryDAO" ref="categoryDAO"/>
+        <property name="tagDAO" ref="tagDAO"/>
+    </bean>
 
     <!-- Post service injection beans-->
     <bean id="postService" class="cs544.wamp_blog_engine.service.impl.PostService">
@@ -118,7 +128,10 @@
     <!-- notication Service injection beans -->
     <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService"/>
     <!-- Setting Service injection beans -->
-    <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService"/>
+    <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService">
+        <property name="categoryDAO" ref="categoryDAO"/>
+        <property name="tagDAO" ref="tagDAO"/>
+    </bean>
     
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

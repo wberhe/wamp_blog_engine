@@ -15,7 +15,12 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-
+ <bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+                        <value>cs544\wamp_blog_engine\messages</value>
+		</property>
+	</bean>
     <mvc:annotation-driven />
     <context:component-scan base-package="cs544" />
     <tx:annotation-driven transaction-manager="txManager" />

@@ -32,8 +32,8 @@
                 </tr>
                 <tr>
                     <td>Picture :</td> 
-                    <td><form:input type="file" path="file"  size="50" /> </td>
-                    <td><form:errors path="pic" cssClass="error"/> </td>
+                    <td><form:input type="file" path="profilepic"  size="50" /> </td>
+                    <td><form:errors path="profilepic" cssClass="error"/> </td>
                 </tr>
                 <tr>
                     <td>Email :</td>

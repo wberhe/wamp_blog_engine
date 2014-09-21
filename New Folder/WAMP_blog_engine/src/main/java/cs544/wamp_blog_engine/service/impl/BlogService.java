@@ -51,5 +51,11 @@ public class BlogService implements IBlogService{
         return blogDAO.getAllBlogs();
     }
     
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void removeBlog(Blog blog) {
+         blogDAO.removeBlog(blog);
+    }
+    
     
 }

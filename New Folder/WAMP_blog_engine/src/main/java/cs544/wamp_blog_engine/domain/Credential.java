@@ -5,9 +5,11 @@
  */
 package cs544.wamp_blog_engine.domain;
 
+import cs544.wamp_blog_engine.validators.annotations.FieldMatch;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -17,6 +19,7 @@ import org.hibernate.validator.constraints.SafeHtml;
  * @author priya
  */
 @Entity
+@FieldMatch(first = "password", second = "confirmpassword", message = "The password fields must match")
 public class Credential {
 
     @Id
@@ -43,7 +46,8 @@ public class Credential {
     @NotBlank
     @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
     private String password;
-
+    @Transient
+    private String confirmpassword;
     public Credential() {
     }
 
@@ -84,6 +88,15 @@ public class Credential {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getConfirmpassword() {
+        return confirmpassword;
+    }
+
+    public void setConfirmpassword(String confirmpassword) {
+        this.confirmpassword = confirmpassword;
+    }
+    
 
     
     @Override
