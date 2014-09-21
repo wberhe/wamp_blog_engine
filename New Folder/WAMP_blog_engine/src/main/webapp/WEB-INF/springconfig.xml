@@ -44,7 +44,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost/blog_engine" />
         <property name="username" value="root" />
-        <property name="password" value="" />
+        <property name="password" value="weldu" />
     </bean>
 
     <!-- hibernate Properties -->
@@ -116,7 +116,10 @@
     <!-- notication Service injection beans -->
     <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService"/>
     <!-- Setting Service injection beans -->
-    <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService"/>
+    <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService">
+        <property name="categoryDAO" ref="categoryDAO"/>
+        <property name="tagDAO" ref="tagDAO"/>
+    </bean>
     
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

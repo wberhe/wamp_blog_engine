@@ -17,9 +17,26 @@ import cs544.wamp_blog_engine.service.ISettingsService;
  *
  * @author aalzamer
  */
-public class SettingsService implementsISettingsServicee {
+public class SettingsService implements ISettingsService {
     private CategoryDAO categoryDAO;
     private TagDAO tagDAO;
+
+    public CategoryDAO getCategoryDAO() {
+        return categoryDAO;
+    }
+
+    public void setCategoryDAO(CategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
+    }
+
+    public TagDAO getTagDAO() {
+        return tagDAO;
+    }
+
+    public void setTagDAO(TagDAO tagDAO) {
+        this.tagDAO = tagDAO;
+    }
+    
     @Override
     public void addBlogCategory(Category category) {
         categoryDAO.createCategory(category);

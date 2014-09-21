@@ -7,11 +7,10 @@
 package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Category;
-import cs544.wamp_blog_engine.service.ISettingService;
+import cs544.wamp_blog_engine.service.ISettingsService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SettingsController {
     @Autowired
-    private ISettingService settingService;
+    private ISettingsService settingService;
 
-    public ISettingService getSettingService() {
+    public ISettingsService getSettingService() {
         return settingService;
     }
 
-    public void setSettingService(ISettingService settingService) {
+    public void setSettingService(ISettingsService settingService) {
         this.settingService = settingService;
     }
     
@@ -45,6 +44,7 @@ public class SettingsController {
     @RequestMapping(value = "/addBlogCategory",method = RequestMethod.POST)
     public String addBlogCategory(@Valid Category category,BindingResult result){
         String nextView="settings";
+        System.out.println("Test--------------------------------");
         if(!result.hasErrors()){
             getSettingService().addBlogCategory(category);
             
