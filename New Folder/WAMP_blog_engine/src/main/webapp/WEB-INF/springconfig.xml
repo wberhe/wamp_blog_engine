@@ -115,6 +115,8 @@
     
     <!-- notication Service injection beans -->
     <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService"/>
+    <!-- Setting Service injection beans -->
+    <bean id="settingService" class="cs544.wamp_blog_engine.service.impl.SettingService"/>
     
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
