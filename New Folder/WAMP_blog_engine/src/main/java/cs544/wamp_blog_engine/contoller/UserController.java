@@ -49,12 +49,27 @@ public class UserController {
         if (!result.hasErrors()) {
             userService.addUser(user);
         } else {
-            view = "addUser";
+            view = "signup";
         }
         return view;
     }
-
     
+    
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    public String get(@PathVariable int id, Model model) {
+        model.addAttribute("user", userService.getUser(id));
+        return "userDetail";
+    }
+
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
+    public String update(@Valid User user, BindingResult result, @PathVariable int id) {
+        if (!result.hasErrors()) {
+            //carService.update(id, car); 
+            return "redirect:/users";
+        } else {
+            return "userDetail";
+        }
+    }
 
     
 }
