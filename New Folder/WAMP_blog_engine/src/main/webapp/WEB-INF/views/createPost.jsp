@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,25 +14,58 @@
         <title>Create new post</title>
     </head>
     <body>
-        <form action="posts" method="post" >
+        <form:form commandName="post" action="newpost" method="post" >
 
             <h1>Create new post</h1>
 
             <table>
-              
+
                 <tr>
                     <td>Title:</td>
-                    <td><input type="text" name="title" /> </td>
+                    <td><form:input  path="title" /> </td>
                 </tr>
                 <tr>
-                    <td>Model:</td>
-                    <td><input type="text" name="body" /> </td>
+                    <td>Body:</td>
+                    <td><form:textarea path="body" rows="5" cols="40"></form:textarea></td>
+
                 </tr>
+                <tr>
+                    <td>Save Draft</td>
+                    <td><form:checkbox path="draft"   /></td>
+                </tr>
+
+                <tr>
+                    <td>Add category</td>
+                    <td>
+                        <form:select  path= "categories" size="10" multiple="true" >
+                            <form:options items="${categories}" itemValue="id" itemLabel="name"/>
+                            <%--<c:forEach var="category" items="${categories}">--%>
+                                <!--<option value="${category.name}">${category.name}</option>-->
+                           <%--</c:forEach>--%>
+                        </form:select>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>Add tag</td>
+                    <td>
+                        <form:select  path= "postTags" size="10" multiple="true" >
+                            <form:options items="${tags}" itemValue="name" itemLabel="name"/>
+                        </form:select>
+                        <!--<select name= "postTags" size="10" multiple="true">-->
+                            <%--<c:forEach var="tag" items="${tags}">--%>
+                                <!--<option value="${tag.name}">${tag.name}</option>-->
+                           <%--</c:forEach>--%>
+                        <!--</select>-->
+                    </td>
+                </tr>
+                
+                
 
 
             </table>
-            <input type="submit"/>
+            <input type="submit" value="save"/>
 
-        </form>
+
+        </form:form>
     </body>
 </html>

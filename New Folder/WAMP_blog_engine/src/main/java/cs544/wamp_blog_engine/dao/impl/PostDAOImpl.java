@@ -32,6 +32,7 @@ public class PostDAOImpl implements PostDAO {
     @Transactional(propagation = Propagation.MANDATORY)
     @Override
     public void addPost(Post post) {
+        System.out.println("post dao" + post.getTitle());
         sf.getCurrentSession().save(post);
     }
 

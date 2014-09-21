@@ -39,15 +39,15 @@ public class Post {
 
     private boolean draft;
     
-    private String blogName;
+//    private String blogName;
 
     @NotBlank
     @SafeHtml
     private String body;
 
-    @Past
+    //@Past
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+//    @NotNull
     private Date creation_time;
 
     private byte[] image;
@@ -97,6 +97,14 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
+
+//    public String getBlogName() {
+//        return blogName;
+//    }
+//
+//    public void setBlogName(String blogName) {
+//        this.blogName = blogName;
+//    }
 
     public Date getCreation_time() {
         return creation_time;
@@ -172,7 +180,7 @@ public class Post {
 
     public void setParentBlog(Blog parentBlog) {
         this.parentBlog = parentBlog;
-        this.blogName = parentBlog.getName();
+        //this.blogName = parentBlog.getName();
     }
 
     private void setCategories(List<Category> categories) {

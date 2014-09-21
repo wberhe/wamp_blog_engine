@@ -30,6 +30,8 @@ public interface IPostService {
     public List<Post> getPostsByTag(Tag tag);
     public List<Post> getPostByCategoryInBlog(Category category, Blog blog);
     public List<Post> getPostsByTagInBlog(Tag tag, Blog blog);
+    public List<Category> getAllCategories();
+    public List<Tag> getAllTags();
     public void addRating(Rating rating, Post post);
     public double  getRating(Post post);
     public void addComment(Comment comment, Post post, User user);

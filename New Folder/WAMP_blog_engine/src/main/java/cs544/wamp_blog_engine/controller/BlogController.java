@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BlogController {
     @Resource
     private IBlogService blogerService;
+    
+    
 
     @RequestMapping(value="/blog", method=RequestMethod.GET)
     public String getAllBlog(Model model){

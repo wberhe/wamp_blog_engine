@@ -3,24 +3,30 @@
     Created on : Sep 21, 2014, 10:45:34 AM
     Author     : priya
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Blog page</title>
     </head>
     <body>
+        <h3>Posts in this blog:</h3>
         <table>
-	<c:forEach var="post" items="${posts}">
-	<tr>
-		<td>${post.title}</td>
-		
-	</tr>
-	</c:forEach>
-	</table>
-        
-        <a href="newpost">create new post</a>
+            <c:forEach var="post" items="${posts}">
+                <tr>
+                    <td>${post.title}</td>
+                    <td><a href="viewPost/${post.id}"> view post</a></td>  
+                </tr>
+                <tr>
+                    <td>${post.body}</td>
+                </tr> 
+                <tr>
+                    <td><a href="editPost/${post.id}"> edit post</a></td>                  
+                </tr>  
+            </c:forEach>
+        </table>
+      
     </body>
 </html>
