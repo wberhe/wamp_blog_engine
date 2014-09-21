@@ -44,7 +44,6 @@ public class SettingsController {
     @RequestMapping(value = "/addBlogCategory",method = RequestMethod.POST)
     public String addBlogCategory(@Valid Category category,BindingResult result){
         String nextView="settings";
-        System.out.println("Test--------------------------------");
         if(!result.hasErrors()){
             getSettingService().addBlogCategory(category);
             
