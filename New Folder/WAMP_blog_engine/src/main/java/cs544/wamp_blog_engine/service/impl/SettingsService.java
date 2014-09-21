@@ -12,10 +12,8 @@ import cs544.wamp_blog_engine.dao.TagDAO;
 import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Tag;
 import cs544.wamp_blog_engine.service.ISettingsService;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  *
