@@ -40,4 +40,5 @@
     <!-- Lets us find resources (.html etc) through the default servlet -->
     <mvc:default-servlet-handler />
 
+    <mvc:view-controller path="settings" view-name="settings"/>
 </beans>
