@@ -31,8 +31,8 @@
                     <td><form:errors path="dob" cssClass="error"/> </td>
                 </tr>
                 <tr>
-                    <td>Picture :</td>
-                    <td><form:input type="text" path="pic" /> </td>
+                    <td>Picture :</td> 
+                    <td><form:input type="file" path="file"  size="50" /> </td>
                     <td><form:errors path="pic" cssClass="error"/> </td>
                 </tr>
                 <tr>

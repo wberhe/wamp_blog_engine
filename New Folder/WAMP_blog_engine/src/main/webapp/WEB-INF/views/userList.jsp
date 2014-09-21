@@ -19,10 +19,10 @@
                     <td>${user.firstname}</td>
                     <td>${user.lastname}</td>
                     <td>${user.email}</td>
-                    <td><a href="users/${user.id}">Add User</a></td>
+                    <td><a href="users/${user.id}">Update user information</a></td>
                 </tr>
             </c:forEach>
         </table>
-        
+        <a href="addUser"> Add new User</a>
     </body>
 </html>

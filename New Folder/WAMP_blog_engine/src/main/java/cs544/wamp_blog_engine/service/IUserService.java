@@ -17,7 +17,7 @@ public interface IUserService {
 
     public void addUser(User user);
 
-    public void updateUserInfo(User user);
+    public void updateUserInfo(int Id,User user);
 
     public void modifyCredential(Credential credential);
 
