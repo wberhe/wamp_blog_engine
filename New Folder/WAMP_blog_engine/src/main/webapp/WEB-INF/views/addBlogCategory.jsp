@@ -10,14 +10,30 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Add Category</title>
+        <style>
+            .errorBlock{
+                color: red;
+                border-style: solid;
+                border-color: red;
+                border-width: 1px;
+                padding: 3px;
+                background-color: rgb(231, 231, 231);
+            }
+
+        </style>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Add Category</h1>
         <form:form modelAttribute="category" action="addBlogCategory">
-            <form:input path="name" />
-            <form:errors path="name" cssClass="errorBlock" element="div"/>
-            <form:button name="submit"/>
+            <table>
+                <tr>
+                    <td>Category</td>
+                    <td><form:input path="name" /></td>
+                    <td><form:errors path="name" cssClass="errorBlock" element="div"/></td>
+                </tr>
+            </table>
+            <form:button name="submit" >Submit</form:button>
         </form:form>
     </body>
 </html>
