@@ -19,8 +19,10 @@ public interface ICategoryTagService {
     public void updateTag(Tag  tag);
     public void deleteTag(Tag tag);
     public List<Tag> getAllTags();
+    public Tag getTag(int tagId);
     public void addCategory(Category category);
     public void updateCategory(Category  category);
     public void deleteCategory(Category category);
     public List<Category> getAllcategories();
+    public Category getCategory(int categoryId);
 }

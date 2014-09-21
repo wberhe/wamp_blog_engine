@@ -38,14 +38,14 @@ public class SettingsService implements ISettingsService {
     public void setTagDAO(TagDAO tagDAO) {
         this.tagDAO = tagDAO;
     }
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addBlogCategory(Category category) {
         categoryDAO.createCategory(category);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void modifyBlogCategory(Category category) {
         categoryDAO.updateCategory(category);
     }

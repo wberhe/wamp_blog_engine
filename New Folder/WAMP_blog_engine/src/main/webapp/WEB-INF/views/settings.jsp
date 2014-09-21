@@ -14,7 +14,8 @@
     <body>
         <h1>Admin Setting</h1>
         <ul>
-            <li><a href="addBlogCategory">Add Blog Category </a></li>
+            <li><a href="allCategories">All Categories</a></li>
+            <li><a href="allTags">All Tags</a></li>
         </ul>
 
 

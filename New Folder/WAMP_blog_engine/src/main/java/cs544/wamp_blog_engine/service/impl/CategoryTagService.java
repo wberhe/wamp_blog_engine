@@ -86,5 +86,15 @@ private TagDAO tagDAO;
     public List<Category> getAllcategories() {
         return categoryDAO.getAllCategorys();
     }
+
+    @Override
+    public Tag getTag(int tagId) {
+        return getTagDAO().getTag(tagId);
+    }
+
+    @Override
+    public Category getCategory(int categoryId) {
+        return getCategoryDAO().getCategory(categoryId);
+    }
     
 }
