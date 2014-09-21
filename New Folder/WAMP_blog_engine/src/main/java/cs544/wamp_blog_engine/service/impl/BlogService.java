@@ -11,6 +11,8 @@ import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.service.IBlogService;
 import java.util.Date;
 import java.util.List;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -23,6 +25,7 @@ public class BlogService implements IBlogService{
         this.blogDAO = blogDAO;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void createBlog(Blog blog) {
         blog.setCreationg_time(new Date());
@@ -30,19 +33,28 @@ public class BlogService implements IBlogService{
         blogDAO.createBlog(blog);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void modifyBlog(Blog blog) {
         blogDAO.updateBlog(blog);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Blog getBlog(int blogId) {
         return blogDAO.getBlog(blogId);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Blog> getAllBlogs() {
         return blogDAO.getAllBlogs();
+    }
+    
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void removeBlog(Blog blog) {
+         blogDAO.removeBlog(blog);
     }
     
     

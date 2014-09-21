@@ -59,7 +59,7 @@
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
-                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect
                 </prop>
                 <prop key="connection.pool_size">1</prop>
@@ -68,6 +68,7 @@
         </property>
     </bean>
 
+    <tx:annotation-driven transaction-manager="txManager" />
     <bean id="txManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
@@ -123,7 +124,10 @@
     <!-- notication Service injection beans -->
     <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService"/>
     <!-- Setting Service injection beans -->
-    <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService"/>
+    <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService">
+        <property name="categoryDAO" ref="categoryDAO"/>
+        <property name="tagDAO" ref="tagDAO"/>
+    </bean>
     
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
