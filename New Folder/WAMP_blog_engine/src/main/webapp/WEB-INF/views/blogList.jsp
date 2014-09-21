@@ -28,7 +28,7 @@
                     <td>${blog.name}</td>
                     <c:choose>
                         <c:when test="${fn:length(blog.description) > 15}" >
-                            <td>${fn:join(fn:substring(blog.description, 0, 15), '...')}</td>
+                            <td>${fn:substring(blog.description, 0, 15)}...</td>
                         </c:when>
                         <c:otherwise>
                             <td>${blog.description}</td>
