@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
 public @interface FieldMatch
 {
     
-    String message() default "{constraints.fieldmatch}";
+    String message() default "constraints.fieldmatch";
 
     Class<?>[] groups() default {};
 
