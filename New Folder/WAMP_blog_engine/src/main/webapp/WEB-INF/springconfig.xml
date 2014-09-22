@@ -6,6 +6,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc" 
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:sec="http://www.springframework.org/schema/security"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -18,7 +19,9 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
        http://www.springframework.org/schema/aop 
-       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.2.xsd">
     
     <aop:aspectj-autoproxy/>
 
@@ -231,4 +234,35 @@ Administrator.
     </bean>
 
     <!--Email Service-->
+    
+    
+    
+    <!--Security-->
+<!--    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+        <property name="rolePrefix" value="FOO-BAR-"/>
+    </bean>-->
+    <bean  class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+
+    <sec:global-method-security secured-annotations="enabled"/>
+    <sec:http >
+        <sec:intercept-url pattern="/SpringLoginPage.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/LoginFailure.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/**" access="ROLE_BLOGGER"/>
+        <!--<sec:intercept-url pattern="/**" access="ADMIN,BLOGGER"/>-->
+        
+        <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/" authentication-failure-url="/LoginFailure.html"/>
+        <sec:logout delete-cookies="true" invalidate-session="true" logout-success-url="/SpringLoginPage.html"/>
+    </sec:http>
+    <sec:authentication-manager>
+        <!--        <sec:authentication-provider>
+            <sec:user-service>
+                <sec:user name="test" password="test" authorities="ROLE_USER"/>
+                <sec:user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_USER"/>
+            </sec:user-service>
+        </sec:authentication-provider>-->
+        <sec:authentication-provider >
+            <sec:jdbc-user-service data-source-ref="dataSource" users-by-username-query=" select username,password, blocked=0 enabled from credential where username=?" authorities-by-username-query="select username, previledge as authority from credential where username=?"/>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+    <!--Security-->
 </beans>
