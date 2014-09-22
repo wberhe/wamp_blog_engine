@@ -9,6 +9,7 @@ import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.Comment;
 import cs544.wamp_blog_engine.domain.Credential;
 import cs544.wamp_blog_engine.domain.Post;
+import cs544.wamp_blog_engine.domain.Rating;
 import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IBlogService;
 import cs544.wamp_blog_engine.service.ICategoryTagService;
@@ -186,11 +187,14 @@ public class PostController {
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.GET)
     public String viewPost(Model model, Post post, @PathVariable int id) {
-
+        
         Post post2 = postService.getPost(id);
+        Rating rating = postService.getRating(post2);
         model.addAttribute("post", post2);
         System.out.println("comnts size: " + post2.getPostComments());
+        
         model.addAttribute("comments", commentService.getPostComments(post));
+        model.addAttribute("postRating", rating);
         return "post";
     }
     
@@ -200,6 +204,13 @@ public class PostController {
         Post post2 = postService.getPost(id);
         model.addAttribute("post", post2);
         System.out.println("comment: " + post.getTempComment());
+        System.out.println("rating: "+ post.getTempRating());
+        if(post.getTempRating()!=0){
+            Rating r = new Rating(post.getTempRating());
+            postService.addRating(r, post2);
+           
+            postService.modifyPost(post2);
+        }
         if(post.getTempComment() != null && !post.getTempComment().isEmpty()){
             Comment comment = new Comment(post.getTempComment(), new Date());
             post2.addComment(comment);

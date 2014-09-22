@@ -57,7 +57,7 @@ public class Post {
     @ManyToMany(mappedBy = "catogorizedPosts", cascade = CascadeType.ALL)
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
     private List<Rating> postRatings;
 
     @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
@@ -71,6 +71,8 @@ public class Post {
     
     @Transient
     private String tempComment;
+    @Transient
+    private double tempRating;
 
     public Post() {
     }
@@ -110,6 +112,16 @@ public class Post {
     public void setTempComment(String tempComment) {
         this.tempComment = tempComment;
     }
+
+    public double getTempRating() {
+        return tempRating;
+    }
+
+    public void setTempRating(double tempRating) {
+        this.tempRating = tempRating;
+    }
+
+  
 
    
     

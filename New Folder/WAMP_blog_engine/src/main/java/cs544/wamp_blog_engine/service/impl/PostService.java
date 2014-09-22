@@ -86,7 +86,7 @@ public class PostService implements IPostService {
     @Override
     public void createPost(Post post) {
         post.setCreation_time(new Date());
-       
+
         postDAO.addPost(post);
 
         //post.getParentBlog().addBlogPost(post);
@@ -143,21 +143,22 @@ public class PostService implements IPostService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addRating(Rating rating, Post post) {
-        post.addPostRating(rating);
 
+        rating.setPost(post);
+        post.addPostRating(rating);
         postDAO.updatePost(post);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public double getRating(Post post) {
+    public Rating getRating(Post post) {
         double totalRating = 0.0;
         int size = post.getPostRatings().size();
         for (int i = 0; i < size; i++) {
             totalRating += post.getPostRatings().get(i).getRate();
         }
-
-        return totalRating / size;
+        double result = (double)Math.round((totalRating / size) * 10) / 10;
+        return new Rating(result);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -235,10 +236,11 @@ public class PostService implements IPostService {
     public List<Tag> getAllTags() {
         return tagDAO.getAllTags();
     }
+
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deletePost(Post post) {
-        
+
         postDAO.removePost(post);
     }
 

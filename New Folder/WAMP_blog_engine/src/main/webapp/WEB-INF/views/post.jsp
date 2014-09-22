@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,13 +14,24 @@
         <title>Post</title>
     </head>
     <body>
-        <form action="../viewPost/${post.id}" method="post" >
+        <form:form commandName="post" action="../viewPost/${post.id}" method="post" >
             <a href="../postList">view Blog</a>
             <table>
 
                 <tr>
                     <td>Title:</td>
                     <td>${post.title}</td>
+
+                </tr>
+                <tr>
+                    <c:choose>
+                        <c:when test="${postRating.rate>='1'}">
+                            <td>Rating:</td>
+                            <td>${postRating.rate}</td>
+                        </c:when>
+
+                    </c:choose>
+
                 </tr>
                 <tr>
                     <td>Body:</td>
@@ -30,57 +42,73 @@
                     <td>Categories</td>
                     <td>
 
-                <c:forEach var="category" items="${post.categories}">
+                        <c:forEach var="category" items="${post.categories}">
                     <option value="${category.name}">${category.name}</option>
                 </c:forEach>
 
-                </td>
+            </td>
 
-                </tr>
+        </tr>
 
-                <tr>
-                    <td>Tags</td>
-                    <td>
+        <tr>
+            <td>Tags</td>
+            <td>
 
                 <c:forEach var="tag" items="${post.postTags}">
-                    <option value="${tag.name}">${tag.name}</option>
-                </c:forEach>
+            <option value="${tag.name}">${tag.name}</option>
+        </c:forEach>
 
-                </td>
+    </td>
 
 
-                </tr>
-               
-                <tr>
-                    <td>Comments</td>
-                 
+</tr>
 
-                <c:forEach var="comment" items="${comments}">
-                <tr>
-                    <td>${comment.commentAuthor.firstname}</td>
-                    <td>${comment.comment}</td>
-                   
-                </tr>
-               
-            </c:forEach>
-                     
-              
-            
-                        
-                </tr>    
+<tr>
 
-               
+    <td>
+        <form:radiobutton path="tempRating" value="1"  />
+        <form:radiobutton path="tempRating" value="2"  />
+        <form:radiobutton path="tempRating" value="3"  />
+        <form:radiobutton path="tempRating" value="4"  />
+        <form:radiobutton path="tempRating" value="5"  />
+    <td><input type="submit" value="rate"/> </td>
 
-                <tr>
+    </td>
+ 
 
-                    <td><input type="text" name="tempComment" /> </td>
-                    <td><input type="submit" value="post"/> </td>
+</tr>
 
-                </tr>
-               
 
-            </table>
+<td>Comments</td>
 
-        </form>
-    </body>
+
+<c:forEach var="comment" items="${comments}">
+    <tr>
+         <!--<option value="${comment.comment}">${comment.comment}</option>-->
+        <td>${comment.commentAuthor.firstname}</td>
+        <td>${comment.comment}</td>
+
+    </tr>
+
+</c:forEach>
+
+
+
+
+<!--</tr>-->    
+
+
+
+<tr>
+
+    <td><form:input  path="tempComment" /> </td>
+    <td><input type="submit" value="post"/> </td>
+
+</tr>
+
+
+</table>
+
+</form:form>
+</body>
 </html>

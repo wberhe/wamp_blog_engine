@@ -34,7 +34,7 @@ public interface IPostService {
     public List<Category> getAllCategories();
     public List<Tag> getAllTags();
     public void addRating(Rating rating, Post post);
-    public double  getRating(Post post);
+    public Rating getRating(Post post);
     public void addComment(Comment comment, Post post, User user);
     public void approveComment(Comment comment, Post post);
     public List<Comment> getAllComments(Post post);
