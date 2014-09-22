@@ -125,8 +125,9 @@ public class PostController {
         blog = blogService.getBlog(1);
         model.addAttribute("parentBlog", blogService.getBlog(blog.getId()));
         model.addAttribute("posts", postService.getAllPublishedPosts(blog));
-        System.out.println("num of published posts" + postService.getAllPublishedPosts(blog).size());
-        System.out.println("num of draft posts" + postService.getAllDrafts(blog).size());
+        model.addAttribute("drafts" , postService.getAllDrafts(blog));
+//        System.out.println("num of published posts" + postService.getAllPublishedPosts(blog).size());
+//        System.out.println("num of draft posts" + postService.getAllDrafts(blog).size());
         return "blog";
     }
 //   o
@@ -163,6 +164,7 @@ public class PostController {
         Post modifiedPost = postService.getPost(id);
         modifiedPost.setTitle(post.getTitle());
         modifiedPost.setBody(post.getBody());
+        modifiedPost.setDraft(post.isDraft());
         postService.modifyPost(modifiedPost);
         //blogService.modifyBlog(postService.getPost(id).getParentBlog());
 

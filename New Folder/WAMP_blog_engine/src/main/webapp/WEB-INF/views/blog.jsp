@@ -27,6 +27,17 @@
                 </tr>  
             </c:forEach>
         </table>
+       
+        <h3>Drafts in this blog:</h3>
+        <table>
+            <c:forEach var="draft" items="${drafts}">
+                <tr>
+                    <td>${draft.title}</td>
+                   <td><a href="editPost/${draft.id}"> edit draft</a></td>    
+                </tr>
+               
+            </c:forEach>
+        </table>
       
     </body>
 </html>
