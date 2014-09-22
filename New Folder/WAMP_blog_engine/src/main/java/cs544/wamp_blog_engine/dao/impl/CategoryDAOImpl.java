@@ -55,7 +55,9 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Override
     public List<Category> getAllCategorys() {
         Query query = sf.getCurrentSession().createQuery("from Category");
+       
         List<Category> categorys = query.list();
+         System.out.println("num of cats: in dao " + categorys.size());
         return categorys;
     }
 

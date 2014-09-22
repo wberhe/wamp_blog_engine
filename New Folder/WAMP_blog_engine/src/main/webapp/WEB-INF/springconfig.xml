@@ -118,10 +118,16 @@
         <property name="blogDAO" ref="blogDAO"/>
         <property name="commentDao" ref="commentDAO"/>
         <property name="categoryDAO" ref="categoryDAO"/>
-      
+        <property name="tagDAO" ref="tagDAO"/>
         <property name="notificationService" ref="notificationService"/>
      
     </bean>
+    
+    <!--Comment Service injection beans-->
+    <bean id = "commentService" class="cs544.wamp_blog_engine.service.impl.CommentService">
+        <property name="commentDAO" ref="commentDAO"/>
+    </bean>
+    
     
     <!-- notication Service injection beans -->
     <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService"/>

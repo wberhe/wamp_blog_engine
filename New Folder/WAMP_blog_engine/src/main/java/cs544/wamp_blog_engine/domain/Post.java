@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.NotBlank;
@@ -39,14 +40,16 @@ public class Post {
     private String title;
 
     private boolean draft;
+    
+//    private String blogName;
 
     @NotBlank
     @SafeHtml
     private String body;
 
-    @Past
+    //@Past
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+//    @NotNull
     private Date creation_time;
 
     private byte[] image;
@@ -54,7 +57,7 @@ public class Post {
     @ManyToMany(mappedBy = "catogorizedPosts", cascade = CascadeType.ALL)
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
     private List<Rating> postRatings;
 
     @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
@@ -65,6 +68,11 @@ public class Post {
 
     @ManyToOne
     private Blog parentBlog;
+    
+    @Transient
+    private String tempComment;
+    @Transient
+    private double tempRating;
 
     public Post() {
     }
@@ -96,6 +104,36 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public String getTempComment() {
+        return tempComment;
+    }
+
+    public void setTempComment(String tempComment) {
+        this.tempComment = tempComment;
+    }
+
+    public double getTempRating() {
+        return tempRating;
+    }
+
+    public void setTempRating(double tempRating) {
+        this.tempRating = tempRating;
+    }
+
+  
+
+   
+    
+    
+
+//    public String getBlogName() {
+//        return blogName;
+//    }
+//
+//    public void setBlogName(String blogName) {
+//        this.blogName = blogName;
+//    }
 
     public Date getCreation_time() {
         return creation_time;
@@ -140,6 +178,7 @@ public class Post {
     }
 
     public void addComment(Comment comment) {
+        comment.setParentPost(this);
         this.postComments.add(comment);
     }
 
@@ -171,6 +210,7 @@ public class Post {
 
     public void setParentBlog(Blog parentBlog) {
         this.parentBlog = parentBlog;
+        //this.blogName = parentBlog.getName();
     }
 
     private void setCategories(List<Category> categories) {

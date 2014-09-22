@@ -6,6 +6,7 @@
 
 package cs544.wamp_blog_engine.dao;
 import cs544.wamp_blog_engine.domain.Comment;
+import cs544.wamp_blog_engine.domain.Post;
 import java.util.List;
 
 /**
@@ -19,4 +20,5 @@ public interface CommentDAO {
     public void removeComment(Comment comment);
     public Comment getComment(int commentid);
     public List<Comment> getAllComments();
+    public List<Comment> getAllPostComments(Post post);
 }

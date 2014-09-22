@@ -20,7 +20,10 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IPostService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -32,7 +35,12 @@ public class PostService implements IPostService {
     private BlogDAO blogDAO;
     private CategoryDAO categoryDAO;
     private CommentDAO commentDao;
+    private TagDAO tagDAO;
     private INotificationService notificationService;
+
+    public void setTagDAO(TagDAO tagDAO) {
+        this.tagDAO = tagDAO;
+    }
 
     public void setPostDAO(PostDAO postDAO) {
         this.postDAO = postDAO;
@@ -54,71 +62,106 @@ public class PostService implements IPostService {
         this.commentDao = commentDao;
     }
 
-    @Override
-    public void createPost(Post post) {
-        postDAO.addPost(post);
-
-        post.getParentBlog().addBlogPost(post);
-
-        blogDAO.updateBlog(post.getParentBlog());
-
-        notificationService.notifyFollowers(post.getParentBlog().getFollowers(), post);
+    public PostDAO getPostDAO() {
+        return postDAO;
     }
 
+    public BlogDAO getBlogDAO() {
+        return blogDAO;
+    }
+
+    public CategoryDAO getCategoryDAO() {
+        return categoryDAO;
+    }
+
+    public CommentDAO getCommentDao() {
+        return commentDao;
+    }
+
+    public INotificationService getNotificationService() {
+        return notificationService;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void createPost(Post post) {
+        post.setCreation_time(new Date());
+
+        postDAO.addPost(post);
+
+        //post.getParentBlog().addBlogPost(post);
+        post.setCreation_time(new Date());
+//
+//        blogDAO.updateBlog(post.getParentBlog());
+//
+//        notificationService.notifyFollowers(post.getParentBlog().getFollowers(), post);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void modifyPost(Post post) {
         postDAO.updatePost(post);
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Post getPost(int postId) {
         return postDAO.getPost(postId);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getAllPosts() {
         return postDAO.getAllPosts();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getAllDrafts(Blog blog) {
         return postDAO.getAllDrafts(blog);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getAllPublishedPosts(Blog blog) {
         return postDAO.getAllPublishedPosts(blog);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getPostsByCategory(Category category) {
         return postDAO.getPostsByCategory(category);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getPostsByTag(Tag tag) {
         return postDAO.getPostsByTag(tag);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addRating(Rating rating, Post post) {
-        post.addPostRating(rating);
 
+        rating.setPost(post);
+        post.addPostRating(rating);
         postDAO.updatePost(post);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public double getRating(Post post) {
+    public Rating getRating(Post post) {
         double totalRating = 0.0;
         int size = post.getPostRatings().size();
         for (int i = 0; i < size; i++) {
             totalRating += post.getPostRatings().get(i).getRate();
         }
-
-        return totalRating / size;
+        double result = (double)Math.round((totalRating / size) * 10) / 10;
+        return new Rating(result);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addComment(Comment comment, Post post, User user) {
         if (post.getParentBlog().isComm_approval()) {
@@ -138,6 +181,7 @@ public class PostService implements IPostService {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void approveComment(Comment comment, Post post) {
         comment.setApproved(true);
@@ -146,6 +190,7 @@ public class PostService implements IPostService {
         postDAO.updatePost(post);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Comment> getAllComments(Post post) {
         List<Comment> approvedComments = new ArrayList<Comment>();
@@ -158,20 +203,45 @@ public class PostService implements IPostService {
         return approvedComments;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteComment(Post post) {
         post.removeComment(null);
         postDAO.updatePost(post);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getPostByCategoryInBlog(Category category, Blog blog) {
         return postDAO.getBlogPostsByCategory(category, blog);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<Post> getPostsByTagInBlog(Tag tag, Blog blog) {
         return postDAO.getBlogPostsByTag(tag, blog);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public List<Category> getAllCategories() {
+        List<Category> categories = categoryDAO.getAllCategorys();
+        System.out.println("@@##################num of cats: " + categories.size());
+        return categories;
+
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public List<Tag> getAllTags() {
+        return tagDAO.getAllTags();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void deletePost(Post post) {
+
+        postDAO.removePost(post);
     }
 
 }

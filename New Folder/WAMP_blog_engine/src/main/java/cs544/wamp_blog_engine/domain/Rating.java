@@ -24,8 +24,8 @@ public class Rating {
     @GeneratedValue
     private int id;
 
-    @Range(min = 1, max = 5)
-    private int rate;
+    
+    private double rate;
 
     @ManyToOne(cascade =CascadeType.ALL)
     private User user;
@@ -36,7 +36,7 @@ public class Rating {
     public Rating() {
     }
 
-    public Rating(int rate) {
+    public Rating(double rate) {
         this.rate = rate;
     }
 
@@ -44,11 +44,11 @@ public class Rating {
         return id;
     }
 
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
