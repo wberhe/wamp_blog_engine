@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -50,6 +51,7 @@ public class Blog {
 
     private boolean blocked;    
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "parentBlog")
+    
     private List<Post> blogPosts;
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy ="follows" )

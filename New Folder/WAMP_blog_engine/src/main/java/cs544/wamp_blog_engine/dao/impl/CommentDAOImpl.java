@@ -7,6 +7,7 @@ package cs544.wamp_blog_engine.dao.impl;
 
 import cs544.wamp_blog_engine.dao.CommentDAO;
 import cs544.wamp_blog_engine.domain.Comment;
+import cs544.wamp_blog_engine.domain.Post;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
@@ -58,6 +59,13 @@ public class CommentDAOImpl implements CommentDAO {
         Query query = sf.getCurrentSession().createQuery("from Comment");
         List<Comment> comments = query.list();
         return comments;
+    }
+
+    @Override
+    public List<Comment> getAllPostComments(Post post) {
+        Query query = sf.getCurrentSession().createQuery("select c from Comment c where c.parentPost=:ppost");
+        query.setParameter("ppost", post);
+        return query.list();
     }
 
 }
