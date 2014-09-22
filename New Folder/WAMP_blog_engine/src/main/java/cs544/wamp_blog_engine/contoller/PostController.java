@@ -7,7 +7,6 @@ package cs544.wamp_blog_engine.contoller;
 
 import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.Comment;
-import cs544.wamp_blog_engine.domain.Credential;
 import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.Rating;
 import cs544.wamp_blog_engine.domain.User;
@@ -21,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -117,7 +115,6 @@ public class PostController {
 //        blogService.createBlog(blog);
 //
 //    }
-
 //    public User createUser(){
 //        User user = new User();
 //        user.setFirstname("Sherlock");
@@ -131,14 +128,18 @@ public class PostController {
     //create a new post
 //    
     @RequestMapping(value = "/postList/{id}", method = RequestMethod.GET)
-    public String showAllPosts(Model model, @PathVariable int id) {
+    public String showAllPosts(Model model, @PathVariable int id, HttpSession session) {
 //        createUser();
+        User blogger = (User) session.getAttribute("loggedUser");
         System.out.println("in get blog method");
         Blog blog = blogService.getBlog(id);
+        User author = blog.getBlogger();
         model.addAttribute("parentBlog", blogService.getBlog(blog.getId()));
         model.addAttribute("posts", postService.getAllPublishedPosts(blog));
         model.addAttribute("drafts", postService.getAllDrafts(blog));
         model.addAttribute("Blog", blog);
+        model.addAttribute("blogger", blogger);
+        model.addAttribute("author", author);
 
         return "blog";
     }
@@ -149,12 +150,13 @@ public class PostController {
 //        createBlog();
         System.out.println("...........in newpost post method");
         System.out.println("select cats: " + post.getCategories());
-        postService.createPost(post);
 
         Blog blog = blogService.getBlog(id);
         post.setParentBlog(blog);
         blog.addBlogPost(post);
-
+        
+        
+        postService.createPost(post);
         blogService.modifyBlog(blog);
         postService.modifyPost(post);
         model.addAttribute("Blog", blog);
@@ -186,9 +188,9 @@ public class PostController {
     }
 
     @RequestMapping(value = "editPost/{id}", method = RequestMethod.POST)
-    public String editPostPost(Post post, Model model, @PathVariable int id,HttpSession session) {
+    public String editPostPost(Post post, Model model, @PathVariable int id, HttpSession session) {
         System.out.println(".........in editPostPost");
-        User user=(User) session.getAttribute("loggedUser");
+//        User user = (User) session.getAttribute("loggedUser");
         Post modifiedPost = postService.getPost(id);
         modifiedPost.setTitle(post.getTitle());
         modifiedPost.setBody(post.getBody());
@@ -232,7 +234,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.POST)
-    public String viewPostPost(Model model, @PathVariable int id, Post post, RedirectAttributes redattr) {
+    public String viewPostPost(Model model, @PathVariable int id, Post post, RedirectAttributes redattr, HttpSession session) {
 //        User user = createUser();
         Post post2 = postService.getPost(id);
         model.addAttribute("post", post2);
@@ -247,8 +249,13 @@ public class PostController {
         }
         if (post.getTempComment() != null && !post.getTempComment().isEmpty()) {
             Comment comment = new Comment(post.getTempComment(), new Date());
+             User blogger = (User) session.getAttribute("loggedUser");
+             comment.setCommentAuthor(blogger);
             if (mBlog.isComm_approval()) {
-                //notificationService.notifyBloggerNewComment(user, comment);
+                User author = mBlog.getBlogger();
+                System.out.println("author: " + author);
+                System.out.println("comment: " + comment);
+                notificationService.notifyBloggerNewComment(author, comment);
             } else {
                 post2.addComment(comment);
                 postService.modifyPost(post2);

@@ -47,7 +47,13 @@
                     </c:if>
                 </tr>
             </c:forEach>
+                <tr></tr>
+                <tr></tr><tr></tr><tr></tr><tr></tr>
+                
             </c:if>    
+                
         </table>    
+   
+         <a href="addBlog">Create Blog</a>
     </body>
 </html>

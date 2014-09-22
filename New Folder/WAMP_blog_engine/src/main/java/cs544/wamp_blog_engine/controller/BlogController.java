@@ -7,9 +7,11 @@
 package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Blog;
+import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IBlogService;
 import java.util.ArrayList;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +42,9 @@ public class BlogController {
     }
     
     @RequestMapping(value="/blog", method=RequestMethod.POST)
-    public String addBlog(Blog blog){
+    public String addBlog(Blog blog, HttpSession session){
+        User blogger = (User) session.getAttribute("loggedUser");
+        blog.setBlogger(blogger);
         blogerService.createBlog(blog);
         return "redirect:/blog";
     }

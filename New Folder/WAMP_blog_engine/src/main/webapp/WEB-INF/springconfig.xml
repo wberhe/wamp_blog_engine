@@ -145,7 +145,14 @@
     
     
     <!-- notication Service injection beans -->
-    <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService"/>
+    <bean id="notificationService" class="cs544.wamp_blog_engine.service.impl.NotificationService">
+        <property name="fromAdminTemplate" ref="fromAdminTemplate"/>
+        <property name="toAdminTemplate" ref="toAdminTemplate"/>
+        <property name="toBloggerTemplate" ref="toBloggerTemplate"/>
+        <property name="toFollowersTemplate" ref="toFollowersTemplate"/>
+        <property name="javaMailSender" ref="javaMailSender"/>
+        
+    </bean>
     <!-- Setting Service injection beans -->
     <bean id="settingsService" class="cs544.wamp_blog_engine.service.impl.SettingsService">
         <property name="categoryDAO" ref="categoryDAO"/>

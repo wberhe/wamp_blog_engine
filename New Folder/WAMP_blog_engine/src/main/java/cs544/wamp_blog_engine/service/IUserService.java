@@ -17,20 +17,21 @@ public interface IUserService {
 
     public void addUser(User user);
 
-    public void updateUserInfo(int Id,User user);
+    public void updateUserInfo(int Id, User user);
 
     public void modifyCredential(Credential credential);
 
     public User getUser(int userId);
 
     public List<User> getAllUsers();
-    
+
     public void deleteUser(int id);
 
-    public void notifyBlogger(List<User> user,String message);
+    public void notifyBlogger(List<User> user, String message);
 
-    public void contactAdmin(User user,String message);
-        
+    public void contactAdmin(User user, String message);
+
     public boolean checkUserName(String userName);
- public User getUserByUsername(String username);
+
+    public User getUserByUsername(String username);
 }

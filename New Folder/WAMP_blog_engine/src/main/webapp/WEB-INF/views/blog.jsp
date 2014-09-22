@@ -16,7 +16,13 @@
         <table>
             <tr>
                 <td></td>
-                <td><a href="../newpost/${Blog.id}">create new post</a></td></tr>
+                <c:choose>
+                        <c:when test="${blogger.id==author.id}">
+                           <td><a href="../newpost/${Blog.id}">create new post</a></td></tr>
+                        </c:when>
+
+                    </c:choose>
+                
             <tr></tr>
             <c:forEach var="post" items="${posts}">
                 <tr>
@@ -27,23 +33,34 @@
                     <td>${post.body}</td>
                 </tr> 
                 <tr>
-                    <td><a href="../editPost/${post.id}"> edit post</a></td>                  
+                    <c:choose>
+                        <c:when test="${blogger.id==author.id}">
+                            <td><a href="../editPost/${post.id}"> edit post</a></td>  
+                        </c:when>
+
+                    </c:choose>
+
                 </tr>  
                 <tr></tr>
                 <tr></tr>
             </c:forEach>
         </table>
-       
-        <h3>Drafts in this blog:</h3>
-        <table>
-            <c:forEach var="draft" items="${drafts}">
-                <tr>
-                    <td>${draft.title}</td>
-                   <td><a href="../editPost/${draft.id}"> edit draft</a></td>    
-                </tr>
-               
-            </c:forEach>
-        </table>
-      
+        <c:choose>
+            <c:when test="${blogger.id==author.id}">
+                <h3>Your drafts:</h3>
+                <table>
+                    <c:forEach var="draft" items="${drafts}">
+                        <tr>
+                            <td>${draft.title}</td>
+                            <td><a href="../editPost/${draft.id}"> edit draft</a></td>    
+                        </tr>
+
+                    </c:forEach>
+                </table>
+            </c:when>
+
+        </c:choose>
+
+
     </body>
 </html>
