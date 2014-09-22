@@ -14,10 +14,10 @@
         <title>Create new post</title>
     </head>
     <body>
-        <form:form commandName="post" action="newpost" method="post" >
+        <form:form commandName="post" action="../newpost/${Blog.id}" method="post" >
 
             <h1>Create new post</h1>
-
+            <h2>You are posting to ${blog.name}</h2>
             <table>
 
                 <tr>

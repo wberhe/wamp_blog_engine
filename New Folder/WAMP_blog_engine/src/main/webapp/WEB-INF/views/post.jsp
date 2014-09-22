@@ -15,7 +15,7 @@
     </head>
     <body>
         <form:form commandName="post" action="../viewPost/${post.id}" method="post" >
-            <a href="../postList">view Blog</a>
+            <a href="../postList/${blog.id}">view Blog</a>
             <table>
 
                 <tr>

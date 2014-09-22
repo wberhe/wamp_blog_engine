@@ -13,11 +13,12 @@
         <title>Blog List</title>
     </head>
     <body>
-        <h1>All Blog</h1>
+        <h1>Your blogs</h1>
         <table width="50%" border="0" cellspacing="1" cellpadding="0">
             <tr>
                 <td width="20%">Blog Name</td>
                 <td width="50%">Blog Text</td>
+              
                 <td width="10%">Modify</td>
                 <td width="10%">Delete</td>
                 <td width="10%">Status</td>
@@ -25,7 +26,7 @@
             <c:if test="${blogList!=null}" >
             <c:forEach var="blog" items="${blogList}">
                 <tr>
-                    <td>${blog.name}</td>
+                    <td> <a href="postList/${blog.id}">${blog.name}</a></td>
                     <c:choose>
                         <c:when test="${fn:length(blog.description) > 15}" >
                             <td>${fn:substring(blog.description, 0, 15)}...</td>
@@ -34,7 +35,8 @@
                             <td>${blog.description}</td>
                         </c:otherwise>         
                     </c:choose>
-                            
+                                 
+                   
                     <td><a href="blog/${blog.id}">Modify</a></td>
                     <td><a href="blog/delete/${blog.id}">Delete</a></td>
                     <c:if test="${blog.blocked == true}" >

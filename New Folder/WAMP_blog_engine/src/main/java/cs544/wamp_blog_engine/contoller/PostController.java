@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -119,35 +120,49 @@ public class PostController {
 
     //create a new post
 //    
-    @RequestMapping(value = "/postList", method = RequestMethod.GET)
-    public String showAllPosts(Model model) {
+    @RequestMapping(value = "/postList/{id}", method = RequestMethod.GET)
+    public String showAllPosts(Model model, @PathVariable int id) {
 //        createUser();
         System.out.println("in get blog method");
-        blog = blogService.getBlog(1);
+        blog = blogService.getBlog(id);
         model.addAttribute("parentBlog", blogService.getBlog(blog.getId()));
         model.addAttribute("posts", postService.getAllPublishedPosts(blog));
         model.addAttribute("drafts" , postService.getAllDrafts(blog));
-//        System.out.println("num of published posts" + postService.getAllPublishedPosts(blog).size());
-//        System.out.println("num of draft posts" + postService.getAllDrafts(blog).size());
+        model.addAttribute("Blog", blog);
+        
         return "blog";
     }
 //   o
 
-    @RequestMapping(value = "/newpost", method = RequestMethod.POST)
-    public String createPost(@ModelAttribute Post post, BindingResult result, Model model) {
+    @RequestMapping(value = "/newpost/{id}", method = RequestMethod.POST)
+    public String createPost(@ModelAttribute Post post,BindingResult result, Model model, @PathVariable int id) {
 //        createBlog();
+        System.out.println("...........in newpost post method");
         System.out.println("select cats: " + post.getCategories());
         postService.createPost(post);
 
-        blog = blogService.getBlog(1);
+        blog = blogService.getBlog(id);
         post.setParentBlog(blog);
         blog.addBlogPost(post);
 
         blogService.modifyBlog(blog);
         postService.modifyPost(post);
+        model.addAttribute("Blog", blog);
         System.out.println("select cats: getTitle" + post.getTitle());
         System.out.println("select cats: " + post.getCategories());
-        return "redirect:/postList";
+        return "redirect:/postList/{id}";
+    }
+    
+    
+    @RequestMapping(value = "/newpost/{id}", method = RequestMethod.GET)
+    public String showCreatePost(Model model, @PathVariable int id) {
+        blog = blogService.getBlog(id);
+        System.out.println("in the get new post method");
+        model.addAttribute("categories", postService.getAllCategories());
+        model.addAttribute("tags", postService.getAllTags());
+        model.addAttribute("post", new Post());
+        model.addAttribute("Blog", blog);
+        return "createPost";
     }
 
     @RequestMapping(value = "editPost/{id}", method = RequestMethod.GET)
@@ -155,6 +170,9 @@ public class PostController {
         model.addAttribute("post", postService.getPost(id));
         model.addAttribute("allcategories", postService.getAllCategories());
         model.addAttribute("alltags", postService.getAllTags());
+        Post post = postService.getPost(id);
+        Blog mBlog = post.getParentBlog();
+        model.addAttribute("blog" , mBlog);
         return "editPost";
     }
 
@@ -167,42 +185,49 @@ public class PostController {
         modifiedPost.setBody(post.getBody());
         modifiedPost.setDraft(post.isDraft());
         postService.modifyPost(modifiedPost);
+        Blog mBlog = modifiedPost.getParentBlog();
         //blogService.modifyBlog(postService.getPost(id).getParentBlog());
 
         model.addAttribute("post", post);
+        model.addAttribute("blog", mBlog);
         return "post";
     }
     
     @RequestMapping(value = "deletePost/{id}", method = RequestMethod.GET)
-    public String deletePost(Model model, @PathVariable int id){
+    public String deletePost(Model model, @PathVariable int id, RedirectAttributes redattr ){
         Post post = postService.getPost(id);
+        int blogId=post.getParentBlog().getId();
         System.out.println("post title: " + post.getTitle());
         Blog blogn = blogService.getBlog(1);
         System.out.println("blog title: " + blog.getName());
         blogn.removeBlogPost(post);
         blogService.modifyBlog(blogn);
         postService.deletePost(post);
-        return "redirect:/postList";
+        redattr.addAttribute("id", blogId);
+        return "redirect:/postList/{id}";
     }
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.GET)
     public String viewPost(Model model, Post post, @PathVariable int id) {
         
         Post post2 = postService.getPost(id);
+        Blog mBlog = post2.getParentBlog();
         Rating rating = postService.getRating(post2);
         model.addAttribute("post", post2);
         System.out.println("comnts size: " + post2.getPostComments());
         
         model.addAttribute("comments", commentService.getPostComments(post));
         model.addAttribute("postRating", rating);
+        model.addAttribute("blog", mBlog);
         return "post";
     }
     
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.POST)
-    public String viewPostPost(Model model, @PathVariable int id, Post post) {
+    public String viewPostPost(Model model, @PathVariable int id, Post post, RedirectAttributes redattr ) {
 //        User user = createUser();
         Post post2 = postService.getPost(id);
         model.addAttribute("post", post2);
+        Blog mBlog = post2.getParentBlog();
         System.out.println("comment: " + post.getTempComment());
         System.out.println("rating: "+ post.getTempRating());
         if(post.getTempRating()!=0){
@@ -216,17 +241,11 @@ public class PostController {
             post2.addComment(comment);
             postService.modifyPost(post2);
         }
+        int blogId = mBlog.getId();
+        redattr.addAttribute("id", post2.getId());
         return "redirect:../viewPost/{id}";
     }
 
-    @RequestMapping(value = "/newpost", method = RequestMethod.GET)
-    public String showCreatePost(Model model) {
-//,@ModelAttribute("post") Post post
-        model.addAttribute("categories", postService.getAllCategories());
-        model.addAttribute("tags", postService.getAllTags());
-        model.addAttribute("post", new Post());
-        return "createPost";
-    }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {

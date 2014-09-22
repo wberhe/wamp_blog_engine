@@ -14,17 +14,23 @@
     <body>
         <h3>Posts in this blog:</h3>
         <table>
+            <tr>
+                <td></td>
+                <td><a href="../newpost/${Blog.id}">create new post</a></td></tr>
+            <tr></tr>
             <c:forEach var="post" items="${posts}">
                 <tr>
                     <td>${post.title}</td>
-                    <td><a href="viewPost/${post.id}"> view post</a></td>  
+                    <td><a href="../viewPost/${post.id}"> view post</a></td>  
                 </tr>
                 <tr>
                     <td>${post.body}</td>
                 </tr> 
                 <tr>
-                    <td><a href="editPost/${post.id}"> edit post</a></td>                  
+                    <td><a href="../editPost/${post.id}"> edit post</a></td>                  
                 </tr>  
+                <tr></tr>
+                <tr></tr>
             </c:forEach>
         </table>
        
@@ -33,7 +39,7 @@
             <c:forEach var="draft" items="${drafts}">
                 <tr>
                     <td>${draft.title}</td>
-                   <td><a href="editPost/${draft.id}"> edit draft</a></td>    
+                   <td><a href="../editPost/${draft.id}"> edit draft</a></td>    
                 </tr>
                
             </c:forEach>
