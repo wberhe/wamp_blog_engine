@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,8 +13,8 @@
         <title>Post</title>
     </head>
     <body>
-        <form action="editPost/{id}" method="post" >
-
+        <form action="../viewPost/${post.id}" method="post" >
+            <a href="../postList">view Blog</a>
             <table>
 
                 <tr>
@@ -49,26 +50,34 @@
 
 
                 </tr>
-
+               
                 <tr>
                     <td>Comments</td>
-                    <td>
+                 
 
-                <c:forEach var="comment" items="${post.postComments}">
-                    <option value="${comment.commentAuthor.firstname}">${comment.commentAuthor.firstname}</option>
-                    <option value="${comment.comment}">${comment.comment}</option>
+                <c:forEach var="comment" items="${comments}">
+                <tr>
+                    <td>${comment.commentAuthor.firstname}</td>
+                    <td>${comment.comment}</td>
+                   
+                </tr>
+               
+            </c:forEach>
+                     
+              
+            
+                        
+                </tr>    
 
-                </c:forEach>
-
-                </td>
+               
 
                 <tr>
-                    
-                    <td><input type="text" name="comment" /> </td>
+
+                    <td><input type="text" name="tempComment" /> </td>
                     <td><input type="submit" value="post"/> </td>
-                     
+
                 </tr>
-                </tr>
+               
 
             </table>
 

@@ -22,6 +22,7 @@ import java.util.List;
 public interface IPostService {
     public void createPost(Post post);
     public void modifyPost(Post post);
+    public void deletePost(Post post);
     public Post getPost(int postId);
     public List<Post> getAllPosts();
     public List<Post> getAllDrafts(Blog blog);

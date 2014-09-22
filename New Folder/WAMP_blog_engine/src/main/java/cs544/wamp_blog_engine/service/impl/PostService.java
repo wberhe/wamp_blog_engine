@@ -235,5 +235,11 @@ public class PostService implements IPostService {
     public List<Tag> getAllTags() {
         return tagDAO.getAllTags();
     }
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void deletePost(Post post) {
+        
+        postDAO.removePost(post);
+    }
 
 }

@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.NotBlank;
@@ -67,6 +68,9 @@ public class Post {
 
     @ManyToOne
     private Blog parentBlog;
+    
+    @Transient
+    private String tempComment;
 
     public Post() {
     }
@@ -98,6 +102,18 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public String getTempComment() {
+        return tempComment;
+    }
+
+    public void setTempComment(String tempComment) {
+        this.tempComment = tempComment;
+    }
+
+   
+    
+    
 
 //    public String getBlogName() {
 //        return blogName;
@@ -150,6 +166,7 @@ public class Post {
     }
 
     public void addComment(Comment comment) {
+        comment.setParentPost(this);
         this.postComments.add(comment);
     }
 

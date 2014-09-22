@@ -123,6 +123,10 @@
      
     </bean>
     
+    <!--Comment Service injection beans-->
+    <bean id = "commentService" class="cs544.wamp_blog_engine.service.impl.CommentService">
+        <property name="commentDAO" ref="commentDAO"/>
+    </bean>
     
     
     <!-- notication Service injection beans -->

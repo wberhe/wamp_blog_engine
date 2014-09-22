@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.NotBlank;
@@ -46,6 +47,9 @@ public class Comment {
     @ManyToOne
     private User commentAuthor;
     
+    @Transient
+    private String authorName;
+    
     @ManyToOne
     private Post parentPost;
 
@@ -56,6 +60,16 @@ public class Comment {
     public void setParentComment(Comment parentComment) {
         this.parentComment = parentComment;
     }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+    
+    
 
     public Comment() {
     }
