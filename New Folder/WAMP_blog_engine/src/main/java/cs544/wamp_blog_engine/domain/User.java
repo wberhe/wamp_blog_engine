@@ -5,16 +5,16 @@
  */
 package cs544.wamp_blog_engine.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -25,6 +25,7 @@ import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -50,9 +51,10 @@ public class User {
     @Email
     private String email;
 
-    private boolean blocked;
+    //private boolean blocked;
 
     @Past
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date dob;
 
@@ -124,6 +126,10 @@ public class User {
     public void setDob(Date dob) {
         this.dob = dob;
     }
+    private static SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+    public void setDob(String dob) throws ParseException {
+        this.dob = format.parse(dob);
+    }
 
     public byte[] getProfilepic() {
         return profilepic;
@@ -161,13 +167,13 @@ public class User {
         this.userBlogs.remove(blog);
     }
 
-    public boolean isBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(boolean blocked) {
-        this.blocked = blocked;
-    }
+//    public boolean isBlocked() {
+//        return blocked;
+//    }
+//
+//    public void setBlocked(boolean blocked) {
+//        this.blocked = blocked;
+//    }
 
     public List<Rating> getRatings() {
         return ratings;
@@ -219,7 +225,6 @@ public class User {
         hash = 89 * hash + (this.firstname != null ? this.firstname.hashCode() : 0);
         hash = 89 * hash + (this.lastname != null ? this.lastname.hashCode() : 0);
         hash = 89 * hash + (this.email != null ? this.email.hashCode() : 0);
-        hash = 89 * hash + (this.blocked ? 1 : 0);
         hash = 89 * hash + (this.dob != null ? this.dob.hashCode() : 0);
         hash = 89 * hash + Arrays.hashCode(this.profilepic);
         return hash;
@@ -241,9 +246,6 @@ public class User {
             return false;
         }
         if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
-            return false;
-        }
-        if (this.blocked != other.blocked) {
             return false;
         }
         if (this.dob != other.dob && (this.dob == null || !this.dob.equals(other.dob))) {

@@ -6,6 +6,7 @@
 package cs544.wamp_blog_engine.domain;
 
 import cs544.wamp_blog_engine.validators.annotations.FieldMatch;
+import cs544.wamp_blog_engine.validators.annotations.UniqueUserName;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,6 +27,8 @@ public class Credential {
     @GeneratedValue
     private int id;
     
+    private boolean blocked;
+    
     //
     //create validation
     @NotBlank
@@ -33,6 +36,7 @@ public class Credential {
     
     @NotBlank
     @SafeHtml
+//    @UniqueUserName(message = "Username must be unique")
     private String username;
 
 //    (			# Start of group
@@ -96,15 +100,23 @@ public class Credential {
     public void setConfirmpassword(String confirmpassword) {
         this.confirmpassword = confirmpassword;
     }
-    
 
-    
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + (this.previledge != null ? this.previledge.hashCode() : 0);
-        hash = 37 * hash + (this.username != null ? this.username.hashCode() : 0);
-        hash = 37 * hash + (this.password != null ? this.password.hashCode() : 0);
+        int hash = 3;
+        hash = 73 * hash + (this.blocked ? 1 : 0);
+        hash = 73 * hash + (this.previledge != null ? this.previledge.hashCode() : 0);
+        hash = 73 * hash + (this.username != null ? this.username.hashCode() : 0);
+        hash = 73 * hash + (this.password != null ? this.password.hashCode() : 0);
+        hash = 73 * hash + (this.confirmpassword != null ? this.confirmpassword.hashCode() : 0);
         return hash;
     }
 
@@ -117,6 +129,9 @@ public class Credential {
             return false;
         }
         final Credential other = (Credential) obj;
+        if (this.blocked != other.blocked) {
+            return false;
+        }
         if ((this.previledge == null) ? (other.previledge != null) : !this.previledge.equals(other.previledge)) {
             return false;
         }
@@ -126,7 +141,15 @@ public class Credential {
         if ((this.password == null) ? (other.password != null) : !this.password.equals(other.password)) {
             return false;
         }
+        if ((this.confirmpassword == null) ? (other.confirmpassword != null) : !this.confirmpassword.equals(other.confirmpassword)) {
+            return false;
+        }
         return true;
     }
+   
+    
+
+    
+    
 
 }

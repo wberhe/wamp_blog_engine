@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cs544.wamp_blog_engine.controller;
-
 
 import cs544.wamp_blog_engine.domain.Credential;
 import cs544.wamp_blog_engine.domain.User;
@@ -16,6 +14,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,66 +27,114 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class UserController {
-    
-    
+
     @Resource
     private IUserService userService;
-    
+
+    /**
+     * Displaying the Users
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String getAll(Model model) {        
+    public String getAll(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "userList";
     }
-    
+
+    /**
+     * Adding the user(Session is used)
+     * @param user
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
-    public String addUser(@ModelAttribute("user") User user) {
+    public String addUser(@ModelAttribute("user") User user, HttpSession session) {
+        user.setUserCredential((Credential) session.getAttribute("credential"));
+        //System.out.println(user.getUserCredential());
         return "signup";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String add(@Valid User user, BindingResult result, RedirectAttributes re,HttpSession session) {
+    public String add(@Valid User user, BindingResult result, RedirectAttributes re, HttpSession session) {
         String view = "redirect:/users";
+        //System.out.println("Testtttttttttttttttt");
         if (!result.hasErrors()) {
-            user.setUserCredential((Credential) session.getAttribute("credential"));
-            session.removeAttribute("credential");
             userService.addUser(user);
+            session.removeAttribute("credential");
         } else {
             view = "addUser";
         }
         return view;
     }
-     @RequestMapping(value = "/addCredential", method = RequestMethod.GET)
+
+    /**
+     * Adding the Credential Note: the default credential role is BLOGGER
+     * @param credential
+     * @return
+     */
+    @RequestMapping(value = "/addCredential", method = RequestMethod.GET)
     public String addCredential(@ModelAttribute("credential") Credential credential) {
+        credential.setPreviledge("Please don't change");
         return "addCredential";
     }
 
     @RequestMapping(value = "/addCredential", method = RequestMethod.POST)
     public String addCredential(@Valid Credential credential, BindingResult result, HttpSession session) {
         String view = "redirect:/addUser";
-        if (!result.hasErrors()) {
+        //dumb fix
+        boolean used = userService.checkUserName(credential.getUsername());
+        if (used) {
+            FieldError f = new FieldError("credential", "username",credential.getUsername(),false,null,null, "Username : "+credential.getUsername()+" already in use");
+            result.addError(f);
+        }
+        if (!result.hasErrors()) { 
+            credential.setPreviledge("BLOGGER");
             session.setAttribute("credential", credential);
         } else {
             view = "addCredential";
         }
         return view;
     }
-    
-    
+
+    /**
+     * Updating the user
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public String get(@PathVariable int id, Model model) {
+    public String getUser(@PathVariable int id, Model model) {
         model.addAttribute("user", userService.getUser(id));
         return "userDetail";
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
-    public String update(@Valid User user, BindingResult result, @PathVariable int id) {
+    public String updateUser(@Valid User user, BindingResult result, @PathVariable int id, HttpSession session) {
+        //System.out.println("Update");
         if (!result.hasErrors()) {
-            //carService.update(id, car); 
+            //System.out.println("done");
+            session.setAttribute("user", user);
+            userService.updateUserInfo(id, user);
             return "redirect:/users";
         } else {
+            for (FieldError err : result.getFieldErrors()) {
+                System.out.println(err.getField() + ": " + err.getDefaultMessage());
+            }
+            System.out.println("err");
             return "userDetail";
         }
     }
-
     
+    /**
+     * Deleting the user
+     * @param userId
+     * @return 
+     */
+    @RequestMapping(value = "/users/delete", method = RequestMethod.POST)
+    public String delete(int userId) {
+        userService.deleteUser(userId);
+        return "redirect:/users";
+    }
+
 }

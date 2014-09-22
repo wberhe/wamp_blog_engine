@@ -7,7 +7,6 @@ package cs544.wamp_blog_engine.dao.impl;
 
 import cs544.wamp_blog_engine.dao.UserDAO;
 import cs544.wamp_blog_engine.domain.User;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -40,8 +39,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Transactional(propagation = Propagation.MANDATORY)
     @Override
-    public void removeUser(User user) {
-        sf.getCurrentSession().delete(user);
+    public void removeUser(int id) {
+        User u=(User) sf.getCurrentSession().get(User.class, id);
+        sf.getCurrentSession().delete(u);
 
     }
 
@@ -59,5 +59,6 @@ public class UserDAOImpl implements UserDAO {
         List<User> users = query.list();
         return users;
     }
+
 
 }

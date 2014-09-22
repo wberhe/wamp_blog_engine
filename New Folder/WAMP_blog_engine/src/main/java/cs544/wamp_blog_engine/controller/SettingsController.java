@@ -9,6 +9,8 @@ import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Tag;
 import cs544.wamp_blog_engine.service.ICategoryTagService;
 import cs544.wamp_blog_engine.service.ISettingsService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -89,7 +92,13 @@ public class SettingsController {
     }
 
     @RequestMapping(value = "/addTag", method = RequestMethod.GET)
-    public String addTag(@ModelAttribute("tag") Tag Tag) {
+    public String addTag(@ModelAttribute("tag") Tag Tag,Model model) {
+        List<String> t=new ArrayList<String>();
+        t.add("test");
+        t.add("test2");
+        t.add("test3");
+        t.add("test4");
+        model.addAttribute("tags",t);
         return "addTag";
     }
 
