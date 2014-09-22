@@ -24,23 +24,28 @@
 
  
    
-  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-            <property name="validationMessageSource" ref="messageSource"/>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
     </bean>
     <bean id = "blogService" class = "cs544.wamp_blog_engine.service.impl.BlogService">
         <property name="blogDAO" ref="blogDAO" />
     </bean>    	
 
     <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory"
+    <bean id="sessionFactory" 
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties" ref="hibernateProperties" />
         <!-- OR mapping files. -->
-        <property name="packagesToScan" value="cs544.wamp_blog_engine.domain">
-			
-        </property>
+        <property name="packagesToScan" value="cs544.wamp_blog_engine.domain"/>        
     </bean>
+
+    <bean id="beanValidationEventListener" class="org.hibernate.cfg.beanvalidation.BeanValidationEventListener">  
+        <constructor-arg index="0" ref="validator" />  
+        <constructor-arg index="1">  
+            <props/>  
+        </constructor-arg>  
+    </bean>  
 
     <!-- the datasource -->
     <bean id="dataSource"

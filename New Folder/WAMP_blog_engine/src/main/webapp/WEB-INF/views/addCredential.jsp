@@ -11,12 +11,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Credentials</title>
+        <link href="resources/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <h1>Add Credentails</h1>
-         <form:form commandName="credential" action="addCredential" method="post">
+        <h1>Add Credentails :</h1>
+        <form:form commandName="credential" action="addCredential" method="post">
             <table>
-               
+
                 <tr>
                     <td>User Name :</td>
                     <td><form:input type="text" path="username" /> </td>
@@ -33,7 +34,8 @@
                     <td><form:errors path="confirmpassword" cssClass="error"/> </td>
                 </tr>
             </table>
-                    <form:button  >Sign up</form:button>
+                    <form:hidden path="previledge"  /> 
+            <form:button  >Submit</form:button>
 
         </form:form>
     </body>

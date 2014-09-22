@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cs544.wamp_blog_engine.service.impl;
 
 import cs544.wamp_blog_engine.dao.CredentialDAO;
@@ -13,17 +12,18 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IUserService;
 import java.util.List;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Weldino
  */
-public class UserService implements IUserService{
+public class UserService implements IUserService {
+
     private UserDAO userDAO;
     private CredentialDAO credentialDAO;
     private INotificationService notificationSevice;
-    
-    
 
     public UserService() {
     }
@@ -34,69 +34,81 @@ public class UserService implements IUserService{
         this.notificationSevice = notificationSevice;
     }
 
-    
-
-   
-
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addUser(User user) {
-        
-        try{
+
+        try {
             this.userDAO.addUser(user);
+        } catch (Exception e) {
+                e.printStackTrace();
         }
-        catch(Exception e){
-        }
-         
+
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void updateUserInfo(int Id,User user) {
-        
-         User person=(User)userDAO.getUser(Id);
-         person.setFirstname(user.getFirstname());
-         person.setLastname(user.getLastname());
-         person.setDob(user.getDob());
-         person.setEmail(user.getEmail());
-         person.setProfilepic(user.getProfilepic());
-       
+    public void updateUserInfo(int Id, User user) {
+
+        User blogger = (User) userDAO.getUser(Id);
+        blogger.setFirstname(user.getFirstname());
+        blogger.setLastname(user.getLastname());
+        blogger.setDob(user.getDob());
+        blogger.setEmail(user.getEmail());
+        blogger.setProfilepic(user.getProfilepic());
+
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void modifyCredential(Credential credential) {
-          this.credentialDAO.updateCredential(credential);
-        
-         
+        this.credentialDAO.updateCredential(credential);
+
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public User getUser(int userId) {
-        try{
-            User user= this.userDAO.getUser(userId);
+        try {
+            User user = this.userDAO.getUser(userId);
             return user;
-        }catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public List<User> getAllUsers() {
-         List<User> users=userDAO.getAllUsers();
+        List<User> users = userDAO.getAllUsers();
         return users;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void notifyBlogger(List<User> user, String message) {
         notificationSevice.notifyBlogger(user, message);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void contactAdmin(User user, String message) {
         notificationSevice.contactAdmin(user, message);
     }
 
-    
-    
+    public boolean checkUserName(String userName) {
+        if(credentialDAO.getCredentialByUserName(userName)!=null){
+            return true;
+        }
+        return false;
+    }
 
-    
-    
+    @Override
+    public void deleteUser(int id) {
+        try{
+            userDAO.removeUser(id);
+        }catch(Exception e){
+            
+        }
+    }
 }
