@@ -14,6 +14,7 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IBlogService;
 import cs544.wamp_blog_engine.service.ICategoryTagService;
 import cs544.wamp_blog_engine.service.ICommentService;
+import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IPostService;
 import cs544.wamp_blog_engine.service.IUserService;
 import java.util.Date;
@@ -47,12 +48,23 @@ public class PostController {
 
     @Resource
     private ICategoryTagService categoryTagService;
-    
+
     @Resource
     private IUserService userService;
-    
+
     @Resource
     private ICommentService commentService;
+
+    @Resource
+    private INotificationService notificationService;
+
+    public INotificationService getNotificationService() {
+        return notificationService;
+    }
+
+    public void setNotificationService(INotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     public ICommentService getCommentService() {
         return commentService;
@@ -61,7 +73,6 @@ public class PostController {
     public void setCommentService(ICommentService commentService) {
         this.commentService = commentService;
     }
-    
 
     public IUserService getUserService() {
         return userService;
@@ -70,7 +81,6 @@ public class PostController {
     public void setUserService(IUserService userService) {
         this.userService = userService;
     }
-    
 
     public ICategoryTagService getCategoryTagService() {
         return categoryTagService;
@@ -99,14 +109,14 @@ public class PostController {
     //create fake data for test
     //some how get this from context ?
     private Blog blog;
-   
-    public void createBlog(){
+
+    public void createBlog() {
         blog = new Blog();
         blog.setName("Funday Sunday Blog");
         blogService.createBlog(blog);
-        
+
     }
-    
+
 //    public User createUser(){
 //        User user = new User();
 //        user.setFirstname("Sherlock");
@@ -117,7 +127,6 @@ public class PostController {
 //        return user;
 //    }
     ///
-
     //create a new post
 //    
     @RequestMapping(value = "/postList/{id}", method = RequestMethod.GET)
@@ -127,15 +136,15 @@ public class PostController {
         blog = blogService.getBlog(id);
         model.addAttribute("parentBlog", blogService.getBlog(blog.getId()));
         model.addAttribute("posts", postService.getAllPublishedPosts(blog));
-        model.addAttribute("drafts" , postService.getAllDrafts(blog));
+        model.addAttribute("drafts", postService.getAllDrafts(blog));
         model.addAttribute("Blog", blog);
-        
+
         return "blog";
     }
 //   o
 
     @RequestMapping(value = "/newpost/{id}", method = RequestMethod.POST)
-    public String createPost(@ModelAttribute Post post,BindingResult result, Model model, @PathVariable int id) {
+    public String createPost(@ModelAttribute Post post, BindingResult result, Model model, @PathVariable int id) {
 //        createBlog();
         System.out.println("...........in newpost post method");
         System.out.println("select cats: " + post.getCategories());
@@ -152,8 +161,7 @@ public class PostController {
         System.out.println("select cats: " + post.getCategories());
         return "redirect:/postList/{id}";
     }
-    
-    
+
     @RequestMapping(value = "/newpost/{id}", method = RequestMethod.GET)
     public String showCreatePost(Model model, @PathVariable int id) {
         blog = blogService.getBlog(id);
@@ -172,14 +180,14 @@ public class PostController {
         model.addAttribute("alltags", postService.getAllTags());
         Post post = postService.getPost(id);
         Blog mBlog = post.getParentBlog();
-        model.addAttribute("blog" , mBlog);
+        model.addAttribute("blog", mBlog);
         return "editPost";
     }
 
     @RequestMapping(value = "editPost/{id}", method = RequestMethod.POST)
     public String editPostPost(Post post, Model model, @PathVariable int id) {
         System.out.println(".........in editPostPost");
-        
+
         Post modifiedPost = postService.getPost(id);
         modifiedPost.setTitle(post.getTitle());
         modifiedPost.setBody(post.getBody());
@@ -192,11 +200,11 @@ public class PostController {
         model.addAttribute("blog", mBlog);
         return "post";
     }
-    
+
     @RequestMapping(value = "deletePost/{id}", method = RequestMethod.GET)
-    public String deletePost(Model model, @PathVariable int id, RedirectAttributes redattr ){
+    public String deletePost(Model model, @PathVariable int id, RedirectAttributes redattr) {
         Post post = postService.getPost(id);
-        int blogId=post.getParentBlog().getId();
+        int blogId = post.getParentBlog().getId();
         System.out.println("post title: " + post.getTitle());
         Blog blogn = blogService.getBlog(1);
         System.out.println("blog title: " + blog.getName());
@@ -209,43 +217,47 @@ public class PostController {
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.GET)
     public String viewPost(Model model, Post post, @PathVariable int id) {
-        
+
         Post post2 = postService.getPost(id);
         Blog mBlog = post2.getParentBlog();
         Rating rating = postService.getRating(post2);
         model.addAttribute("post", post2);
         System.out.println("comnts size: " + post2.getPostComments());
-        
+
         model.addAttribute("comments", commentService.getPostComments(post));
         model.addAttribute("postRating", rating);
         model.addAttribute("blog", mBlog);
         return "post";
     }
-    
+
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.POST)
-    public String viewPostPost(Model model, @PathVariable int id, Post post, RedirectAttributes redattr ) {
+    public String viewPostPost(Model model, @PathVariable int id, Post post, RedirectAttributes redattr) {
 //        User user = createUser();
         Post post2 = postService.getPost(id);
         model.addAttribute("post", post2);
         Blog mBlog = post2.getParentBlog();
         System.out.println("comment: " + post.getTempComment());
-        System.out.println("rating: "+ post.getTempRating());
-        if(post.getTempRating()!=0){
+        System.out.println("rating: " + post.getTempRating());
+        if (post.getTempRating() != 0) {
             Rating r = new Rating(post.getTempRating());
             postService.addRating(r, post2);
-           
+
             postService.modifyPost(post2);
         }
-        if(post.getTempComment() != null && !post.getTempComment().isEmpty()){
+        if (post.getTempComment() != null && !post.getTempComment().isEmpty()) {
             Comment comment = new Comment(post.getTempComment(), new Date());
-            post2.addComment(comment);
-            postService.modifyPost(post2);
+            if (mBlog.isComm_approval()) {
+                //notificationService.notifyBloggerNewComment(user, comment);
+            } else {
+                post2.addComment(comment);
+                postService.modifyPost(post2);
+            }
+
         }
         int blogId = mBlog.getId();
         redattr.addAttribute("id", post2.getId());
         return "redirect:../viewPost/{id}";
     }
-
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
