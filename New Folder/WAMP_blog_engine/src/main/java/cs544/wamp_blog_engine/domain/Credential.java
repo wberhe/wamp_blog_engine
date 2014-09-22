@@ -36,7 +36,7 @@ public class Credential {
     
     @NotBlank
     @SafeHtml
-//    @UniqueUserName(message = "Username must be unique")
+    @UniqueUserName(message = "Username must be unique")
     private String username;
 
 //    (			# Start of group
