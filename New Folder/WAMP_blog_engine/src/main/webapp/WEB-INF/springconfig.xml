@@ -46,7 +46,7 @@
     <bean id="beanValidationEventListener" class="org.hibernate.cfg.beanvalidation.BeanValidationEventListener">  
         <constructor-arg index="0" ref="validator" />  
         <constructor-arg index="1">  
-            <props/>  
+        <props/>  
         </constructor-arg>  
     </bean>  
 
