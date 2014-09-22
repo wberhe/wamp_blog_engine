@@ -46,7 +46,7 @@
     <bean id="beanValidationEventListener" class="org.hibernate.cfg.beanvalidation.BeanValidationEventListener">  
         <constructor-arg index="0" ref="validator" />  
         <constructor-arg index="1">  
-            <props/>  
+        <props/>  
         </constructor-arg>  
     </bean>  
 
@@ -69,6 +69,13 @@
                 </prop>
                 <prop key="connection.pool_size">1</prop>
                 <prop key="hibernate.show_sql">true</prop>
+                <!--http://davidmarquis.wordpress.com/2010/11/25/using-hibernate-event-based-validation-with-c/-->
+<!--                to allow us to use hibernate custom validator with injection. 
+                on form submit, the vlidator is created using Spring's validator factory==> injection work
+                on transaction commit, hibernate will create validators using its own validator factory==> injections does not work
+                ==> we will get null pointer execption
+                solution: disable hibernate's on commit validation, only use the on form commit.-->
+                <prop key="javax.persistence.validation.mode">none</prop>
             </props>
         </property>
     </bean>

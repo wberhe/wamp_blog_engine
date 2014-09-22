@@ -20,10 +20,20 @@
                     <td>${user.firstname}</td>
                     <td>${user.lastname}</td>
                     <td>${user.email}</td>
-                    <td><a href="users/${user.id}">Update user information</a></td>
+                    <td><a href="users/${user.id}">Update </a></td>
+                    
+                    <c:choose>
+                        <c:when test="${user.userCredential.blocked==false}">
+                            <td><a href="users/${user.id}/disable">Disable </a></td>
+                        </c:when>
+                        <c:otherwise>
+                           <td><a href="users/${user.id}/enable">Enable </a></td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
             </c:forEach>
         </table>
-        <a href="addCredential"> Add new User</a>
+        <a href="addCredential"> Add User</a>
+
     </body>
 </html>

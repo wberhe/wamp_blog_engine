@@ -33,6 +33,7 @@ public class UserController {
 
     /**
      * Displaying the Users
+     *
      * @param model
      * @return
      */
@@ -44,6 +45,7 @@ public class UserController {
 
     /**
      * Adding the user(Session is used)
+     *
      * @param user
      * @param session
      * @return
@@ -70,6 +72,7 @@ public class UserController {
 
     /**
      * Adding the Credential Note: the default credential role is BLOGGER
+     *
      * @param credential
      * @return
      */
@@ -85,11 +88,12 @@ public class UserController {
         //dumb fix
         boolean used = userService.checkUserName(credential.getUsername());
         if (used) {
-            FieldError f = new FieldError("credential", "username",credential.getUsername(),false,null,null, "Username : "+credential.getUsername()+" already in use");
+            FieldError f = new FieldError("credential", "username", credential.getUsername(), false, null, null, "Username : " + credential.getUsername() + " already in use");
             result.addError(f);
         }
-        if (!result.hasErrors()) { 
-            credential.setPreviledge("BLOGGER");
+        if (!result.hasErrors()) {
+            credential.setPreviledge("ROLE_BLOGGER");
+            credential.setBlocked(false);
             session.setAttribute("credential", credential);
         } else {
             view = "addCredential";
@@ -99,6 +103,7 @@ public class UserController {
 
     /**
      * Updating the user
+     *
      * @param id
      * @param model
      * @return
@@ -125,15 +130,26 @@ public class UserController {
             return "userDetail";
         }
     }
-    
+
     /**
      * Deleting the user
+     *
      * @param userId
-     * @return 
+     * @param operation
+     * @return
      */
-    @RequestMapping(value = "/users/delete", method = RequestMethod.POST)
-    public String delete(int userId) {
-        userService.deleteUser(userId);
+    @RequestMapping(value = "/users/{id}/{operation}", method = RequestMethod.GET)
+    public String EnableDisable(@PathVariable("id") int userId, @PathVariable("operation") String operation) {
+
+        User u = userService.getUser(userId);
+        if ("enable".equalsIgnoreCase(operation)) {
+            System.out.println("enabled");
+            u.getUserCredential().setBlocked(true);
+        } else {
+            System.out.println("disabled");
+            u.getUserCredential().setBlocked(false);
+        }
+        userService.updateUserInfo(userId, u);
         return "redirect:/users";
     }
 

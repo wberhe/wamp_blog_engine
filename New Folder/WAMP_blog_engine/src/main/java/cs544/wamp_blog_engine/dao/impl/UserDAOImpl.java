@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
     @Transactional(propagation = Propagation.MANDATORY)
     @Override
     public void removeUser(int id) {
-        User u=(User) sf.getCurrentSession().get(User.class, id);
+        User u = (User) sf.getCurrentSession().get(User.class, id);
         sf.getCurrentSession().delete(u);
 
     }
@@ -55,10 +55,14 @@ public class UserDAOImpl implements UserDAO {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public List<User> getAllUsers() {
-        Query query = sf.getCurrentSession().createQuery("from User");
-        List<User> users = query.list();
+        List<User> users = null;
+        try {
+            Query query = sf.getCurrentSession().createQuery("from User");
+            users = query.list();
+        } catch (Exception e) {
+        }
+
         return users;
     }
-
 
 }

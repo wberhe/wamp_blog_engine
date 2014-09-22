@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 /**
  *
  * @author aalzamer
@@ -56,6 +59,10 @@ public class SettingsController {
     @RequestMapping(value = "/allCategories", method = RequestMethod.GET)
     public String getCategories(Model model) {
         model.addAttribute("categories", getCategoryTagService().getAllcategories());
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//      String name = auth.getName(); //get logged in username
+//        System.out.println("logged user:"+auth.getName()+" >>roles:"+auth.getAuthorities());
+ 
         return "allCategories";
     }
 
