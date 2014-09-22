@@ -73,6 +73,12 @@ public class Post {
     private String tempComment;
     @Transient
     private double tempRating;
+    @Transient
+    private int numOfCategories;
+    @Transient
+    private int numOfTags;
+    
+    
 
     public Post() {
     }

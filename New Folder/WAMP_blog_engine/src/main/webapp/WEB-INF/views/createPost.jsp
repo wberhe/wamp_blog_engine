@@ -28,12 +28,18 @@
                     <td>Body:</td>
                     <td><form:textarea path="body" rows="5" cols="40"></form:textarea></td>
 
+                    </tr>
+                    <tr>
+                        <td>Save Draft</td>
+                        <td><form:checkbox path="draft"   /></td>
                 </tr>
-                <tr>
-                    <td>Save Draft</td>
-                    <td><form:checkbox path="draft"   /></td>
-                </tr>
+                <c:choose>
+                    <c:when test="${postRating.rate>='1'}">
+                        <td>Rating:</td>
+                        <td>${postRating.rate}</td>
+                    </c:when>
 
+                </c:choose>
                 <tr>
                     <td>Add category</td>
                     <td>
@@ -41,25 +47,25 @@
                             <form:options items="${categories}" itemValue="id" itemLabel="name"/>
                             <%--<c:forEach var="category" items="${categories}">--%>
                                 <!--<option value="${category.name}">${category.name}</option>-->
-                           <%--</c:forEach>--%>
+                            <%--</c:forEach>--%>
                         </form:select>
                     </td>
                 </tr>
-                 <tr>
+                <tr>
                     <td>Add tag</td>
                     <td>
                         <form:select  path= "postTags" size="10" multiple="true" >
                             <form:options items="${tags}" itemValue="name" itemLabel="name"/>
                         </form:select>
                         <!--<select name= "postTags" size="10" multiple="true">-->
-                            <%--<c:forEach var="tag" items="${tags}">--%>
-                                <!--<option value="${tag.name}">${tag.name}</option>-->
-                           <%--</c:forEach>--%>
+                        <%--<c:forEach var="tag" items="${tags}">--%>
+                            <!--<option value="${tag.name}">${tag.name}</option>-->
+                        <%--</c:forEach>--%>
                         <!--</select>-->
                     </td>
                 </tr>
-                
-                
+
+
 
 
             </table>

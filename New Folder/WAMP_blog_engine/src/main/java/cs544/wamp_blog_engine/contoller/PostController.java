@@ -20,6 +20,7 @@ import cs544.wamp_blog_engine.service.IUserService;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
@@ -108,14 +109,14 @@ public class PostController {
 
     //create fake data for test
     //some how get this from context ?
-    private Blog blog;
-
-    public void createBlog() {
-        blog = new Blog();
-        blog.setName("Funday Sunday Blog");
-        blogService.createBlog(blog);
-
-    }
+//    private Blog blog;
+//
+//    public void createBlog() {
+//        blog = new Blog();
+//        blog.setName("Funday Sunday Blog");
+//        blogService.createBlog(blog);
+//
+//    }
 
 //    public User createUser(){
 //        User user = new User();
@@ -133,7 +134,7 @@ public class PostController {
     public String showAllPosts(Model model, @PathVariable int id) {
 //        createUser();
         System.out.println("in get blog method");
-        blog = blogService.getBlog(id);
+        Blog blog = blogService.getBlog(id);
         model.addAttribute("parentBlog", blogService.getBlog(blog.getId()));
         model.addAttribute("posts", postService.getAllPublishedPosts(blog));
         model.addAttribute("drafts", postService.getAllDrafts(blog));
@@ -150,7 +151,7 @@ public class PostController {
         System.out.println("select cats: " + post.getCategories());
         postService.createPost(post);
 
-        blog = blogService.getBlog(id);
+        Blog blog = blogService.getBlog(id);
         post.setParentBlog(blog);
         blog.addBlogPost(post);
 
@@ -164,7 +165,7 @@ public class PostController {
 
     @RequestMapping(value = "/newpost/{id}", method = RequestMethod.GET)
     public String showCreatePost(Model model, @PathVariable int id) {
-        blog = blogService.getBlog(id);
+        Blog blog = blogService.getBlog(id);
         System.out.println("in the get new post method");
         model.addAttribute("categories", postService.getAllCategories());
         model.addAttribute("tags", postService.getAllTags());
@@ -185,9 +186,9 @@ public class PostController {
     }
 
     @RequestMapping(value = "editPost/{id}", method = RequestMethod.POST)
-    public String editPostPost(Post post, Model model, @PathVariable int id) {
+    public String editPostPost(Post post, Model model, @PathVariable int id,HttpSession session) {
         System.out.println(".........in editPostPost");
-
+        User user=(User) session.getAttribute("loggedUser");
         Post modifiedPost = postService.getPost(id);
         modifiedPost.setTitle(post.getTitle());
         modifiedPost.setBody(post.getBody());
@@ -207,7 +208,7 @@ public class PostController {
         int blogId = post.getParentBlog().getId();
         System.out.println("post title: " + post.getTitle());
         Blog blogn = blogService.getBlog(1);
-        System.out.println("blog title: " + blog.getName());
+        System.out.println("blog title: " + blogn.getName());
         blogn.removeBlogPost(post);
         blogService.modifyBlog(blogn);
         postService.deletePost(post);

@@ -32,5 +32,5 @@ public interface IUserService {
     public void contactAdmin(User user,String message);
         
     public boolean checkUserName(String userName);
-
+ public User getUserByUsername(String username);
 }

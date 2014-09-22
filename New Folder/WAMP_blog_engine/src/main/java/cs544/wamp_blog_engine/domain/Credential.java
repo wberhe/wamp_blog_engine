@@ -10,6 +10,7 @@ import cs544.wamp_blog_engine.validators.annotations.UniqueUserName;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import org.hibernate.annotations.ColumnDefault;
@@ -53,6 +54,21 @@ public class Credential {
     private String password;
     @Transient
     private String confirmpassword;
+    
+    @OneToOne
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        if(user.getUserCredential()==null){
+            user.setUserCredential(this);
+        }
+    }
+    
     public Credential() {
     }
 

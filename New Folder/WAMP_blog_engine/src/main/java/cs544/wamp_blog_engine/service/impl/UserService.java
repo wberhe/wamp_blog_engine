@@ -113,4 +113,17 @@ public class UserService implements IUserService {
             
         }
     }
+    
+    @Override
+    public User getUserByUsername(String username){
+        Credential cr = credentialDAO.getCredentialByUserName(username);
+        
+        User user = null;
+        if(cr!=null) {
+            user = cr.getUser();
+           
+        }
+        return user;
+    }
+    
 }

@@ -46,7 +46,7 @@
     <bean id="beanValidationEventListener" class="org.hibernate.cfg.beanvalidation.BeanValidationEventListener">  
         <constructor-arg index="0" ref="validator" />  
         <constructor-arg index="1">  
-        <props/>  
+            <props/>  
         </constructor-arg>  
     </bean>  
 
@@ -70,7 +70,7 @@
                 <prop key="connection.pool_size">1</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <!--http://davidmarquis.wordpress.com/2010/11/25/using-hibernate-event-based-validation-with-c/-->
-<!--                to allow us to use hibernate custom validator with injection. 
+                <!--                to allow us to use hibernate custom validator with injection. 
                 on form submit, the vlidator is created using Spring's validator factory==> injection work
                 on transaction commit, hibernate will create validators using its own validator factory==> injections does not work
                 ==> we will get null pointer execption
@@ -245,7 +245,7 @@ Administrator.
     
     
     <!--Security-->
-<!--    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+    <!--    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
         <property name="rolePrefix" value="FOO-BAR-"/>
     </bean>-->
     <bean  class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
@@ -254,19 +254,18 @@ Administrator.
     <sec:http >
         <sec:intercept-url pattern="/SpringLoginPage.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/LoginFailure.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <!--<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
         <sec:intercept-url pattern="/**" access="ROLE_BLOGGER"/>
-        <!--<sec:intercept-url pattern="/**" access="ADMIN,BLOGGER"/>-->
         
         <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/" authentication-failure-url="/LoginFailure.html"/>
         <sec:logout delete-cookies="true" invalidate-session="true" logout-success-url="/SpringLoginPage.html"/>
     </sec:http>
     <sec:authentication-manager>
-        <!--        <sec:authentication-provider>
+        <sec:authentication-provider>
             <sec:user-service>
-                <sec:user name="test" password="test" authorities="ROLE_USER"/>
-                <sec:user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_USER"/>
+                <sec:user name="test" password="test" authorities="ROLE_BLOGGER"/>
             </sec:user-service>
-        </sec:authentication-provider>-->
+        </sec:authentication-provider>
         <sec:authentication-provider >
             <sec:jdbc-user-service data-source-ref="dataSource" users-by-username-query=" select username,password, blocked=0 enabled from credential where username=?" authorities-by-username-query="select username, previledge as authority from credential where username=?"/>
         </sec:authentication-provider>

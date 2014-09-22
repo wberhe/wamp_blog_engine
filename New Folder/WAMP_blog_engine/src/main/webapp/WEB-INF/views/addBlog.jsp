@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,19 +14,19 @@
         <title>Add Blog</title>
     </head>
     <body>
-	<form action="blog" method="post">
-	<table>
-		<tr>
-			<td>Name:</td>
-			<td><input type="text" name="name" /> </td>
-		</tr>
-		<tr>
-			<td>Text:</td>
-                        <td><textarea name="description" rows="5" cols="40"></textarea></td>
-		</tr>
-        </table>        
-	<input type="submit"/>
-	
-	</form>
-</body>
+        <form:form commandName="blog" action="blog" method="post">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><form:input  path="name" /> </td>
+                </tr>
+                <tr>
+                    <td>Text:</td>
+                    <td><form:textarea path="description" rows="5" cols="40"/></td>
+                </tr>
+            </table>        
+            <input type="submit"/>
+
+        </form:form>
+    </body>
 </html>

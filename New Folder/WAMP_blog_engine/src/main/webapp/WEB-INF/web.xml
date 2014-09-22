@@ -45,4 +45,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
   
+  
+   
+    <filter>
+        <filter-name>MyFilter</filter-name>
+        <filter-class>cs544.wamp_blog_engine.filters.MyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+  
 </web-app>

@@ -62,7 +62,8 @@ public class User {
     private byte[] profilepic;
     
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+ 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Credential userCredential;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -145,6 +146,9 @@ public class User {
 
     public void setUserCredential(Credential userCredential) {
         this.userCredential = userCredential;
+        if(userCredential.getUser()==null){
+            userCredential.setUser(this);
+        }
     }
 
     public List<LoginHistory> getUserLogins() {

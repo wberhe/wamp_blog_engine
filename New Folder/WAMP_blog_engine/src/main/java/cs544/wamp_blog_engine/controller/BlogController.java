@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +35,7 @@ public class BlogController {
     }
     
     @RequestMapping(value="/addBlog", method=RequestMethod.GET)
-    public String addBlogUI(){
+    public String addBlogUI(@ModelAttribute("blog") Blog blog){
         return "addBlog";
     }
     
@@ -55,6 +56,7 @@ public class BlogController {
     }
     @RequestMapping(value="/blog/{id}", method=RequestMethod.GET)
     public String getBlogDetail(@PathVariable int id, Model model) {
+        System.out.print("!!!!!!!!!!!!!!!!!!!!!!");
         model.addAttribute("blog", blogerService.getBlog(id));
 	return "blogDetail";
     }
