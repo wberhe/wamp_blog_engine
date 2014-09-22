@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
@@ -26,7 +27,7 @@ public class Credential {
     @Id
     @GeneratedValue
     private int id;
-    
+//    @ColumnDefault("0")
     private boolean blocked;
     
     //

@@ -50,12 +50,14 @@ public class UserService implements IUserService {
     @Override
     public void updateUserInfo(int Id, User user) {
 
+        
         User blogger = (User) userDAO.getUser(Id);
         blogger.setFirstname(user.getFirstname());
         blogger.setLastname(user.getLastname());
         blogger.setDob(user.getDob());
         blogger.setEmail(user.getEmail());
         blogger.setProfilepic(user.getProfilepic());
+        blogger.getUserCredential().setBlocked(user.getUserCredential().isBlocked());
 
     }
 

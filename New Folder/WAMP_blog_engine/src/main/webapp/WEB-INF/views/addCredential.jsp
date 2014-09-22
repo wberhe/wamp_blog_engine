@@ -25,12 +25,12 @@
                 </tr>
                 <tr>
                     <td>Password :</td>
-                    <td><form:input type="text" path="password" /> </td>
+                    <td><form:input type="password" path="password" /> </td>
                     <td><form:errors path="password" cssClass="error"/> </td>
                 </tr>
                 <tr>
                     <td>Confirm Password :</td>
-                    <td><form:input type="text" path="confirmpassword" /> </td>
+                    <td><form:input type="password" path="confirmpassword" /> </td>
                     <td><form:errors path="confirmpassword" cssClass="error"/> </td>
                 </tr>
             </table>
