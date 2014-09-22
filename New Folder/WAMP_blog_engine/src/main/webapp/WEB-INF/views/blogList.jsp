@@ -5,17 +5,9 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Blog List</title>
-    </head>
-    <body>
-        <h1>Your blogs</h1>
-        <table width="50%" border="0" cellspacing="1" cellpadding="0">
-            <tr>
+        <h2>All Blog</h2>
+        <table width="100%" border="0" cellspacing="1" cellpadding="0">
+            <tr bgcolor="#ABB2BA">
                 <td width="20%">Blog Name</td>
                 <td width="50%">Blog Text</td>
               
@@ -25,7 +17,7 @@
             </tr>
             <c:if test="${blogList!=null}" >
             <c:forEach var="blog" items="${blogList}">
-                <tr>
+                <tr bgcolor="#D1D5DA">
                     <td> <a href="postList/${blog.id}">${blog.name}</a></td>
                     <c:choose>
                         <c:when test="${fn:length(blog.description) > 15}" >
@@ -48,6 +40,4 @@
                 </tr>
             </c:forEach>
             </c:if>    
-        </table>    
-    </body>
-</html>
+        </table>
