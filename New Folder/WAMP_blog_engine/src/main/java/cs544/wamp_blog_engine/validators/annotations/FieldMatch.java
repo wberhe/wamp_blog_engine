@@ -32,11 +32,11 @@ import java.lang.annotation.Target;
 @Target({TYPE, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = FieldMatchValidator.class)
-//@Documented()
+@Documented
 public @interface FieldMatch
 {
     
-    String message() default "constraints.fieldmatch";
+    String message() ;
 
     Class<?>[] groups() default {};
 

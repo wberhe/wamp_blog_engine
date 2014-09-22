@@ -7,10 +7,14 @@ package cs544.wamp_blog_engine.dao.impl;
 
 import cs544.wamp_blog_engine.dao.CredentialDAO;
 import cs544.wamp_blog_engine.domain.Credential;
+import cs544.wamp_blog_engine.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,4 +63,15 @@ public class CredentialDAOImpl implements CredentialDAO {
         return credentials;
     }
 
+    @Override//getting credential by userName
+    public Credential getCredentialByUserName(String userName) {
+        Criteria criterea=sf.getCurrentSession().createCriteria(Credential.class); 
+        criterea.add(Restrictions.eq("username", userName));
+//         Query query= sf.getCurrentSession().createQuery("select distinct c from Credential c where c.username=:u");
+//         query.setString("u", userName);
+//         List<Credential> credential= query.list();
+         List<Credential> credential= criterea.list();
+         System.out.println(userName+":Size:"+credential.size());
+         return ((credential.size()>0)?credential.get(0):null);
+    }
 }

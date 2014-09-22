@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Blog engine</title>
+        <link href="resources/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <h3>Here are the current users :</h3>

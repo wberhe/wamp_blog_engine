@@ -14,9 +14,17 @@ import java.util.List;
  * @author Weldino
  */
 public interface UserDAO {
+    
     public void addUser(User user);
+    
     public void updateUser(User user);
-    public void removeUser(User user);
+    
+    public void removeUser(int id);
+    
     public User getUser(int userid);
+    
     public List<User> getAllUsers();
+    
+    
+
 }

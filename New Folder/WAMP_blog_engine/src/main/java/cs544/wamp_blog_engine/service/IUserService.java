@@ -24,9 +24,13 @@ public interface IUserService {
     public User getUser(int userId);
 
     public List<User> getAllUsers();
+    
+    public void deleteUser(int id);
 
     public void notifyBlogger(List<User> user,String message);
 
     public void contactAdmin(User user,String message);
+        
+    public boolean checkUserName(String userName);
 
 }

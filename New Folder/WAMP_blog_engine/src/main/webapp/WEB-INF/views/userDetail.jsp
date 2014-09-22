@@ -1,6 +1,6 @@
 <%-- 
-    Document   : signup
-    Created on : Sep 20, 2014, 4:15:31 PM
+    Document   : userDetail
+    Created on : Sep 21, 2014, 4:11:12 PM
     Author     : Weldino
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,11 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>sign up</title>
-        <link href="resources/style.css" rel="stylesheet" type="text/css" />
+        <title>User Details</title>
+        <link href="../resources/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <form:form commandName="user" action="addUser" method="post">
+        <form:form commandName="user" action="../users/${user.id}" method="post">
             <table>
                 <tr>
                     <td>First Name :</td>
@@ -45,8 +45,13 @@
                 <form:hidden path="userCredential.password" /> 
                 <form:hidden path="userCredential.confirmpassword" /> 
                 <form:hidden path="userCredential.previledge" /> 
-           <form:button >Sign up</form:button>
-
+            <input type="submit" value="Update"/>
         </form:form>
+
+        <form action="delete?userId=${user.id}" method="post">
+            <button type="submit">Delete</button>
+        </form>
     </body>
 </html>
+
+
