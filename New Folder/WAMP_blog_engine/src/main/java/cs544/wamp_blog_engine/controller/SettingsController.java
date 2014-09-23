@@ -5,10 +5,15 @@
  */
 package cs544.wamp_blog_engine.controller;
 
+import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Tag;
+import cs544.wamp_blog_engine.domain.User;
+import cs544.wamp_blog_engine.service.IBlogService;
 import cs544.wamp_blog_engine.service.ICategoryTagService;
+import cs544.wamp_blog_engine.service.IPostService;
 import cs544.wamp_blog_engine.service.ISettingsService;
+import cs544.wamp_blog_engine.service.IUserService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -128,5 +134,36 @@ public class SettingsController {
         categoryTagService.deleteTag(tag);
         return nextView;
     }
+    
+    
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IBlogService blogService;
+    @RequestMapping(value = "/follow/{userId}/{blogId}", method = RequestMethod.GET)
+    public String followBlog(@PathVariable int userId,@PathVariable int blogId,RedirectAttributes attr) {
+        User u=userService.getUser(userId);
+        Blog b=blogService.getBlog(blogId);
+        b.addFollower(u);
+        userService.updateUserInfo(blogId, u);
+        System.out.println("Test");
+        String nextView = "redirect:/postList/"+b.getId();
+//        attr.addFlashAttribute("postId", b.getId());
+        return nextView;
+    }
+     @RequestMapping(value = "/unfollow/{userId}/{blogId}", method = RequestMethod.GET)
+    public String unfollowBlog(@PathVariable int userId,@PathVariable int blogId,RedirectAttributes attr) {
+        User u=userService.getUser(userId);
+        Blog b=blogService.getBlog(blogId);
+         System.out.println("sizzzzzzzzzzzzzzzzzzzzzzzze:"+u.getFollows());
+        b.removeFollwoer(u);
+         System.out.println("sizzzzzzzzzzzzzzzzzzzzzzzze:"+u.getFollows());
+        userService.updateUserInfo(blogId, u);
+        System.out.println("Test");
+        String nextView = "redirect:/postList/"+b.getId();
+//        attr.addFlashAttribute("postId", b.getId());
+        return nextView;
+    }
+    
 
 }

@@ -172,6 +172,9 @@ public class User {
 
     public void removeBlog(Blog blog) {
         this.userBlogs.remove(blog);
+        if(blog.getFollowers().contains(this)){
+            blog.removeFollwoer(this);
+        }
     }
 
 //    public boolean isBlocked() {
@@ -204,6 +207,9 @@ public class User {
 
     public void addFollows(Blog blog) {
         getFollows().add(blog);
+        if(!blog.getFollowers().contains(this)){
+            blog.addFollower(this);
+        }
     }
 
     public void removeFollows(Blog blog) {

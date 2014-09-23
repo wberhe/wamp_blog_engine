@@ -137,9 +137,15 @@ public class Blog {
     }
     public void addFollower(User user){
         getFollowers().add(user);
+        if(!user.getFollows().contains(this)){
+            user.addFollows(this);
+        }
     }
     public void removeFollwoer(User user){
         getFollowers().remove(user);
+        if(user.getFollows().contains(this)){
+            user.removeBlog(this);
+        }
     }
 
     public void setId(int id) {
