@@ -39,6 +39,8 @@ public interface IPostService {
     public void approveComment(Comment comment, Post post);
     public List<Comment> getAllComments(Post post);
     public void deleteComment(Post post);
+    public List<Post> getLatestPosts();
+//    public List<Category> categoriesInPost(Post post);
     
     
 }

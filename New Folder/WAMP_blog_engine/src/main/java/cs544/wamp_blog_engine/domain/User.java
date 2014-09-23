@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Email;
@@ -52,7 +53,6 @@ public class User {
     private String email;
 
     //private boolean blocked;
-
     @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
@@ -60,9 +60,9 @@ public class User {
 
     //profile picture
     private byte[] profilepic;
-    
+
     @NotNull
- 
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Credential userCredential;
 
@@ -77,6 +77,9 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Blog> follows;
+
+    @Transient
+    private boolean ratedPost;
 
     public User() {
     }
@@ -94,6 +97,14 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isRatedPost() {
+        return ratedPost;
+    }
+
+    public void setRatedPost(boolean ratedPost) {
+        this.ratedPost = ratedPost;
     }
 
     public String getFirstname() {
@@ -127,7 +138,8 @@ public class User {
     public void setDob(Date dob) {
         this.dob = dob;
     }
-    private static SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
     public void setDob(String dob) throws ParseException {
         this.dob = format.parse(dob);
     }
@@ -146,7 +158,7 @@ public class User {
 
     public void setUserCredential(Credential userCredential) {
         this.userCredential = userCredential;
-        if(userCredential.getUser()==null){
+        if (userCredential.getUser() == null) {
             userCredential.setUser(this);
         }
     }
@@ -178,7 +190,6 @@ public class User {
 //    public void setBlocked(boolean blocked) {
 //        this.blocked = blocked;
 //    }
-
     public List<Rating> getRatings() {
         return ratings;
     }

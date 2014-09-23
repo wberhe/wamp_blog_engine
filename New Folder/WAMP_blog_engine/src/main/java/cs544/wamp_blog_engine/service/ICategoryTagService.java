@@ -7,6 +7,7 @@
 package cs544.wamp_blog_engine.service;
 
 import cs544.wamp_blog_engine.domain.Category;
+import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.Tag;
 import java.util.List;
 
@@ -25,4 +26,5 @@ public interface ICategoryTagService {
     public void deleteCategory(Category category);
     public List<Category> getAllcategories();
     public Category getCategory(int categoryId);
+    public List<Category> categoriesInPost(Post post);
 }

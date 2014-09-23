@@ -9,6 +9,7 @@ package cs544.wamp_blog_engine.service.impl;
 import cs544.wamp_blog_engine.dao.CategoryDAO;
 import cs544.wamp_blog_engine.dao.TagDAO;
 import cs544.wamp_blog_engine.domain.Category;
+import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.Tag;
 import cs544.wamp_blog_engine.service.ICategoryTagService;
 import java.util.List;
@@ -95,6 +96,11 @@ private TagDAO tagDAO;
     @Override
     public Category getCategory(int categoryId) {
         return getCategoryDAO().getCategory(categoryId);
+    }
+
+    @Override
+    public List<Category> categoriesInPost(Post post) {
+        return categoryDAO.getCategoriesByPost(post);
     }
     
 }

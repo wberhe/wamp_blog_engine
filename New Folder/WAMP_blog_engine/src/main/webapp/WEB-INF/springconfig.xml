@@ -135,6 +135,7 @@
         <property name="categoryDAO" ref="categoryDAO"/>
         <property name="tagDAO" ref="tagDAO"/>
         <property name="notificationService" ref="notificationService"/>
+        <property name="ratingDAO" ref="ratingDAO"/>
      
     </bean>
     

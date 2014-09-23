@@ -29,7 +29,7 @@ public class Category {
     @SafeHtml
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "categories")
     private List<Post> catogorizedPosts;
 
     public Category() {
