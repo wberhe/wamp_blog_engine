@@ -3,8 +3,13 @@
     Created on : Sep 21, 2014, 11:45:19 PM
     Author     : showaibshikdermohammad
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
   <div id="sidebar">
+      <c:if test="${not empty loggedUser }">
+          Welcome,<br/>
+      ${loggedUser.firstname} ${loggedUser.lastname}
+      </c:if>
     <h2>Navigate</h2>
     <div class="navlist">
       <ul>
