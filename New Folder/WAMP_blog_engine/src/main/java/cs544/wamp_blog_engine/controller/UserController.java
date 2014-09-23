@@ -39,7 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class UserController {
-    
+
     @Resource
     private IUserService userService;
     @Resource
@@ -56,7 +56,7 @@ public class UserController {
         model.addAttribute("users", userService.getAllUsers());
         return "userList";
     }
-    
+
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
     public String getAllUsers(Model model) {
         model.addAttribute("allusers", userService.getAllUsers());
@@ -89,12 +89,12 @@ public class UserController {
         System.out.println("hello signup");
         return "signup";
     }
-    
+
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String add(@Valid User user, BindingResult result, HttpSession session, RedirectAttributes flashAttr, @RequestParam("file") MultipartFile file) {
         String view = "redirect:/";
         System.out.println("userController Add");
-        
+
         if (!result.hasErrors()) {
             try {
                 user.setProfilepic(file.getBytes());
@@ -104,6 +104,10 @@ public class UserController {
             userService.addUser(user);
             session.removeAttribute("credential");
             flashAttr.addFlashAttribute("successfulSignup", "User signed up succesfully. please  log in to proceed");
+            User u=(User) session.getAttribute("loggedUser");
+            if(u!=null && u.getUserCredential().isAdmin()){
+                view="redirect:/settings";
+            }
         } else {
             for (FieldError err : result.getFieldErrors()) {
                 System.out.println("Error:" + err.getField() + ":" + err.getDefaultMessage());
@@ -124,7 +128,7 @@ public class UserController {
         credential.setPreviledge("Please don't change");
         return "addCredential";
     }
-    
+
     @RequestMapping(value = "/addCredential", method = RequestMethod.POST)
     public String addCredential(@Valid Credential credential, BindingResult result, HttpSession session) {
         String view = "redirect:/addUser";
@@ -135,7 +139,12 @@ public class UserController {
             result.addError(f);
         }
         if (!result.hasErrors()) {
-            credential.setPreviledge("ROLE_BLOGGER");
+            User u = (User) session.getAttribute("loggedUser");
+            if (u != null && u.getUserCredential().isAdmin()) {
+                credential.setPreviledge("ROLE_ADMIN");
+            } else {
+                credential.setPreviledge("ROLE_BLOGGER");
+            }
             credential.setBlocked(false);
             session.setAttribute("credential", credential);
         } else {
@@ -156,7 +165,7 @@ public class UserController {
         model.addAttribute("user", userService.getUser(id));
         return "userDetail";
     }
-    
+
     @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result, @PathVariable int id, HttpSession session) {
         //System.out.println("Update");
@@ -183,7 +192,7 @@ public class UserController {
      */
     @RequestMapping(value = "/users/{id}/{operation}", method = RequestMethod.GET)
     public String EnableDisable(@PathVariable("id") int userId, @PathVariable("operation") String operation) {
-        
+
         User u = userService.getUser(userId);
         if ("enable".equalsIgnoreCase(operation)) {
             System.out.println("enabled");
@@ -217,7 +226,7 @@ public class UserController {
         model.addAttribute("allusers", userService.getAllUsers());
         return "settings";
     }
-    
+
     @RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
     public void getUserImage(Model model, @PathVariable int id, HttpServletResponse response) {
         try {
@@ -231,5 +240,5 @@ public class UserController {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
