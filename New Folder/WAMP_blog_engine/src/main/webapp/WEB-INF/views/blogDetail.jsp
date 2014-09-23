@@ -4,27 +4,22 @@
     Author     : showaibshikdermohammad
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Update Blog</title>
-    </head>
-    <body>
-	<form action="../blog/${blog.id}" method="post">
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+    <h2>Modify Blog</h2>
+    <form:form commandName="blog" action="${blog.id}" method="post">
 	<table>
 		<tr>
 			<td>Name:</td>
-			<td><input type="text" name="name" value="${blog.name}"/> </td>
+			<td><form:input path="name" value="${blog.name}"/> </td>
+                        <td><form:errors path="name" cssClass="error" /> </td>
 		</tr>
 		<tr>
 			<td>Text:</td>
-                        <td><textarea name="description" rows="5" cols="40">${blog.description}</textarea></td>
+                        <td><form:textarea path="description"  value="${blog.description}" rows="5" cols="40"></form:textarea></td>
+                        <td><form:errors path="description" cssClass="error" /> </td>
 		</tr>
         </table>        
 	<input type="submit"  value="update" />
 	
-	</form>
-</body>
-</html>
+    </form:form>

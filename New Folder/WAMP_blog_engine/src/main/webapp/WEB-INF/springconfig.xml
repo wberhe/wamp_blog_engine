@@ -255,7 +255,7 @@ Administrator.
     <!--    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
         <property name="rolePrefix" value="FOO-BAR-"/>
     </bean>-->
-    <bean  class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+<!--    <bean  class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
 
     <sec:global-method-security secured-annotations="enabled"/>
     <sec:http >
@@ -268,7 +268,7 @@ Administrator.
         <sec:logout delete-cookies="true" invalidate-session="true" logout-success-url="/SpringLoginPage.html"/>
     </sec:http>
     <sec:authentication-manager>
-        <sec:authentication-provider>
+                <sec:authentication-provider>
             <sec:user-service>
                 <sec:user name="test" password="test" authorities="ROLE_BLOGGER"/>
             </sec:user-service>
@@ -276,6 +276,6 @@ Administrator.
         <sec:authentication-provider >
             <sec:jdbc-user-service data-source-ref="dataSource" users-by-username-query=" select username,password, blocked=0 enabled from credential where username=?" authorities-by-username-query="select username, previledge as authority from credential where username=?"/>
         </sec:authentication-provider>
-    </sec:authentication-manager>
+    </sec:authentication-manager>-->
     <!--Security-->
 </beans>

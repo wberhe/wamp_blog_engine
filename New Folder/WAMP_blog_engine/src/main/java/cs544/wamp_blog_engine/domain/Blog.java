@@ -39,9 +39,9 @@ public class Blog {
     @SafeHtml
     private String name;
 
-    @Past
+    //@Past
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+    //@NotNull
     private Date creationg_time;
 
     @SafeHtml
