@@ -92,8 +92,8 @@ public class NotificationService implements INotificationService {
     public void notifyBloggerNewComment(User user, Comment comment) {
         SimpleMailMessage template = getToBloggerTemplate();
         System.out.println( user.getFirstname()+" "+user.getLastname()+":"+comment.getParentPost().getTitle()+":"+comment.getParentPost().getParentBlog().getName()+":"+comment.getComm_time());
-        String emailMessage=String.format(template.getText(), user.getFirstname()+" "+user.getLastname(),comment.getParentPost().getTitle(),comment.getParentPost().getParentBlog().getName(),comment.getComm_time());
-        sendMail(template.getFrom(), user.getEmail(), template.getSubject(), emailMessage);
+            String emailMessage=String.format(template.getText(), user.getFirstname()+" "+user.getLastname(),comment.getParentPost().getTitle(),comment.getParentPost().getParentBlog().getName(),comment.getComm_time());
+            sendMail(template.getFrom(), user.getEmail(), template.getSubject(), emailMessage);
     }
 
     @Override
