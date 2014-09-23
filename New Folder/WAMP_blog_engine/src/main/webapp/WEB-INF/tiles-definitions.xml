@@ -5,103 +5,116 @@
 
 <tiles-definitions>
  
- <definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
-  <put-attribute name="title" value="SivaLabs" />
-  <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-  <put-attribute name="navigation" value="/WEB-INF/views/layout/navigation.jsp" />
-<!--  <put-attribute name="navigation" value="/WEB-INF/views/layout/loginInfo.jsp" />-->
-  <put-attribute name="body" value="" />
-  <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
- </definition>
+    <definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
+        <put-attribute name="title" value="SivaLabs" />
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+        <put-attribute name="navigation" value="/WEB-INF/views/layout/navigation.jsp" />
+        <!--  <put-attribute name="navigation" value="/WEB-INF/views/layout/loginInfo.jsp" />-->
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
   
- <definition name="login" extends="baseLayout">
-  <put-attribute name="title" value="SivaLabs : Login" />
-  <put-attribute name="navigation" value="" />
-  <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
- </definition>
+    <definition name="login" extends="baseLayout">
+        <put-attribute name="title" value="SivaLabs : Login" />
+        <put-attribute name="navigation" value="" />
+        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+    </definition>
  
- <definition name="loginFail" extends="baseLayout">
-    <put-attribute name="title" value="SivaLabs : Login" />
-    <put-attribute name="navigation" value="/WEB-INF/views/layout/loginFail.jsp" />
-    <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
- </definition>
+    <definition name="loginFail" extends="baseLayout">
+        <put-attribute name="title" value="SivaLabs : Login" />
+        <put-attribute name="navigation" value="/WEB-INF/views/layout/loginFail.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
+    </definition>
    
- <definition name="welcome" extends="baseLayout">
-  <put-attribute name="title" value="Welcome" />
-  <put-attribute name="navigation" value="/WEB-INF/views/layout/loginInfo.jsp" />
-  <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
- </definition>
+    <definition name="welcome" extends="baseLayout">
+        <put-attribute name="title" value="Welcome" />
+        <put-attribute name="navigation" value="/WEB-INF/views/layout/loginInfo.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
+    </definition>
  
- <!--Users service -->
- <definition name="settings" extends="baseLayout">
-  <put-attribute name="title" value="Admin profile" />
-  <put-attribute name="body" value="/WEB-INF/views/settings.jsp" />
- </definition>
+    <!--Users service -->
+    <definition name="settings" extends="baseLayout">
+        <put-attribute name="title" value="Admin profile" />
+        <put-attribute name="body" value="/WEB-INF/views/settings.jsp" />
+    </definition>
  
- <definition name="userInfo" extends="baseLayout">
-  <put-attribute name="title" value="Admin profile" />
-  <put-attribute name="body" value="/WEB-INF/views/userInfo.jsp" />
- </definition> 
+    <definition name="userInfo" extends="baseLayout">
+        <put-attribute name="title" value="Admin profile" />
+        <put-attribute name="body" value="/WEB-INF/views/userInfo.jsp" />
+    </definition> 
  
- <definition name="signup" extends="baseLayout">
-  <put-attribute name="title" value="Admin profile" />
-  <put-attribute name="body" value="/WEB-INF/views/signup.jsp" />
- </definition> 
+    <definition name="signup" extends="baseLayout">
+        <put-attribute name="title" value="Admin profile" />
+        <put-attribute name="body" value="/WEB-INF/views/signup.jsp" />
+    </definition> 
  
- <definition name="userDetail" extends="baseLayout">
-  <put-attribute name="title" value="Admin profile" />
-  <put-attribute name="body" value="/WEB-INF/views/userDetail.jsp" />
- </definition> 
+    <definition name="userDetail" extends="baseLayout">
+        <put-attribute name="title" value="Admin profile" />
+        <put-attribute name="body" value="/WEB-INF/views/userDetail.jsp" />
+    </definition> 
  
- <definition name="addCredential" extends="baseLayout">
-  <put-attribute name="title" value="Admin profile" />
-  <put-attribute name="body" value="/WEB-INF/views/addCredential.jsp" />
- </definition> 
+    <definition name="addCredential" extends="baseLayout">
+        <put-attribute name="title" value="Admin profile" />
+        <put-attribute name="body" value="/WEB-INF/views/addCredential.jsp" />
+    </definition> 
  
- <definition name="userList" extends="baseLayout">
-  <put-attribute name="title" value="Admin profile" />
-  <put-attribute name="body" value="/WEB-INF/views/userList.jsp" />
- </definition>
- <!-- End Users definitions-->
+    <definition name="userList" extends="baseLayout">
+        <put-attribute name="title" value="Admin profile" />
+        <put-attribute name="body" value="/WEB-INF/views/userList.jsp" />
+    </definition>
+    <!-- End Users definitions-->
  
- <definition name="blogList" extends="baseLayout">
-  <put-attribute name="title" value="Blog List" />
-  <put-attribute name="body" value="/WEB-INF/views/blogList.jsp" />
- </definition>
+    <definition name="blogList" extends="baseLayout">
+        <put-attribute name="title" value="Blog List" />
+        <put-attribute name="body" value="/WEB-INF/views/blogList.jsp" />
+    </definition>
  
- <definition name="addBlog" extends="baseLayout">
-  <put-attribute name="title" value="Blog Add" />
-  <put-attribute name="body" value="/WEB-INF/views/addBlog.jsp" />
- </definition>
+    <definition name="addBlog" extends="baseLayout">
+        <put-attribute name="title" value="Blog Add" />
+        <put-attribute name="body" value="/WEB-INF/views/addBlog.jsp" />
+    </definition>
  
- <definition name="blogDetail" extends="baseLayout">
-  <put-attribute name="title" value="Blog Details" />
-  <put-attribute name="body" value="/WEB-INF/views/blogDetail.jsp" />
- </definition>
+    <definition name="blogDetail" extends="baseLayout">
+        <put-attribute name="title" value="Blog Details" />
+        <put-attribute name="body" value="/WEB-INF/views/blogDetail.jsp" />
+    </definition>
  
- <definition name="blog" extends="baseLayout">
-  <put-attribute name="title" value="Posts in this blog" />
-  <put-attribute name="body" value="/WEB-INF/views/blog.jsp" />
- </definition> 
+    <definition name="blog" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/blog.jsp" />
+    </definition> 
  
- <definition name="createPost" extends="baseLayout">
-  <put-attribute name="title" value="Posts in this blog" />
-  <put-attribute name="body" value="/WEB-INF/views/createPost.jsp" />
- </definition> 
+    <definition name="createPost" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/createPost.jsp" />
+    </definition> 
  
- <definition name="post" extends="baseLayout">
-  <put-attribute name="title" value="Posts in this blog" />
-  <put-attribute name="body" value="/WEB-INF/views/post.jsp" />
- </definition> 
+    <definition name="post" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/post.jsp" />
+    </definition> 
  
- <definition name="editPost" extends="baseLayout">
-  <put-attribute name="title" value="Posts in this blog" />
-  <put-attribute name="body" value="/WEB-INF/views/editPost.jsp" />
- </definition> 
- 
- <definition name="gohome" extends="baseLayout">
-  <put-attribute name="title" value="Posts in this blog" />
-  <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
- </definition> 
+    <definition name="editPost" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/editPost.jsp" />
+    </definition> 
+
+    <definition name="allCategories" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/allCategories.jsp" />
+    </definition> 
+    <definition name="addBlogCategory" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/addBlogCategory.jsp" />
+    </definition> 
+    <definition name="allTags" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/allTags.jsp" />
+    </definition> 
+    <definition name="addTag" extends="baseLayout">
+        <put-attribute name="title" value="Posts in this blog" />
+        <put-attribute name="body" value="/WEB-INF/views/addTag.jsp" />
+    </definition> 
+    
    
 </tiles-definitions>

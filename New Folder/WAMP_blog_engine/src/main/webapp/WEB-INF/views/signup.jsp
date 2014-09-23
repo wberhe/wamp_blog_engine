@@ -13,7 +13,7 @@
         <link href="resources/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <form:form commandName="user" action="addUser" method="post">
+        <form:form commandName="user" action="addUser" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>First Name :</td>
@@ -32,8 +32,7 @@
                 </tr>
                 <tr>
                     <td>Picture :</td> 
-                    <td><form:input type="file" path="profilepic"  size="50" /> </td>
-                    <td><form:errors path="profilepic" cssClass="error"/> </td>
+                    <td><input type="file" name="file"   /> </td>
                 </tr>
                 <tr>
                     <td>Email :</td>
