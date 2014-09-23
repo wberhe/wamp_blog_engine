@@ -9,9 +9,11 @@
     <div class="navlist">
       <ul>
         <li><a href="/Wamp/blog">Blog List</a></li>
+        <sec:authorize access="hasRole('ROLE_BLOGGER')">
         <li><a href="/Wamp/addBlog">Create Blog</a></li>
+        </sec:authorize>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <li><a href="/settings">Admin user</a></li>
+        <li><a href="/Wamp/settings">Admin user</a></li>
         </sec:authorize>
         <li><a href="j_spring_security_logout">Logout</a>  </li>
       </ul>
