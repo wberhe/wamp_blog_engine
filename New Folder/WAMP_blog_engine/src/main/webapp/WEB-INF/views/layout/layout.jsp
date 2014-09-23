@@ -32,7 +32,9 @@
             </div>
 
             <div class="clear"></div>
-            <tiles:insertAttribute name="footer" />
+            <div id="footer">
+                <tiles:insertAttribute name="footer" />
+            </div>
         </div>
     </body>
 </html>         
