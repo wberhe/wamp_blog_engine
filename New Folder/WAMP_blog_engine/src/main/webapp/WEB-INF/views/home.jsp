@@ -4,9 +4,9 @@
     Author     : priya
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib  prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,19 +14,43 @@
         <title>Home page</title>
     </head>
     <body>
+        <h1>See what's trending today</h1>
         <table>
-   
-      
-                    <td>
 
-                        <c:forEach var="post" items="${posts}">
-                    <tr>${post.title}</tr>
-                    <tr>${post.body}</tr>
-                </c:forEach>
+            <tr bgcolor="#ABB2BA">
+                <td width="20%">Posts</td>
+                <td width="50%"></td>
 
-            </td>
-          
+                <td width="10%">Modify</td>
+                <td width="10%">Delete</td>
+<!--            <sec:authorize access="hasRole('ROLE_ADMIN')">-->
+                <!--<td width="10%">Status</td>-->
+            <!--</sec:authorize>-->
+
+        </tr>
+        
             
-            </table>
-    </body>
+     
+
+        <c:forEach var="post" items="${posts}">
+            <tr bgcolor="#D1D5DA">
+            
+                <td> <a href="viewPost/${post.id}">${post.title}</a></td>
+                <c:choose>
+                        <c:when test="${fn:length(post.body) > 15}" >
+                        <td>${fn:substring(post.body, 0, 15)}...</td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>${post.body}</td>
+                    </c:otherwise>         
+                </c:choose>
+                
+            </tr>
+        </c:forEach>
+
+
+
+
+    </table>
+</body>
 </html>

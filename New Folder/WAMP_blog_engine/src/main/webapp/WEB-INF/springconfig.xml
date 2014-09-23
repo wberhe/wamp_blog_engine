@@ -239,7 +239,7 @@ Administrator.
 		<![CDATA[
 Dear %1$s,
 
-a new comment was posted on the post: %2$s of the Blog: %3$ at %4$tD %4$tT that needs approval.
+a new comment was posted on the post: %2$s of the Blog: %3$s at %4$tD %4$tT that needs approval.
 
 Regards,
 Administrator.
@@ -264,6 +264,7 @@ Administrator.
         <sec:intercept-url pattern="/addCredential" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/addUser" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/loginFail" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/gohome" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/**" access="ROLE_BLOGGER,ROLE_ADMIN"/>
         
         <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/blog" authentication-failure-url="/loginFail"/>
