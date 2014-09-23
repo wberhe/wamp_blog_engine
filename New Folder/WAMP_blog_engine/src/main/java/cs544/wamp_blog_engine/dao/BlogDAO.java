@@ -7,6 +7,7 @@
 package cs544.wamp_blog_engine.dao;
 
 import cs544.wamp_blog_engine.domain.Blog;
+import cs544.wamp_blog_engine.domain.User;
 import java.util.List;
 
 /**

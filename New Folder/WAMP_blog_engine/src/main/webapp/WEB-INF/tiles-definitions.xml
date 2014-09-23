@@ -9,6 +9,7 @@
   <put-attribute name="title" value="SivaLabs" />
   <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
   <put-attribute name="navigation" value="/WEB-INF/views/layout/navigation.jsp" />
+<!--  <put-attribute name="navigation" value="/WEB-INF/views/layout/loginInfo.jsp" />-->
   <put-attribute name="body" value="" />
   <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
  </definition>
@@ -21,6 +22,7 @@
    
  <definition name="welcome" extends="baseLayout">
   <put-attribute name="title" value="Welcome" />
+  <put-attribute name="navigation" value="/WEB-INF/views/layout/loginInfo.jsp" />
   <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
  </definition>
  

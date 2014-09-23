@@ -9,9 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form method="post" action="j_spring_security_check">
+            User:<input name="j_username"/><br/>
+            Password:<input type="password" name="j_password"/><br/>
+            <input type="submit"/>
+        </form>
     </body>
 </html>
