@@ -4,12 +4,11 @@
     Author     : showaibshikdermohammad
 --%>
   <div id="sidebar">
-    <h2>Navigate</h2>
-    <div class="navlist">
+    <div class="navlist security">
        <form method="post" action="j_spring_security_check">
             User:<input name="j_username"/><br/>
             Password:<input type="password" name="j_password"/><br/>
-            <input type="submit"/>
+            <input type="submit"/><a href="addCredential">Sign Up</a>
         </form>
     </div>
 <!--    <p> sample text.</p>

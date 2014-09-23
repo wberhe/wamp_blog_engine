@@ -34,6 +34,7 @@ public class BlogController {
     @Resource 
     private IUserService userService;
 
+   
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public String homePage(HttpServletRequest request) {
         return "welcome"; //name of tile defination

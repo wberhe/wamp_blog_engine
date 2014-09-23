@@ -163,3 +163,10 @@ overflow : hidden;
 width : 0;
 height : 1px;
 }
+
+
+.security{
+ border: 1px solid rgb(158, 143, 189);
+ padding-left: 10px;
+ padding-bottom: 5px;
+}
