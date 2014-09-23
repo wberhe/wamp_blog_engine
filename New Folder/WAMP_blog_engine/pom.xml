@@ -162,6 +162,12 @@
             <version>${org.slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
+<!--        for REST service-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
     </dependencies>
 
 <!--needed for security-->

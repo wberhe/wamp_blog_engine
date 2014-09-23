@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -120,5 +121,19 @@ public class BlogController {
         blog.setBlocked(true);
         blogerService.modifyBlog(blog);
         return "redirect:/blog";
+    }
+    
+   /**
+    * RESTful service
+    * @param model
+    * @param session
+    * @return 
+    */
+    @RequestMapping(value = "/REST/allBlog", method = RequestMethod.GET)
+    public ModelAndView getAllBlogs() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("marshalview");
+        mav.addObject(blogerService.getAllBlogs().get(0));
+        return mav;
     }
 }
