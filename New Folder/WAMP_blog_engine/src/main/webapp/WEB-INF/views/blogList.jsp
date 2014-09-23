@@ -15,8 +15,9 @@
         <td width="10%">Modify</td>
         <td width="10%">Delete</td>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <td width="10%">Status</td>
+            <td width="10%">Status</td>
         </sec:authorize>
+       
     </tr>
     <c:if test="${blogList!=null}" >
         <c:forEach var="blog" items="${blogList}">
@@ -43,6 +44,7 @@
                         <td><a href="blog/disable/${blog.id}">Disable</a></td>
                     </c:if>
                 </sec:authorize>
+                
             </tr>
         </c:forEach>
         <tr></tr>
