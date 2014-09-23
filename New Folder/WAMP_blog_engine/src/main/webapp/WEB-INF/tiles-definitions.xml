@@ -38,5 +38,25 @@
   <put-attribute name="title" value="Blog Details" />
   <put-attribute name="body" value="/WEB-INF/views/blogDetail.jsp" />
  </definition>
+ 
+ <definition name="blog" extends="baseLayout">
+  <put-attribute name="title" value="Posts in this blog" />
+  <put-attribute name="body" value="/WEB-INF/views/blog.jsp" />
+ </definition> 
+ 
+ <definition name="createPost" extends="baseLayout">
+  <put-attribute name="title" value="Posts in this blog" />
+  <put-attribute name="body" value="/WEB-INF/views/createPost.jsp" />
+ </definition> 
+ 
+ <definition name="post" extends="baseLayout">
+  <put-attribute name="title" value="Posts in this blog" />
+  <put-attribute name="body" value="/WEB-INF/views/post.jsp" />
+ </definition> 
+ 
+ <definition name="editPost" extends="baseLayout">
+  <put-attribute name="title" value="Posts in this blog" />
+  <put-attribute name="body" value="/WEB-INF/views/editPost.jsp" />
+ </definition> 
    
 </tiles-definitions>

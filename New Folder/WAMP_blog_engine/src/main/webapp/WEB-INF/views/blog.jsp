@@ -13,7 +13,7 @@
     </head>
     <body>
         <h3>Posts in this blog:</h3>
-        <table>
+        <table width="100%" border="0" cellspacing="1" cellpadding="0">
             <tr>
                 <td></td>
                 <c:choose>

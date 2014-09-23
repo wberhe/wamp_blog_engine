@@ -261,7 +261,7 @@ Administrator.
     <sec:http >
         <sec:intercept-url pattern="/SpringLoginPage.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/LoginFailure.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <!--<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+-->        <!--<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/**" access="ROLE_BLOGGER"/>
         <sec:intercept-url pattern="/**" access="ADMIN,BLOGGER"/>
         
