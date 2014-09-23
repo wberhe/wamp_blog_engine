@@ -263,6 +263,7 @@ Administrator.
         <sec:intercept-url pattern="/LoginFailure.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <!--<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
         <sec:intercept-url pattern="/**" access="ROLE_BLOGGER"/>
+        <sec:intercept-url pattern="/**" access="ADMIN,BLOGGER"/>
         
         <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/" authentication-failure-url="/LoginFailure.html"/>
         <sec:logout delete-cookies="true" invalidate-session="true" logout-success-url="/SpringLoginPage.html"/>

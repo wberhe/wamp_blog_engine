@@ -11,16 +11,11 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IBlogService;
 import java.util.ArrayList;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +49,11 @@ public class BlogController {
     
     @RequestMapping(value="/addBlog", method=RequestMethod.GET)
     public String addBlogUI(@ModelAttribute("blog") Blog blog){
+        System.out.println("--------------");
+        return "addBlog";
+    }
+    
+    @RequestMapping(value="/blog", method=RequestMethod.POST)
     public String addBlog(@Valid Blog blog, BindingResult result){
         if(!result.hasErrors()){
             blogerService.createBlog(blog);
@@ -63,10 +63,12 @@ public class BlogController {
             System.out.println("-------------- Error");
             return "addBlog";
         }
+    }
     
     @RequestMapping(value="/blog/{id}", method=RequestMethod.POST)
-    public String update(Blog blog, @PathVariable int id) {
-        System.out.print("@@@@@@@@@@@@@@@@@@"+blog.getName());
+    public String update(@Valid Blog blog, BindingResult result, @PathVariable int id) {
+        if(!result.hasErrors()){
+            //System.out.print("@@@@@@@@@@@@@@@@@@"+blog.getName());
             Blog blg = blogerService.getBlog(id);
             blg.setName(blog.getName());
             blg.setDescription(blog.getDescription());
@@ -80,6 +82,11 @@ public class BlogController {
     
     @RequestMapping(value="/blog/{id}", method=RequestMethod.GET)
     public String getBlogDetail(@ModelAttribute("blog") Blog blog, @PathVariable int id, Model model) {
+        model.addAttribute("blog", blogerService.getBlog(id));
+	return "blogDetail";
+    }
+    @RequestMapping(value="/blog/delete/{id}", method=RequestMethod.GET)
+    public String deleteBlog(@PathVariable int id, Model model) {
        // System.out.print("@@@@@@@@@@@@@@@@@@ -> Delete Id: "+id);
        blogerService.removeBlog(blogerService.getBlog(id)); 
        return "redirect:/blog";
