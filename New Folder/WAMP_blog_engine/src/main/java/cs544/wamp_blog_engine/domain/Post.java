@@ -5,6 +5,7 @@
  */
 package cs544.wamp_blog_engine.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,7 @@ public class Post {
 
     private byte[] image;
 
-    @ManyToMany(mappedBy = "catogorizedPosts", cascade = CascadeType.ALL)
+    @ManyToMany( cascade = CascadeType.ALL)
     private List<Category> categories;
 
     @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
@@ -63,7 +64,7 @@ public class Post {
     @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
     private List<Comment> postComments;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "taggedPosts")
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> postTags;
 
     @ManyToOne
@@ -77,12 +78,22 @@ public class Post {
     private int numOfCategories;
     @Transient
     private int numOfTags;
-    
+    @Transient
+    private Category selectedCat;
     
 
     public Post() {
     }
 
+    public Category getSelectedCat() {
+        return selectedCat;
+    }
+
+    public void setSelectedCat(Category selectedCat) {
+        this.selectedCat = selectedCat;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -219,8 +230,17 @@ public class Post {
         //this.blogName = parentBlog.getName();
     }
 
-    private void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void setCategories(List<Category> categories) {
+        if(categories == null) {
+			this.categories = new ArrayList<Category>();
+		} else {
+			this.categories = categories;
+		}
+		for(Category c : this.categories) {
+			if(!c.getCatogorizedPosts().contains(this)) {
+				c.addPostToCategory(this);
+			}
+		}
     }
 
     private void setPostRatings(List<Rating> postRatings) {
@@ -232,7 +252,22 @@ public class Post {
     }
 
     private void setPostTags(List<Tag> postTags) {
-        this.postTags = postTags;
+        if(postTags == null){
+            this.postTags = new ArrayList<Tag>();
+        } else {
+            this.postTags = postTags;
+            for(Tag t : this.postTags) {
+			if(!t.getTaggedPosts().contains(this)) {
+				t.addPost(this);
+			}
+		}
+        }
+        
+//        for(Tag t: this.postTags){
+//            if(!t.getTaggedPosts().contains(this)){
+//                t.addPostT
+//            }
+//        }
     }
 
     @Override

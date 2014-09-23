@@ -81,8 +81,9 @@ public class PostDAOImpl implements PostDAO {
 
     @Override
     public List<Post> getLatestPosts() {
-        Query query = sf.getCurrentSession().createQuery("SELECT TOP 10 p from Post p ORDER BY p.creation_time DESC");
+        Query query = sf.getCurrentSession().createQuery("select p from Post p ORDER BY creation_time DESC");
         List<Post> latestPosts = query.list();
+        query.setMaxResults(5);
         return latestPosts;
     }
 

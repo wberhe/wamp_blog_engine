@@ -30,7 +30,7 @@ public class Tag {
     @SafeHtml
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "postTags")
     private List<Post> taggedPosts;
 
     public Tag() {

@@ -10,9 +10,15 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IUserService;
 import cs544.wamp_blog_engine.service.impl.NotificationService;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -23,6 +29,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -57,15 +65,17 @@ public class UserController {
 
     /**
      * User detail
+     *
      * @param model
      * @param id
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/userDetail/{id}", method = RequestMethod.GET)
     public String getUserDetail(Model model, @PathVariable int id) {
         model.addAttribute("userdetail", userService.getUser(id));
         return "userInfo";
     }
+
     /**
      * Adding the user(Session is used)
      *
@@ -81,14 +91,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String add(@Valid User user, BindingResult result, HttpSession session,RedirectAttributes flashAttr) {
+    public String add(@Valid User user, BindingResult result, HttpSession session, RedirectAttributes flashAttr, @RequestParam("file") MultipartFile file) {
         String view = "redirect:/";
         System.out.println("userController Add");
 
         if (!result.hasErrors()) {
+            try {
+                user.setProfilepic(file.getBytes());
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             userService.addUser(user);
             session.removeAttribute("credential");
             flashAttr.addFlashAttribute("successfulSignup", "User signed up succesfully. please  log in to proceed");
+            User u=(User) session.getAttribute("loggedUser");
+            if(u!=null && u.getUserCredential().isAdmin()){
+                view="redirect:/settings";
+            }
         } else {
             for (FieldError err : result.getFieldErrors()) {
                 System.out.println("Error:" + err.getField() + ":" + err.getDefaultMessage());
@@ -120,7 +139,12 @@ public class UserController {
             result.addError(f);
         }
         if (!result.hasErrors()) {
-            credential.setPreviledge("ROLE_BLOGGER");
+            User u = (User) session.getAttribute("loggedUser");
+            if (u != null && u.getUserCredential().isAdmin()) {
+                credential.setPreviledge("ROLE_ADMIN");
+            } else {
+                credential.setPreviledge("ROLE_BLOGGER");
+            }
             credential.setBlocked(false);
             session.setAttribute("credential", credential);
         } else {
@@ -184,6 +208,7 @@ public class UserController {
 
     /**
      * Admin notification to bloggers
+     *
      * @param model
      * @param text
      * @param ids
@@ -200,6 +225,20 @@ public class UserController {
         notificationService.notifyBlogger(user, text);
         model.addAttribute("allusers", userService.getAllUsers());
         return "settings";
+    }
+
+    @RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
+    public void getUserImage(Model model, @PathVariable int id, HttpServletResponse response) {
+        try {
+            User u = userService.getUser(id);
+            if (u != null) {
+                OutputStream out = response.getOutputStream();
+                out.write(u.getProfilepic());
+                response.flushBuffer();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

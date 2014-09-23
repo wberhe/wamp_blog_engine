@@ -13,7 +13,7 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <apache.tiles.version>2.2.1</apache.tiles.version>
-	<org.slf4j.version>1.5.10</org.slf4j.version>
+        <org.slf4j.version>1.5.10</org.slf4j.version>
     </properties>
 
     <dependencies>
@@ -130,18 +130,18 @@
             <artifactId>spring-jdbc</artifactId>
             <version>4.1.1.BUILD-SNAPSHOT</version>
         </dependency>
-   <!--for tiles-->     
+        <!--for tiles-->     
         <dependency>
-	    <groupId>org.apache.tiles</groupId>
-	    <artifactId>tiles-core</artifactId>
-	    <version>${apache.tiles.version}</version>
-	</dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-core</artifactId>
+            <version>${apache.tiles.version}</version>
+        </dependency>
 
-	<dependency>
-	    <groupId>org.apache.tiles</groupId>
-	    <artifactId>tiles-jsp</artifactId>
-	    <version>${apache.tiles.version}</version>
-	</dependency>
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+            <version>${apache.tiles.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -162,16 +162,25 @@
             <version>${org.slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
-<!--        for REST service-->
+        
+        <!--for upload-->
+        <!-- Apache Commons FileUpload -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>4.0.2.RELEASE</version>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+ 
+        <!-- Apache Commons IO -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
         </dependency>
     </dependencies>
 
-<!--needed for security-->
-<repositories>
+    <!--needed for security-->
+    <repositories>
         <repository>
             <id>spring-snapshots</id>
             <name>Spring Snaphots</name>
@@ -181,7 +190,7 @@
             </snapshots>
         </repository>
     </repositories>
-<!--needed for security-->
+    <!--needed for security-->
     <build>
         <plugins>
             <plugin>

@@ -42,7 +42,10 @@
                     <td>Categories</td>
                     <td>
 
-                        <c:forEach var="category" items="${post.categories}">
+                        <c:forEach var="category" items="${postCategories}">
+                    <tr>
+                            <td>${category.name}</td>
+                            </tr>
                     <option value="${category.name}">${category.name}</option>
                 </c:forEach>
 
@@ -64,7 +67,10 @@
 </tr>
 
 <tr>
-
+    <c:choose>
+                        <c:when test="${blogger.ratedPost==false}">
+                            <!--<td>Rating: try when not rated</td>-->
+                            
     <td>
         <form:radiobutton path="tempRating" value="1"  />
         <form:radiobutton path="tempRating" value="2"  />
@@ -74,8 +80,8 @@
     <td><input type="submit" value="rate"/> </td>
 
     </td>
- 
-
+  </c:when>
+</c:choose> 
 </tr>
 
 
