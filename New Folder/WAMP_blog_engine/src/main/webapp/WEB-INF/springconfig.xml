@@ -264,7 +264,7 @@ Administrator.
         <sec:intercept-url pattern="/addCredential" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/addUser" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/loginFail" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <sec:intercept-url pattern="/gohome" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/REST/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/**" access="ROLE_BLOGGER,ROLE_ADMIN"/>
         
         <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/blog" authentication-failure-url="/loginFail"/>
@@ -281,4 +281,35 @@ Administrator.
         </sec:authentication-provider>
     </sec:authentication-manager>
     <!--Security-->
+    
+<!--    for REST service-->
+<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+	
+	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+<!--		<property name="contextPath" value="cs544.wamp_blog_engine.domain"/>-->
+                <property name="classesToBeBound">
+                        <list>
+                            <value>cs544.wamp_blog_engine.domain.Blog</value>
+                            <!--<value>cs544.wamp_blog_engine.domain.Blogs</value>-->
+                        </list>
+                </property>
+	</bean>	
+
+	<bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		<property name="marshaller" ref="marshaller"/>
+		<property name="unmarshaller" ref="marshaller"/>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<util:list id="beanList">
+				<ref bean="marshallingHttpMessageConverter"/>
+			</util:list>
+		</property>
+	</bean>
+		
+	<bean id="marshalview" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<property name="contentType" value="text/xml"/>
+		<property name="marshaller" ref="marshaller"/>
+	</bean>
 </beans>
