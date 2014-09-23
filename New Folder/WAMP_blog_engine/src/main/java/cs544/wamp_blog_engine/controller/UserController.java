@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -80,13 +81,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String add(@Valid User user, BindingResult result, HttpSession session) {
-        String view = "redirect:/users";
+    public String add(@Valid User user, BindingResult result, HttpSession session,RedirectAttributes flashAttr) {
+        String view = "redirect:/";
         System.out.println("userController Add");
 
         if (!result.hasErrors()) {
             userService.addUser(user);
             session.removeAttribute("credential");
+            flashAttr.addFlashAttribute("successfulSignup", "User signed up succesfully. please  log in to proceed");
         } else {
             for (FieldError err : result.getFieldErrors()) {
                 System.out.println("Error:" + err.getField() + ":" + err.getDefaultMessage());

@@ -170,3 +170,9 @@ height : 1px;
  padding-left: 10px;
  padding-bottom: 5px;
 }
+
+
+.signupSuccess{
+    color: green;
+    font-weight: bold;
+}

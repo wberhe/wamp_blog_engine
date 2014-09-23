@@ -5,6 +5,7 @@
 --%>
   <div id="sidebar">
     <div class="navlist security">
+        <div class="signupSuccess">${successfulSignup}</div>
        <form method="post" action="j_spring_security_check">
             User:<input name="j_username"/><br/>
             Password:<input type="password" name="j_password"/><br/>
