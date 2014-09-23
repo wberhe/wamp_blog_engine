@@ -61,6 +61,8 @@ display : inline;
 width : 500px;
 padding : 1em;
 margin-left : 230px;
+border: 1px solid;
+/*border-radius: 25px;*/
 }
 			/*SIDEBAR*/
 #sidebar {
@@ -72,7 +74,7 @@ margin-top : 0;
 			/*BOTTOM*/
 #bottom {
 clear : both;
-height : 200px;
+height : 230px;
 padding : 5px;
 margin-top : 5px;
 margin-bottom : 35px;

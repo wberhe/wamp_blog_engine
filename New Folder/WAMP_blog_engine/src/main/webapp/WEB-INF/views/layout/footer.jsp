@@ -4,12 +4,8 @@
     Author     : showaibshikdermohammad
 --%>
 
-<!--<center>
- <b>© 2011 SivaLabs All Rights Reserved</b>
-</center>-->
-
-  <div id="footer">
-    <div class="col3center">
+  
+<!--    <div class="col3center">
       <h1>Web Resources</h1>
       <div class="navlist">
         <ul>
@@ -35,6 +31,5 @@
           <li><a href="#">link2</a></li>
         </ul>
       </div>
-    </div>
+    </div>-->
     <p><a href="#">homepage</a> | <a href="#">contact</a> | &copy; 2014 WAMP </p>
-  </div>
