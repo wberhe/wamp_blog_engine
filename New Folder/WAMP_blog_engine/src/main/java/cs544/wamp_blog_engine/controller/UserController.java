@@ -10,9 +10,15 @@ import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IUserService;
 import cs544.wamp_blog_engine.service.impl.NotificationService;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -23,6 +29,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -31,7 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class UserController {
-
+    
     @Resource
     private IUserService userService;
     @Resource
@@ -48,7 +56,7 @@ public class UserController {
         model.addAttribute("users", userService.getAllUsers());
         return "userList";
     }
-
+    
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
     public String getAllUsers(Model model) {
         model.addAttribute("allusers", userService.getAllUsers());
@@ -57,15 +65,17 @@ public class UserController {
 
     /**
      * User detail
+     *
      * @param model
      * @param id
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/userDetail/{id}", method = RequestMethod.GET)
     public String getUserDetail(Model model, @PathVariable int id) {
         model.addAttribute("userdetail", userService.getUser(id));
         return "userInfo";
     }
+
     /**
      * Adding the user(Session is used)
      *
@@ -79,13 +89,18 @@ public class UserController {
         System.out.println("hello signup");
         return "signup";
     }
-
+    
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String add(@Valid User user, BindingResult result, HttpSession session,RedirectAttributes flashAttr) {
+    public String add(@Valid User user, BindingResult result, HttpSession session, RedirectAttributes flashAttr, @RequestParam("file") MultipartFile file) {
         String view = "redirect:/";
         System.out.println("userController Add");
-
+        
         if (!result.hasErrors()) {
+            try {
+                user.setProfilepic(file.getBytes());
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             userService.addUser(user);
             session.removeAttribute("credential");
             flashAttr.addFlashAttribute("successfulSignup", "User signed up succesfully. please  log in to proceed");
@@ -109,7 +124,7 @@ public class UserController {
         credential.setPreviledge("Please don't change");
         return "addCredential";
     }
-
+    
     @RequestMapping(value = "/addCredential", method = RequestMethod.POST)
     public String addCredential(@Valid Credential credential, BindingResult result, HttpSession session) {
         String view = "redirect:/addUser";
@@ -141,7 +156,7 @@ public class UserController {
         model.addAttribute("user", userService.getUser(id));
         return "userDetail";
     }
-
+    
     @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result, @PathVariable int id, HttpSession session) {
         //System.out.println("Update");
@@ -168,7 +183,7 @@ public class UserController {
      */
     @RequestMapping(value = "/users/{id}/{operation}", method = RequestMethod.GET)
     public String EnableDisable(@PathVariable("id") int userId, @PathVariable("operation") String operation) {
-
+        
         User u = userService.getUser(userId);
         if ("enable".equalsIgnoreCase(operation)) {
             System.out.println("enabled");
@@ -184,6 +199,7 @@ public class UserController {
 
     /**
      * Admin notification to bloggers
+     *
      * @param model
      * @param text
      * @param ids
@@ -201,5 +217,19 @@ public class UserController {
         model.addAttribute("allusers", userService.getAllUsers());
         return "settings";
     }
-
+    
+    @RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
+    public void getUserImage(Model model, @PathVariable int id, HttpServletResponse response) {
+        try {
+            User u = userService.getUser(id);
+            if (u != null) {
+                OutputStream out = response.getOutputStream();
+                out.write(u.getProfilepic());
+                response.flushBuffer();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

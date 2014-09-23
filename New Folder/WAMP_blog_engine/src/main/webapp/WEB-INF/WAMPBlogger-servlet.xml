@@ -33,7 +33,7 @@
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
     in the /WEB-INF/views directory -->
-<!--    <bean
+    <!--    <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"
                   value="org.springframework.web.servlet.view.JstlView" />
@@ -57,17 +57,25 @@
     
     
     
-            <!--configure Tiles for the Spring Framework -->	
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
-	</bean>
+    <!--configure Tiles for the Spring Framework -->	
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+    </bean>
 
-	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
-            <property name="definitions">
-                <list>
-                    <value>/WEB-INF/tiles-definitions.xml</value>
-                </list>
-            </property>
-	</bean>
+    <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-definitions.xml</value>
+            </list>
+        </property>
+    </bean>
+        
+        
+        
+    <bean id="multipartResolver"
+              class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- setting maximum upload size -->
+        <!--<property name="maxUploadSize" value="100000" />-->
+    </bean>
 </beans>
 

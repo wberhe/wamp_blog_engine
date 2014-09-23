@@ -17,7 +17,7 @@
         <table>
                 <tr>
                     <td>Picture:</td>
-                    <td><img src="/${userdetail.profilepic}.jpg" width="80" height="80"/></td>
+                    <td><img src="../image/${userdetail.id}" width="80" height="80"/></td>
 <!--                String imageId = request.getParameter("imageId");
                     byte[] imageData = getImageFromDatabase(imageId);
                     response.setContentType("image/jpeg");
