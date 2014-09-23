@@ -14,12 +14,12 @@
         <li><a href="#">Link five</a></li>
       </ul>
     </div>
-<!--    <p> sample text.</p>
+    <p> sample text.</p>
     <div class="navlist">
       <ul>
         <li><a href="#">Link one</a></li>
         <li><a href="#">Link two</a></li>
       </ul>
     </div>
-    <p>Sample text </p>-->
+    <p>Sample text </p>
   </div>
