@@ -295,7 +295,7 @@ Administrator.
                 <property name="classesToBeBound">
                         <list>
                             <value>cs544.wamp_blog_engine.domain.Blog</value>
-                            <!--<value>cs544.wamp_blog_engine.domain.Blogs</value>-->
+                            <value>cs544.wamp_blog_engine.domain.Blogs</value>
                         </list>
                 </property>
 	</bean>	
