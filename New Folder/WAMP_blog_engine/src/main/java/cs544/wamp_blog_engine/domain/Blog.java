@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -28,6 +30,7 @@ import org.hibernate.validator.constraints.SafeHtml;
  *
  * @author priya
  */
+@XmlRootElement(name = "blog")
 @Entity
 public class Blog {
 
@@ -127,7 +130,7 @@ public class Blog {
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
     }
-
+    @XmlTransient
     public List<User> getFollowers() {
         return followers;
     }
@@ -137,9 +140,15 @@ public class Blog {
     }
     public void addFollower(User user){
         getFollowers().add(user);
+        if(!user.getFollows().contains(this)){
+            user.addFollows(this);
+        }
     }
     public void removeFollwoer(User user){
         getFollowers().remove(user);
+        if(user.getFollows().contains(this)){
+            user.removeBlog(this);
+        }
     }
 
     public void setId(int id) {
@@ -149,7 +158,7 @@ public class Blog {
     public void setBlogPosts(List<Post> blogPosts) {
         this.blogPosts = blogPosts;
     }
-
+    @XmlTransient
     public User getBlogger() {
         return blogger;
     }

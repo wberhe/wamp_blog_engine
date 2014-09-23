@@ -16,7 +16,7 @@
     <body>
         <form:form commandName="post" action="../newpost/${Blog.id}" method="post" >
 
-            <h1>Create new post</h1>
+            
             <h2>You are posting to ${blog.name}</h2>
             <table>
 
@@ -44,7 +44,16 @@
                     <td>Add category</td>
                     <td>
                         <form:select  path= "categories" size="10" multiple="true" >
-                            <form:options items="${categories}" itemValue="id" itemLabel="name"/>
+                            <form:options items="${allCategories}" itemValue="id" itemLabel="name"/>
+                            
+                        </form:select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Add category</td>
+                    <td>
+                        <form:select  path= "selectedCat" >
+                            <form:options items="${categories}" itemValue="id" itemLabel="name"></form:options>
                             <%--<c:forEach var="category" items="${categories}">--%>
                                 <!--<option value="${category.name}">${category.name}</option>-->
                             <%--</c:forEach>--%>

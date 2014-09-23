@@ -6,6 +6,7 @@
 
 package cs544.wamp_blog_engine.dao;
 import cs544.wamp_blog_engine.domain.Category;
+import cs544.wamp_blog_engine.domain.Post;
 import java.util.List;
 
 /**
@@ -19,4 +20,5 @@ public interface CategoryDAO {
     public void removeCategory(Category category);
     public Category getCategory(int categoryid);
     public List<Category> getAllCategorys();
+    public List<Category> getCategoriesByPost(Post post);
 }

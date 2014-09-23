@@ -9,6 +9,7 @@ import cs544.wamp_blog_engine.dao.BlogDAO;
 import cs544.wamp_blog_engine.dao.CategoryDAO;
 import cs544.wamp_blog_engine.dao.CommentDAO;
 import cs544.wamp_blog_engine.dao.PostDAO;
+import cs544.wamp_blog_engine.dao.RatingDAO;
 import cs544.wamp_blog_engine.dao.TagDAO;
 import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.Category;
@@ -36,7 +37,12 @@ public class PostService implements IPostService {
     private CategoryDAO categoryDAO;
     private CommentDAO commentDao;
     private TagDAO tagDAO;
+    private RatingDAO ratingDAO;
     private INotificationService notificationService;
+
+    public void setRatingDAO(RatingDAO ratingDAO) {
+        this.ratingDAO = ratingDAO;
+    }
 
     public void setTagDAO(TagDAO tagDAO) {
         this.tagDAO = tagDAO;
@@ -85,12 +91,13 @@ public class PostService implements IPostService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void createPost(Post post) {
+        System.out.println("**************postService.createPost");
         post.setCreation_time(new Date());
 
         postDAO.addPost(post);
 
         //post.getParentBlog().addBlogPost(post);
-        post.setCreation_time(new Date());
+//        post.setCreation_time(new Date());
 //
 //        blogDAO.updateBlog(post.getParentBlog());
 //
@@ -145,6 +152,8 @@ public class PostService implements IPostService {
     public void addRating(Rating rating, Post post) {
 
         rating.setPost(post);
+        System.out.println("user_ID: " + rating.getUser().getId());
+        ratingDAO.addRating(rating);
         post.addPostRating(rating);
         postDAO.updatePost(post);
     }
@@ -243,5 +252,18 @@ public class PostService implements IPostService {
 
         postDAO.removePost(post);
     }
+
+    @Override
+    public List<Post> getLatestPosts() {
+        
+        List<Post> latestPosts = postDAO.getLatestPosts();
+        
+        return latestPosts;
+    }
+//
+//    @Override
+//    public List<Category> categoriesInPost(Post post) {
+//        
+//    }
 
 }

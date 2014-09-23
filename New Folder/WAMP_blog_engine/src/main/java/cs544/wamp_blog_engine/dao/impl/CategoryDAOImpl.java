@@ -7,6 +7,7 @@ package cs544.wamp_blog_engine.dao.impl;
 
 import cs544.wamp_blog_engine.dao.CategoryDAO;
 import cs544.wamp_blog_engine.domain.Category;
+import cs544.wamp_blog_engine.domain.Post;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
@@ -59,6 +60,13 @@ public class CategoryDAOImpl implements CategoryDAO {
         List<Category> categorys = query.list();
          System.out.println("num of cats: in dao " + categorys.size());
         return categorys;
+    }
+
+    @Override
+    public List<Category> getCategoriesByPost(Post post) {
+        Query query = sf.getCurrentSession().createQuery("select c from Category c join c.catogorizedPosts p where p.id=:pid");
+        query.setParameter("pid", post.getId());
+        return query.list();
     }
 
 }

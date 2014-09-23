@@ -6,6 +6,7 @@
 package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Blog;
+import cs544.wamp_blog_engine.domain.Category;
 import cs544.wamp_blog_engine.domain.Comment;
 import cs544.wamp_blog_engine.domain.Post;
 import cs544.wamp_blog_engine.domain.Rating;
@@ -145,31 +146,32 @@ public class PostController {
     }
 //   o
 
-    @RequestMapping(value = "/newpost/{id}", method = RequestMethod.POST)
-    public String createPost(@ModelAttribute Post post, BindingResult result, Model model, @PathVariable int id) {
+    @RequestMapping(value = "/newpost/{blogid}", method = RequestMethod.POST)
+    public String createPost(@ModelAttribute("post") Post post, BindingResult result, Model model, @PathVariable int blogid) {
 //        createBlog();
         System.out.println("...........in newpost post method");
         System.out.println("select cats: " + post.getCategories());
-
-        Blog blog = blogService.getBlog(id);
+//        req.getParameterValues(null)
+        Blog blog = blogService.getBlog(blogid);
         post.setParentBlog(blog);
         blog.addBlogPost(post);
-        
-        
+
+//        System.out.println("does this display?: " + post.getSelectedCat());
         postService.createPost(post);
+        System.out.println("post id: " + post.getId());
         blogService.modifyBlog(blog);
-        postService.modifyPost(post);
+//        postService.modifyPost(post);
         model.addAttribute("Blog", blog);
-        System.out.println("select cats: getTitle" + post.getTitle());
-        System.out.println("select cats: " + post.getCategories());
-        return "redirect:/postList/{id}";
+        System.out.println("select cats: getTitle: " + post.getTitle());
+        System.out.println("select cats: " + postService.getPost(post.getId()).getCategories());
+        return "redirect:/postList/{blogid}";
     }
 
     @RequestMapping(value = "/newpost/{id}", method = RequestMethod.GET)
-    public String showCreatePost(Model model, @PathVariable int id) {
+    public String showCreatePost(@ModelAttribute("post") Post post, Model model, @PathVariable int id) {
         Blog blog = blogService.getBlog(id);
         System.out.println("in the get new post method");
-        model.addAttribute("categories", postService.getAllCategories());
+        model.addAttribute("allCategories", postService.getAllCategories());
         model.addAttribute("tags", postService.getAllTags());
         model.addAttribute("post", new Post());
         model.addAttribute("Blog", blog);
@@ -219,42 +221,72 @@ public class PostController {
     }
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.GET)
-    public String viewPost(Model model, Post post, @PathVariable int id) {
+    public String viewPost(Model model, @ModelAttribute("post") Post post, @PathVariable int id, HttpSession session) {
+        User blogger = (User) session.getAttribute("loggedUser");
 
+        //////////////////////remove hardcoding
+//        User blogger = userService.getUser(1);
         Post post2 = postService.getPost(id);
+        System.out.println("viewPost: any cats in here?: " + post2.getCategories());
+        System.out.println("which post am i viewing?: " + post2.getId());
+        System.out.println("from the databse directly: cats: " + categoryTagService.categoriesInPost(post2));
+//        post2.setCategories(categoryTagService.categoriesInPost(post2));
         Blog mBlog = post2.getParentBlog();
         Rating rating = postService.getRating(post2);
+
+        if (null != post2.getPostRatings() && post2.getPostRatings().size() >= 1) {
+
+            System.out.println("null check works");
+            for (int i = 0; i < post2.getPostRatings().size(); i++) {
+                System.out.println("post2.getPostRatings().size(): " + post2.getPostRatings().size());
+                System.out.println("post2.getPostRatings().get(i).getUser().getId(): " + post2.getPostRatings().get(i).getUser().getId());
+                System.out.println("blogger.getId(): " + blogger.getId());
+                if (post2.getPostRatings().get(i).getUser().getId() == blogger.getId()) {
+                    blogger.setRatedPost(true);
+                }
+            }
+
+        }
+        List<Category> postCats = categoryTagService.categoriesInPost(post);
+        System.out.println("categoriesInPost: " + postCats);
         model.addAttribute("post", post2);
         System.out.println("comnts size: " + post2.getPostComments());
-
+        model.addAttribute("postCategories", categoryTagService.categoriesInPost(post));
         model.addAttribute("comments", commentService.getPostComments(post));
         model.addAttribute("postRating", rating);
         model.addAttribute("blog", mBlog);
+        model.addAttribute("blogger", blogger);
         return "post";
     }
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.POST)
-    public String viewPostPost(Model model, @PathVariable int id, Post post, RedirectAttributes redattr, HttpSession session) {
+    public String viewPostPost(Model model, @PathVariable int id, @ModelAttribute("post") Post post, RedirectAttributes redattr, HttpSession session) {
 //        User user = createUser();
         Post post2 = postService.getPost(id);
+        User blogger = (User) session.getAttribute("loggedUser");
+        //////////////////////remove hardcoding
+//        User blogger = userService.getUser(1);
         model.addAttribute("post", post2);
         Blog mBlog = post2.getParentBlog();
         System.out.println("comment: " + post.getTempComment());
         System.out.println("rating: " + post.getTempRating());
         if (post.getTempRating() != 0) {
             Rating r = new Rating(post.getTempRating());
+            r.setUser(blogger);
+
             postService.addRating(r, post2);
 
             postService.modifyPost(post2);
         }
         if (post.getTempComment() != null && !post.getTempComment().isEmpty()) {
             Comment comment = new Comment(post.getTempComment(), new Date());
-             User blogger = (User) session.getAttribute("loggedUser");
-             comment.setCommentAuthor(blogger);
+
+            comment.setCommentAuthor(blogger);
             if (mBlog.isComm_approval()) {
                 User author = mBlog.getBlogger();
                 System.out.println("author: " + author);
                 System.out.println("comment: " + comment);
+                comment.setParentPost(post2);
                 notificationService.notifyBloggerNewComment(author, comment);
             } else {
                 post2.addComment(comment);
@@ -265,6 +297,15 @@ public class PostController {
         int blogId = mBlog.getId();
         redattr.addAttribute("id", post2.getId());
         return "redirect:../viewPost/{id}";
+    }
+
+    @RequestMapping(value = "gohome", method = RequestMethod.GET)
+    public String showLatestPosts(Model model) {
+        System.out.println("inside go home: ");
+        List<Post> latestPosts = postService.getLatestPosts();
+
+        model.addAttribute("posts", latestPosts);
+        return "gohome";
     }
 
     @InitBinder
@@ -291,6 +332,34 @@ public class PostController {
                 }
 
                 return id != null ? categoryTagService.getCategory(id) : null;
+            }
+        });
+    }
+
+    @InitBinder
+    protected void initBinder2(WebDataBinder binder) {
+        System.out.println("fancy thingssss two");
+        binder.registerCustomEditor(List.class, "postTags", new CustomCollectionEditor(List.class) {
+
+            @Override
+            protected Object convertElement(Object element) {
+                System.out.println("fancy thingssss");
+                Integer id = null;
+
+                if (element instanceof String && !((String) element).equals("")) {
+                    //From the JSP 'element' will be a String
+                    try {
+                        id = Integer.parseInt((String) element);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Element was " + ((String) element));
+                        e.printStackTrace();
+                    }
+                } else if (element instanceof Integer) {
+                    //From the database 'element' will be a Long
+                    id = (Integer) element;
+                }
+
+                return id != null ? categoryTagService.getTag(id) : null;
             }
         });
     }

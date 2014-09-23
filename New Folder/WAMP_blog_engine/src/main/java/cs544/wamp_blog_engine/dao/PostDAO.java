@@ -40,4 +40,6 @@ public interface PostDAO {
     public List<Post> getAllPublishedPosts(Blog blog);
 
     public List<Post> getLatestPosts();
+    
+    
 }
