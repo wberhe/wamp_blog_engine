@@ -252,9 +252,7 @@ Administrator.
     
     
     <!--Security-->
-    <!--    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
-        <property name="rolePrefix" value="FOO-BAR-"/>
-    </bean>-->
+  
 <!--    <bean  class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
 
     <sec:global-method-security secured-annotations="enabled"/>
