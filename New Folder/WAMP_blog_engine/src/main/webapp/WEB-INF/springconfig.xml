@@ -160,6 +160,11 @@
         <property name="tagDAO" ref="tagDAO"/>
     </bean>
     
+    <!-- sign up email notification: AOP-->
+    <bean id="signupEmailNotification" class="cs544.wamp_blog_engine.AOP.EmailAdvice">
+        <property name="notificationService" ref="notificationService"/>
+    </bean>
+    
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com" />
@@ -239,7 +244,7 @@ Administrator.
 		<![CDATA[
 Dear %1$s,
 
-a new comment was posted on the post: %2$s of the Blog: %3$ at %4$tD %4$tT that needs approval.
+a new comment was posted on the post: %2$s of the Blog: %3$s at %4$tD %4$tT that needs approval.
 
 Regards,
 Administrator.

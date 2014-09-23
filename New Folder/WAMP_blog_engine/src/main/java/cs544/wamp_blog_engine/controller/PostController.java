@@ -286,6 +286,7 @@ public class PostController {
                 User author = mBlog.getBlogger();
                 System.out.println("author: " + author);
                 System.out.println("comment: " + comment);
+                comment.setParentPost(post2);
                 notificationService.notifyBloggerNewComment(author, comment);
             } else {
                 post2.addComment(comment);
@@ -300,6 +301,7 @@ public class PostController {
 
     @RequestMapping(value = "gohome", method = RequestMethod.GET)
     public String showLatestPosts(Model model) {
+        System.out.println("inside go home: ");
         List<Post> latestPosts = postService.getLatestPosts();
 
         model.addAttribute("posts", latestPosts);

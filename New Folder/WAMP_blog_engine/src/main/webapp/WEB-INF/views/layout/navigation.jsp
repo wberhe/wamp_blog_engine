@@ -15,16 +15,8 @@
         <sec:authorize access="hasRole('ROLE_ADMIN')">
         <li><a href="/Wamp/settings">Admin user</a></li>
         </sec:authorize>
-        <li><a href="j_spring_security_logout">Logout</a>  </li>
+        <li><a href="/Wamp/j_spring_security_logout">Logout</a>  </li>
       </ul>
     </div>
-<!--    <p> sample text.</p>
-    <div class="navlist">
-      <ul>
-        <li><a href="#">Link one</a></li>
-        <li><a href="#">Link two</a></li>
-      </ul>
-    </div>
-    <p>Sample text </p>-->
   </div>
 

@@ -22,7 +22,7 @@
 
         <h3>Notify users :</h3>
        
-        <form  action="../sendEmail" method="post">
+        <form  action="sendEmail" method="post">
              <table>
                  
             <c:forEach var="user" items="${allusers}">

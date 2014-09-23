@@ -115,6 +115,10 @@
         <put-attribute name="title" value="Posts in this blog" />
         <put-attribute name="body" value="/WEB-INF/views/addTag.jsp" />
     </definition> 
+    <definition name="gohome" extends="baseLayout">
+        <put-attribute name="title" value="Trending Wamp posts" />
+        <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+    </definition>
     
    
 </tiles-definitions>
