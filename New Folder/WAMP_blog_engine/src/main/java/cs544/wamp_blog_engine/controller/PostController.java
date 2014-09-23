@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cs544.wamp_blog_engine.contoller;
+package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.Comment;
