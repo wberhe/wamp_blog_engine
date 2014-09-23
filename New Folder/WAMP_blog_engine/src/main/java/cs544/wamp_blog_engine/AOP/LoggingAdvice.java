@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 
 /**
@@ -21,6 +22,10 @@ public class LoggingAdvice {
     @AfterReturning("* cs544.wamp_blog_engine.service.impl.*.*(..)")
     public void logSuccessfulServiceCalls(JoinPoint jp){
         log.info("method:"+jp.getTarget().getClass().getName()+":"+jp.getSignature().getName()+" has returned successfully.");
+    }
+    @AfterThrowing(value="* cs544.wamp_blog_engine.service.impl.*.*(..)",throwing = "th")
+    public void logServiceCallsExceptions(JoinPoint jp,Exception th){
+        log.error("method:"+jp.getTarget().getClass().getName()+":"+jp.getSignature().getName()+" has returned Thrown an Exception.",th);
     }
      
 }

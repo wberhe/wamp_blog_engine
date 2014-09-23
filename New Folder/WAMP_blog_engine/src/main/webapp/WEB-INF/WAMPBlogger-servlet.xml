@@ -53,6 +53,9 @@
 
 
     <mvc:view-controller path="settings" view-name="settings"/>
+    <mvc:view-controller path="loginFail" view-name="loginFail"/>
+    
+    
     
             <!--configure Tiles for the Spring Framework -->	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">

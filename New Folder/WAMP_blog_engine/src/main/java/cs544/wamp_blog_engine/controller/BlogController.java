@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IBlogService;
+import cs544.wamp_blog_engine.service.IUserService;
 import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,85 +28,97 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class BlogController {
+
     @Resource
     private IBlogService blogerService;
-    
-    
+    @Resource 
+    private IUserService userService;
 
-    @RequestMapping(value="/", method={RequestMethod.GET})
+   
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
     public String homePage(HttpServletRequest request) {
-	return "welcome"; //name of tile defination
+        return "welcome"; //name of tile defination
     }
 //    @RequestMapping(value="/login", method={RequestMethod.GET})
 //    public String homePage() {
 //	return "login"; //name of tile defination
 //    }
-    
-    @RequestMapping(value="/blog", method=RequestMethod.GET)
-    public String getAllBlog(Model model){
-        model.addAttribute("blogList", blogerService.getAllBlogs());
+
+    @RequestMapping(value = "/blog", method = RequestMethod.GET)
+    public String getAllBlog(Model model, HttpSession session) {
+        User u = (User) session.getAttribute("loggedUser");
+        if (u != null && u.getUserCredential().isBLogger()) {
+            u=userService.getUser(u.getId());
+            model.addAttribute("blogList", u.getUserBlogs());//
+        } else {
+            model.addAttribute("blogList", blogerService.getAllBlogs());
+        }
         return "blogList";
     }
-    
-    @RequestMapping(value="/addBlog", method=RequestMethod.GET)
-    public String addBlogUI(@ModelAttribute("blog") Blog blog){
+
+    @RequestMapping(value = "/addBlog", method = RequestMethod.GET)
+    public String addBlogUI(@ModelAttribute("blog") Blog blog) {
         System.out.println("--------------");
         return "addBlog";
     }
-    
-    @RequestMapping(value="/blog", method=RequestMethod.POST)
-    public String addBlog(@Valid Blog blog, BindingResult result){
-        if(!result.hasErrors()){
+
+    @RequestMapping(value = "/blog", method = RequestMethod.POST)
+    public String addBlog(@Valid Blog blog, BindingResult result,HttpSession session) {
+        if (!result.hasErrors()) {
+            User u=userService.getUser(((User) session.getAttribute("loggedUser")).getId());
+            blog.setBlogger(u);
             blogerService.createBlog(blog);
             System.out.println("--------------No Error");
             return "redirect:/blog";
-        }else{
+        } else {
             System.out.println("-------------- Error");
             return "addBlog";
         }
     }
-    
-    @RequestMapping(value="/blog/{id}", method=RequestMethod.POST)
+
+    @RequestMapping(value = "/blog/{id}", method = RequestMethod.POST)
     public String update(@Valid Blog blog, BindingResult result, @PathVariable int id) {
-        if(!result.hasErrors()){
+        if (!result.hasErrors()) {
             //System.out.print("@@@@@@@@@@@@@@@@@@"+blog.getName());
             Blog blg = blogerService.getBlog(id);
             blg.setName(blog.getName());
             blg.setDescription(blog.getDescription());
-            blogerService.modifyBlog(blg); 
+            blogerService.modifyBlog(blg);
             return "redirect:/blog";
-        }else{
+        } else {
             //System.out.println("-------------- Error");
             return "blogDetail";
         }
     }
-    
-    @RequestMapping(value="/blog/{id}", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/blog/{id}", method = RequestMethod.GET)
     public String getBlogDetail(@ModelAttribute("blog") Blog blog, @PathVariable int id, Model model) {
         model.addAttribute("blog", blogerService.getBlog(id));
-	return "blogDetail";
+        return "blogDetail";
     }
-    @RequestMapping(value="/blog/delete/{id}", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/blog/delete/{id}", method = RequestMethod.GET)
     public String deleteBlog(@PathVariable int id, Model model) {
-       // System.out.print("@@@@@@@@@@@@@@@@@@ -> Delete Id: "+id);
-       blogerService.removeBlog(blogerService.getBlog(id)); 
-       return "redirect:/blog";
+        // System.out.print("@@@@@@@@@@@@@@@@@@ -> Delete Id: "+id);
+        blogerService.removeBlog(blogerService.getBlog(id));
+        return "redirect:/blog";
     }
-    
-    @RequestMapping(value="/blog/enable/{id}", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/blog/enable/{id}", method = RequestMethod.GET)
     public String enableBlog(@PathVariable int id, Model model) {
-       System.out.print("@@@@@@@@@@@@@@@@@@ -> enable Id: "+id);
-       Blog blog = blogerService.getBlog(id);
-       blog.setBlocked(false);
-       blogerService.modifyBlog(blog); 
-       return "redirect:/blog";
+        System.out.print("@@@@@@@@@@@@@@@@@@ -> enable Id: " + id);
+        Blog blog = blogerService.getBlog(id);
+        blog.setBlocked(false);
+        blogerService.modifyBlog(blog);
+        return "redirect:/blog";
     }
-    @RequestMapping(value="/blog/disable/{id}", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/blog/disable/{id}", method = RequestMethod.GET)
     public String disableBlog(@PathVariable int id, Model model) {
-       System.out.print("@@@@@@@@@@@@@@@@@@ -> disable Id: "+id);
-       Blog blog = blogerService.getBlog(id);
-       blog.setBlocked(true);
-       blogerService.modifyBlog(blog); 
-       return "redirect:/blog";
+        System.out.print("@@@@@@@@@@@@@@@@@@ -> disable Id: " + id);
+        Blog blog = blogerService.getBlog(id);
+        blog.setBlocked(true);
+        blogerService.modifyBlog(blog);
+        return "redirect:/blog";
     }
 }

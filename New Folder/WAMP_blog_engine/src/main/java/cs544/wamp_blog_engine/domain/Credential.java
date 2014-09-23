@@ -165,7 +165,12 @@ public class Credential {
     }
    
     
-
+    public boolean isBLogger(){
+        return "ROLE_BLOGGER".equals(getPreviledge());
+    }
+    public boolean isAdmin(){
+        return "ROLE_ADMIN".equals(getPreviledge());
+    }
     
     
 

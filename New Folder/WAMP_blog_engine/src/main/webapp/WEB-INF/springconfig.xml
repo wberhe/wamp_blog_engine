@@ -253,31 +253,31 @@ Administrator.
     
     
     <!--Security-->
-    <!--    <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
-        <property name="rolePrefix" value="FOO-BAR-"/>
-    </bean>-->
-<!--    <bean  class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
-
+    
+    <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
     <sec:global-method-security secured-annotations="enabled"/>
     <sec:http >
         <sec:intercept-url pattern="/SpringLoginPage.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/LoginFailure.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
--->        <!--<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <sec:intercept-url pattern="/**" access="ROLE_BLOGGER"/>
-        <sec:intercept-url pattern="/**" access="ADMIN,BLOGGER"/>
+        <sec:intercept-url pattern="/resources/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/addCredential" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/addUser" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/loginFail" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <sec:intercept-url pattern="/**" access="ROLE_BLOGGER,ROLE_ADMIN"/>
         
-        <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/" authentication-failure-url="/LoginFailure.html"/>
-        <sec:logout delete-cookies="true" invalidate-session="true" logout-success-url="/SpringLoginPage.html"/>
+        <sec:form-login login-page="/SpringLoginPage.html" default-target-url="/blog" authentication-failure-url="/loginFail"/>
+        <sec:logout delete-cookies="true" invalidate-session="true" logout-success-url="/"/>
     </sec:http>
     <sec:authentication-manager>
-                <sec:authentication-provider>
+        <sec:authentication-provider>
             <sec:user-service>
                 <sec:user name="test" password="test" authorities="ROLE_BLOGGER"/>
             </sec:user-service>
         </sec:authentication-provider>
         <sec:authentication-provider >
-            <sec:jdbc-user-service data-source-ref="dataSource" users-by-username-query=" select username,password, blocked=0 enabled from credential where username=?" authorities-by-username-query="select username, previledge as authority from credential where username=?"/>
+            <sec:jdbc-user-service data-source-ref="dataSource" users-by-username-query="select username,password, isnull(blocked)=0 enabled from credential where username=?" authorities-by-username-query="select username, previledge as authority from credential where username=?"/>
         </sec:authentication-provider>
-    </sec:authentication-manager>-->
+    </sec:authentication-manager>
     <!--Security-->
 </beans>
