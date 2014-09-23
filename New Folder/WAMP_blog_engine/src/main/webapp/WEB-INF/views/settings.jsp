@@ -10,14 +10,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Setting</title>
+        <title>Admin profile</title>
     </head>
     <body>
         <h3>Admin Setting</h3>
         <ul>
             <li><a href="allCategories">All Categories</a></li>
             <li><a href="allTags">All Tags</a></li>
-            <li><a href="addCredential"> Add admin</a></li>
+            <li><a href="addCredential"> Add User</a></li>
         </ul>
 
         <h3>Notify users :</h3>

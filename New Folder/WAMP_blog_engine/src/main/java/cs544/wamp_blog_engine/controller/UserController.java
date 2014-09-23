@@ -75,6 +75,7 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") User user, HttpSession session) {
         user.setUserCredential((Credential) session.getAttribute("credential"));
+        System.out.println("hello signup");
         return "signup";
     }
 

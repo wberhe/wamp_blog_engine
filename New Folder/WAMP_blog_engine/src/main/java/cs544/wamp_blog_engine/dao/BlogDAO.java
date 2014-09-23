@@ -9,10 +9,10 @@ package cs544.wamp_blog_engine.dao;
 import cs544.wamp_blog_engine.domain.Blog;
 import cs544.wamp_blog_engine.domain.User;
 import java.util.List;
-
+ 
 /**
  *
- * @author Weldino
+ * @author  Weldino
  */
 public interface BlogDAO {
     public void createBlog(Blog blog);
