@@ -47,10 +47,6 @@
                 <form:hidden path="userCredential.previledge" /> 
             <input type="submit" value="Update"/>
         </form:form>
-
-        <form action="delete?userId=${user.id}" method="post">
-            <button type="submit">Delete</button>
-        </form>
     </body>
 </html>
 

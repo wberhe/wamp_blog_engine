@@ -9,7 +9,9 @@
       <ul>
         <li><a href="/Wamp/blog">Blog List</a></li>
         <li><a href="/Wamp/addBlog">Create Blog</a></li>
-        <li><a href="#">Link three</a></li>
+        <li><a href="/settings">Admin user</a></li>
+        <li><a href="#">Link four</a></li>
+        <li><a href="#">Link five</a></li>
       </ul>
     </div>
 <!--    <p> sample text.</p>

@@ -7,7 +7,11 @@ package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Credential;
 import cs544.wamp_blog_engine.domain.User;
+import cs544.wamp_blog_engine.service.INotificationService;
 import cs544.wamp_blog_engine.service.IUserService;
+import cs544.wamp_blog_engine.service.impl.NotificationService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,7 +23,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -30,6 +33,8 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private INotificationService notificationService;
 
     /**
      * Displaying the Users
@@ -43,6 +48,23 @@ public class UserController {
         return "userList";
     }
 
+    @RequestMapping(value = "/settings", method = RequestMethod.GET)
+    public String getAllUsers(Model model) {
+        model.addAttribute("allusers", userService.getAllUsers());
+        return "settings";
+    }
+
+    /**
+     * User detail
+     * @param model
+     * @param id
+     * @return 
+     */
+    @RequestMapping(value = "/userDetail/{id}", method = RequestMethod.GET)
+    public String getUserDetail(Model model, @PathVariable int id) {
+        model.addAttribute("userdetail", userService.getUser(id));
+        return "userInfo";
+    }
     /**
      * Adding the user(Session is used)
      *
@@ -53,18 +75,21 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") User user, HttpSession session) {
         user.setUserCredential((Credential) session.getAttribute("credential"));
-        //System.out.println(user.getUserCredential());
         return "signup";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String add(@Valid User user, BindingResult result, RedirectAttributes re, HttpSession session) {
+    public String add(@Valid User user, BindingResult result, HttpSession session) {
         String view = "redirect:/users";
-        //System.out.println("Testtttttttttttttttt");
+        System.out.println("userController Add");
+
         if (!result.hasErrors()) {
             userService.addUser(user);
             session.removeAttribute("credential");
         } else {
+            for (FieldError err : result.getFieldErrors()) {
+                System.out.println("Error:" + err.getField() + ":" + err.getDefaultMessage());
+            }
             view = "addUser";
         }
         return view;
@@ -145,12 +170,33 @@ public class UserController {
         if ("enable".equalsIgnoreCase(operation)) {
             System.out.println("enabled");
             u.getUserCredential().setBlocked(true);
+            u.getUserCredential().setUsername(u.getUserCredential().getUsername());
         } else {
             System.out.println("disabled");
             u.getUserCredential().setBlocked(false);
         }
         userService.updateUserInfo(userId, u);
         return "redirect:/users";
+    }
+
+    /**
+     * Admin notification to bloggers
+     * @param model
+     * @param text
+     * @param ids
+     * @return to settings page
+     */
+    @RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
+    public String notifyUsers(Model model, String text, String[] ids) {
+        List<User> user = new ArrayList<User>();
+        if (ids != null) {
+            for (String id : ids) {
+                user.add(userService.getUser(Integer.parseInt(id)));
+            }
+        }
+        notificationService.notifyBlogger(user, text);
+        model.addAttribute("allusers", userService.getAllUsers());
+        return "settings";
     }
 
 }
