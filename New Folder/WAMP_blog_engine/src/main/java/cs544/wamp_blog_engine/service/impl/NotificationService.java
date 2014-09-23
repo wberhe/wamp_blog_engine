@@ -74,7 +74,7 @@ public class NotificationService implements INotificationService {
     public void notifyFollowers(List<User> followers, Post post) {
         SimpleMailMessage template = getToFollowersTemplate();
         for (User user : followers) {
-            String message = String.format(template.getText(), user.getUserBlogs() + " " + user.getLastname(), post.getTitle(), "Blog Title", post.getCreation_time());
+            String message = String.format(template.getText(), user.getFirstname()+ " " + user.getLastname(), post.getTitle(), "Blog Title", post.getCreation_time());
             sendMail(template.getFrom(), user.getEmail(), template.getSubject(), message);
         }
     }
@@ -83,7 +83,7 @@ public class NotificationService implements INotificationService {
     public void notifyBlogger(List<User> users, String message) {
         SimpleMailMessage template = getFromAdminTemplate();
         for (User user : users) {
-            String emailMessage = String.format(template.getText(), user.getUserBlogs() + " " + user.getLastname(), message);
+            String emailMessage = String.format(template.getText(), user.getFirstname() + " " + user.getLastname(), message);
             sendMail(template.getFrom(), user.getEmail(), template.getSubject(), emailMessage);
         }
     }
@@ -92,14 +92,14 @@ public class NotificationService implements INotificationService {
     public void notifyBloggerNewComment(User user, Comment comment) {
         SimpleMailMessage template = getToBloggerTemplate();
         
-            String emailMessage=String.format(template.getText(), user.getUserBlogs()+" "+user.getLastname(),comment.getParentPost().getTitle(),comment.getParentPost().getParentBlog().getName(),comment.getComm_time());
+            String emailMessage=String.format(template.getText(), user.getFirstname()+" "+user.getLastname(),comment.getParentPost().getTitle(),comment.getParentPost().getParentBlog().getName(),comment.getComm_time());
             sendMail(template.getFrom(), user.getEmail(), template.getSubject(), emailMessage);
     }
 
     @Override
     public void contactAdmin(User user, String message) {
         SimpleMailMessage template = getToAdminTemplate();
-        String emailMessage = String.format(template.getText(),message, user.getUserBlogs() + " " + user.getLastname());
+        String emailMessage = String.format(template.getText(),message, user.getFirstname() + " " + user.getLastname());
         sendMail(user.getEmail(), template.getFrom(), template.getSubject(), emailMessage);
     }
 
