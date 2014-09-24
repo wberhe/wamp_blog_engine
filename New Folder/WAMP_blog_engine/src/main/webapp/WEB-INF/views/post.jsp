@@ -52,7 +52,7 @@
                     <c:forEach var="category" items="${postCategories}">
                 <tr>
               
-                    <td> <a href="">${category.name} </a></td>
+                    <td>${category.name}</td>
                 </tr>
                 <option value="${category.name}">${category.name}</option>
             </c:forEach>

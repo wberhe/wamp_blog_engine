@@ -63,7 +63,7 @@ public class CommentDAOImpl implements CommentDAO {
 
     @Override
     public List<Comment> getAllPostComments(Post post) {
-        Query query = sf.getCurrentSession().createQuery("select c from Comment c where c.parentPost=:ppost");
+        Query query = sf.getCurrentSession().createQuery("select c from Comment c where c.parentPost=:ppost AND c.approved=TRUE");
         query.setParameter("ppost", post);
         return query.list();
     }

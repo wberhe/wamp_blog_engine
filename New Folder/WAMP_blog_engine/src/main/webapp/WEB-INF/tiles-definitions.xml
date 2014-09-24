@@ -123,5 +123,10 @@
         <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
     </definition>
     
+    <definition name="categorizedPosts" extends="baseLayout">
+        <put-attribute name="title " value="Posts in this category"/>
+        <put-attribute name="body" value="/WEB-INF/views/categorizedPosts.jsp" />
+    </definition>
+    
    
 </tiles-definitions>

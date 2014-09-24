@@ -130,7 +130,7 @@ public class PostController {
         System.out.println("select cats: " + post.getCategories());
         String next = "redirect:/postList/{blogid}";
         if (result.hasErrors()) {
-            next = "createPost";
+            next = "redirect:createPost";
         } else {
             Blog blog = blogService.getBlog(blogid);
             post.setParentBlog(blog);
