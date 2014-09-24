@@ -9,7 +9,7 @@
   </div>
   <div id="navbar">
     <ul>
-      <li><a href="gohome">Home</a></li>
+      <li><a href="/Wamp/gohome">Home</a></li>
       <li><a href="#">About Us</a></li>
       <li><a href="#">Services</a></li>
       <li><a href="#">Our Work</a></li>

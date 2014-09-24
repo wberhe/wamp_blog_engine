@@ -21,36 +21,31 @@
                 <td width="20%">Posts</td>
                 <td width="50%"></td>
 
-                <td width="10%">Modify</td>
-                <td width="10%">Delete</td>
-<!--            <sec:authorize access="hasRole('ROLE_ADMIN')">-->
-                <!--<td width="10%">Status</td>-->
-            <!--</sec:authorize>-->
 
-        </tr>
-        
-            
-     
-
-        <c:forEach var="post" items="${posts}">
-            <tr bgcolor="#D1D5DA">
-            
-                <td> <a href="viewPost/${post.id}">${post.title}</a></td>
-                <c:choose>
-                        <c:when test="${fn:length(post.body) > 15}" >
-                        <td>${fn:substring(post.body, 0, 15)}...</td>
-                    </c:when>
-                    <c:otherwise>
-                        <td>${post.body}</td>
-                    </c:otherwise>         
-                </c:choose>
-                
             </tr>
-        </c:forEach>
 
 
 
 
-    </table>
-</body>
+            <c:forEach var="post" items="${posts}">
+                <tr bgcolor="#D1D5DA">
+
+                    <td> <a href="viewPost/${post.id}">${post.title}</a></td>
+                        <c:choose>
+                            <c:when test="${fn:length(post.body) > 15}" >
+                            <td>${fn:substring(post.body, 0, 15)}...</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>${post.body}</td>
+                        </c:otherwise>         
+                    </c:choose>
+
+                </tr>
+            </c:forEach>
+
+
+
+
+        </table>
+    </body>
 </html>

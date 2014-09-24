@@ -41,8 +41,6 @@ public class Post {
     private String title;
 
     private boolean draft;
-    
-//    private String blogName;
 
     @NotBlank
     @SafeHtml
@@ -55,10 +53,10 @@ public class Post {
 
     private byte[] image;
 
-    @ManyToMany( cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Rating> postRatings;
 
     @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
@@ -67,9 +65,9 @@ public class Post {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> postTags;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Blog parentBlog;
-    
+
     @Transient
     private String tempComment;
     @Transient
@@ -80,7 +78,6 @@ public class Post {
     private int numOfTags;
     @Transient
     private Category selectedCat;
-    
 
     public Post() {
     }
@@ -93,7 +90,6 @@ public class Post {
         this.selectedCat = selectedCat;
     }
 
-    
     public int getId() {
         return id;
     }
@@ -137,20 +133,6 @@ public class Post {
     public void setTempRating(double tempRating) {
         this.tempRating = tempRating;
     }
-
-  
-
-   
-    
-    
-
-//    public String getBlogName() {
-//        return blogName;
-//    }
-//
-//    public void setBlogName(String blogName) {
-//        this.blogName = blogName;
-//    }
 
     public Date getCreation_time() {
         return creation_time;
@@ -231,16 +213,16 @@ public class Post {
     }
 
     public void setCategories(List<Category> categories) {
-        if(categories == null) {
-			this.categories = new ArrayList<Category>();
-		} else {
-			this.categories = categories;
-		}
-		for(Category c : this.categories) {
-			if(!c.getCatogorizedPosts().contains(this)) {
-				c.addPostToCategory(this);
-			}
-		}
+        if (categories == null) {
+            this.categories = new ArrayList<Category>();
+        } else {
+            this.categories = categories;
+        }
+        for (Category c : this.categories) {
+            if (!c.getCatogorizedPosts().contains(this)) {
+                c.addPostToCategory(this);
+            }
+        }
     }
 
     private void setPostRatings(List<Rating> postRatings) {
@@ -251,23 +233,19 @@ public class Post {
         this.postComments = postComments;
     }
 
-    private void setPostTags(List<Tag> postTags) {
-        if(postTags == null){
+    public void setPostTags(List<Tag> postTags) {
+        if (postTags == null) {
             this.postTags = new ArrayList<Tag>();
         } else {
             this.postTags = postTags;
-            for(Tag t : this.postTags) {
-			if(!t.getTaggedPosts().contains(this)) {
-				t.addPost(this);
-			}
-		}
+            for (Tag t : this.postTags) {
+                if (!t.getTaggedPosts().contains(this)) {
+                    t.addPost(this);
+                }
+            }
         }
-        
-//        for(Tag t: this.postTags){
-//            if(!t.getTaggedPosts().contains(this)){
-//                t.addPostT
-//            }
-//        }
+
+
     }
 
     @Override

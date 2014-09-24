@@ -106,31 +106,8 @@ public class PostController {
         this.postService = postService;
     }
 
-    //create fake data for test
-    //some how get this from context ?
-//    private Blog blog;
-//
-//    public void createBlog() {
-//        blog = new Blog();
-//        blog.setName("Funday Sunday Blog");
-//        blogService.createBlog(blog);
-//
-//    }
-//    public User createUser(){
-//        User user = new User();
-//        user.setFirstname("Sherlock");
-//        user.setLastname("Holmes");
-//        user.setDob(new Date(1970 , 3, 11));
-//        user.setUserCredential(new Credential("Blogger", "username", "password1234!@"));
-//        userService.addUser(user);
-//        return user;
-//    }
-    ///
-    //create a new post
-//    
     @RequestMapping(value = "/postList/{id}", method = RequestMethod.GET)
     public String showAllPosts(Model model, @PathVariable int id, HttpSession session) {
-//        createUser();
         User blogger = (User) session.getAttribute("loggedUser");
         System.out.println("in get blog method");
         Blog blog = blogService.getBlog(id);
@@ -148,19 +125,14 @@ public class PostController {
 
     @RequestMapping(value = "/newpost/{blogid}", method = RequestMethod.POST)
     public String createPost(@ModelAttribute("post") Post post, BindingResult result, Model model, @PathVariable int blogid) {
-//        createBlog();
         System.out.println("...........in newpost post method");
         System.out.println("select cats: " + post.getCategories());
-//        req.getParameterValues(null)
         Blog blog = blogService.getBlog(blogid);
         post.setParentBlog(blog);
         blog.addBlogPost(post);
-
-//        System.out.println("does this display?: " + post.getSelectedCat());
         postService.createPost(post);
         System.out.println("post id: " + post.getId());
         blogService.modifyBlog(blog);
-//        postService.modifyPost(post);
         model.addAttribute("Blog", blog);
         System.out.println("select cats: getTitle: " + post.getTitle());
         System.out.println("select cats: " + postService.getPost(post.getId()).getCategories());
@@ -181,8 +153,8 @@ public class PostController {
     @RequestMapping(value = "editPost/{id}", method = RequestMethod.GET)
     public String editPostGet(Model model, @PathVariable int id) {
         model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("allcategories", postService.getAllCategories());
-        model.addAttribute("alltags", postService.getAllTags());
+        model.addAttribute("allCategories", postService.getAllCategories());
+        model.addAttribute("tags", postService.getAllTags());
         Post post = postService.getPost(id);
         Blog mBlog = post.getParentBlog();
         model.addAttribute("blog", mBlog);
@@ -190,17 +162,23 @@ public class PostController {
     }
 
     @RequestMapping(value = "editPost/{id}", method = RequestMethod.POST)
-    public String editPostPost(Post post, Model model, @PathVariable int id, HttpSession session) {
+    public String editPostPost(@ModelAttribute("post") Post post, Model model, @PathVariable int id, HttpSession session) {
         System.out.println(".........in editPostPost");
-//        User user = (User) session.getAttribute("loggedUser");
         Post modifiedPost = postService.getPost(id);
+//        for(int i=0; i<post.getCategories().size(); i++){
+//            modifiedPost.addCategory(post.getCategories().get(i));
+//        }
+        modifiedPost.setCategories(post.getCategories());
         modifiedPost.setTitle(post.getTitle());
         modifiedPost.setBody(post.getBody());
         modifiedPost.setDraft(post.isDraft());
+        //modifiedPost.setCategories(post.getCategories());
+        modifiedPost.setPostTags(post.getPostTags());
         postService.modifyPost(modifiedPost);
         Blog mBlog = modifiedPost.getParentBlog();
-        //blogService.modifyBlog(postService.getPost(id).getParentBlog());
-
+        model.addAttribute("allCategories", postService.getAllCategories());
+        model.addAttribute("tags", postService.getAllTags());
+        model.addAttribute("postCategories", categoryTagService.categoriesInPost(post));
         model.addAttribute("post", post);
         model.addAttribute("blog", mBlog);
         return "post";
@@ -210,11 +188,11 @@ public class PostController {
     public String deletePost(Model model, @PathVariable int id, RedirectAttributes redattr) {
         Post post = postService.getPost(id);
         int blogId = post.getParentBlog().getId();
-        System.out.println("post title: " + post.getTitle());
-        Blog blogn = blogService.getBlog(1);
-        System.out.println("blog title: " + blogn.getName());
+        Blog blogn = blogService.getBlog(blogId);
         blogn.removeBlogPost(post);
         blogService.modifyBlog(blogn);
+        post.setParentBlog(null);
+        
         postService.deletePost(post);
         redattr.addAttribute("id", blogId);
         return "redirect:/postList/{id}";
@@ -224,13 +202,10 @@ public class PostController {
     public String viewPost(Model model, @ModelAttribute("post") Post post, @PathVariable int id, HttpSession session) {
         User blogger = (User) session.getAttribute("loggedUser");
 
-        //////////////////////remove hardcoding
-//        User blogger = userService.getUser(1);
         Post post2 = postService.getPost(id);
         System.out.println("viewPost: any cats in here?: " + post2.getCategories());
         System.out.println("which post am i viewing?: " + post2.getId());
         System.out.println("from the databse directly: cats: " + categoryTagService.categoriesInPost(post2));
-//        post2.setCategories(categoryTagService.categoriesInPost(post2));
         Blog mBlog = post2.getParentBlog();
         Rating rating = postService.getRating(post2);
 
@@ -261,11 +236,9 @@ public class PostController {
 
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.POST)
     public String viewPostPost(Model model, @PathVariable int id, @ModelAttribute("post") Post post, RedirectAttributes redattr, HttpSession session) {
-//        User user = createUser();
         Post post2 = postService.getPost(id);
         User blogger = (User) session.getAttribute("loggedUser");
-        //////////////////////remove hardcoding
-//        User blogger = userService.getUser(1);
+
         model.addAttribute("post", post2);
         Blog mBlog = post2.getParentBlog();
         System.out.println("comment: " + post.getTempComment());

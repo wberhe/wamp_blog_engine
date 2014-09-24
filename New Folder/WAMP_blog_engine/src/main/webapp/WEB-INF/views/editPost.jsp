@@ -5,6 +5,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,60 +15,47 @@
     <body>
         <h1>Edit post</h1>
 
-        <form action="../editPost/${post.id}" method="post" >
+          <form:form commandName="post" action="../editPost/${post.id}" method="post" >
+        
 
             <table>
-                <a href="../deletePost/${post.id}">delete post</a>
+                <tr> <a href="../deletePost/${post.id}">delete post</a></tr>
+               
                 <tr>
+                    
                     <td>Title:</td>
-                    <td><input type="text" name="title" value="${post.title}"/> </td>
+                    <td><form:input  path="title"/> </td>
                 </tr>
                 <tr>
                     <td>Body:</td>
-                    <td><textarea name="body" rows="5" cols="40" >${post.body}</textarea></td>
+                    <td><form:textarea path="body" rows="5" cols="40"></form:textarea></td>
+                    
                 </tr>
                 <tr>
                     <td>Save Draft</td>
-                    <td><input type="checkbox" name="draft" value="${post.draft}"></td>
+                     <td><form:checkbox path="draft"   /></td>
                 </tr>
 
                 <tr>
                     <td>Categories</td>
+ 
                     <td>
-                        <select name= "categories" size="10" multiple="true">
-                            <c:forEach var="category" items="${post.categories}">
-                                <option value="${category.name}">${category.name}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-
-                    <td>Add categories</td>
-                    <td>
-                        <select name= "allcategories" size="10" multiple="true">
-                            <c:forEach var="category" items="${allcategories}">
-                                <option value="${category.name}">${category.name}</option>
-                            </c:forEach>
-                        </select>
+                        <form:select  path= "categories" size="10" multiple="true" >
+                            <form:options items="${allCategories}" itemValue="id" itemLabel="name"/>
+                            
+                        </form:select>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>Tags</td>
-                    <td>
-                        <select name= "postTags" size="10" multiple="true">
-                            <c:forEach var="tag" items="${post.postTags}">
-                                <option value="${tag.name}">${tag.name}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
 
-                    <td>Add tags</td>
+
+                    <td>Add tag</td>
                     <td>
-                        <select name= "alltags" size="10" multiple="true">
-                            <c:forEach var="tag" items="${alltags}">
-                                <option value="${tag.name}">${tag.name}</option>
-                            </c:forEach>
-                        </select>
+                        <form:select  path= "postTags" size="10" multiple="true" >
+                            <form:options items="${tags}" itemValue="name" itemLabel="name"/>
+                        </form:select>
+                      
                     </td>
                 </tr>
 
@@ -75,6 +63,6 @@
 
             <input type="submit" value="save"/>
 
-        </form>
+          </form:form>
     </body>
 </html>

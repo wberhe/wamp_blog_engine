@@ -53,7 +53,7 @@ public class Blog {
     private boolean comm_approval;
 
     private boolean blocked;    
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "parentBlog")
+    @OneToMany(mappedBy = "parentBlog")
     
     private List<Post> blogPosts;
 

@@ -50,15 +50,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Add category</td>
-                    <td>
+                    <!--<td>Add category</td>-->
+<!--                    <td>
                         <form:select  path= "selectedCat" >
                             <form:options items="${categories}" itemValue="id" itemLabel="name"></form:options>
                             <%--<c:forEach var="category" items="${categories}">--%>
-                                <!--<option value="${category.name}">${category.name}</option>-->
+                                <option value="${category.name}">${category.name}</option>
                             <%--</c:forEach>--%>
                         </form:select>
-                    </td>
+                    </td>-->
                 </tr>
                 <tr>
                     <td>Add tag</td>
@@ -66,11 +66,7 @@
                         <form:select  path= "postTags" size="10" multiple="true" >
                             <form:options items="${tags}" itemValue="name" itemLabel="name"/>
                         </form:select>
-                        <!--<select name= "postTags" size="10" multiple="true">-->
-                        <%--<c:forEach var="tag" items="${tags}">--%>
-                            <!--<option value="${tag.name}">${tag.name}</option>-->
-                        <%--</c:forEach>--%>
-                        <!--</select>-->
+                      
                     </td>
                 </tr>
 

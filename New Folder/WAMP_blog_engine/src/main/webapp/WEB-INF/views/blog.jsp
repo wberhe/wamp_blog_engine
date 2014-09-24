@@ -25,7 +25,7 @@
                 
             <tr></tr>
             <c:forEach var="post" items="${posts}">
-                <tr bgcolor="#ABB2AZ">
+                <tr>
                     <td>${post.title}</td>
                     <td><a href="../viewPost/${post.id}"> view post</a></td>  
                 </tr>
