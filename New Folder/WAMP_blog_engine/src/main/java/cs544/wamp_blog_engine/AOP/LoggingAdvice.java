@@ -28,4 +28,5 @@ public class LoggingAdvice {
         log.error("method:"+jp.getTarget().getClass().getName()+":"+jp.getSignature().getName()+" has returned Thrown an Exception.",th);
     }
      
+    
 }

@@ -160,6 +160,11 @@
         <property name="tagDAO" ref="tagDAO"/>
     </bean>
     
+    <!-- sign up email notification: AOP-->
+    <bean id="signupEmailNotification" class="cs544.wamp_blog_engine.AOP.EmailAdvice">
+        <property name="notificationService" ref="notificationService"/>
+    </bean>
+    
     <!--Email Service--> 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com" />
@@ -287,15 +292,15 @@ Administrator.
     <!--    for REST service-->
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
 	
-    <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <!--		<property name="contextPath" value="cs544.wamp_blog_engine.domain"/>-->
-        <property name="classesToBeBound">
-            <list>
-                <value>cs544.wamp_blog_engine.domain.Blog</value>
-                <!--<value>cs544.wamp_blog_engine.domain.Blogs</value>-->
-            </list>
-        </property>
-    </bean>	
+	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+<!--		<property name="contextPath" value="cs544.wamp_blog_engine.domain"/>-->
+                <property name="classesToBeBound">
+                        <list>
+                            <value>cs544.wamp_blog_engine.domain.Blog</value>
+                            <value>cs544.wamp_blog_engine.domain.Blogs</value>
+                        </list>
+                </property>
+	</bean>	
 
     <bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
         <property name="marshaller" ref="marshaller"/>

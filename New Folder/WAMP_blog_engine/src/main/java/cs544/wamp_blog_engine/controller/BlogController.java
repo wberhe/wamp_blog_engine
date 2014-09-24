@@ -6,6 +6,7 @@
 package cs544.wamp_blog_engine.controller;
 
 import cs544.wamp_blog_engine.domain.Blog;
+import cs544.wamp_blog_engine.domain.Blogs;
 import cs544.wamp_blog_engine.domain.User;
 import cs544.wamp_blog_engine.service.IBlogService;
 import cs544.wamp_blog_engine.service.IUserService;
@@ -133,7 +134,7 @@ public class BlogController {
     public ModelAndView getAllBlogs() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("marshalview");
-        mav.addObject(blogerService.getAllBlogs().get(0));
+        mav.addObject(new Blogs(blogerService.getAllBlogs()));
         return mav;
     }
 }
