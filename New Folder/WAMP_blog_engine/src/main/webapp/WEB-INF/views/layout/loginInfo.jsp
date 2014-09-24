@@ -6,7 +6,7 @@
   <div id="sidebar">
     <div class="navlist security">
         <div class="signupSuccess">${successfulSignup}</div>
-       <form method="post" action="j_spring_security_check">
+       <form method="post" action="/Wamp/j_spring_security_check">
             User:<input name="j_username"/><br/>
             Password:<input type="password" name="j_password"/><br/>
             <input type="submit"/><a href="addCredential">Sign Up</a>

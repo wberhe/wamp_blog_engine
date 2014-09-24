@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
      
@@ -18,7 +19,12 @@
         <div id="container">
             <tiles:insertAttribute name="header" />
             <div class="clear"></div>
-            <tiles:insertAttribute name="navigation" />
+            <div id="sidebar">
+                <c:if test="${empty loggedUser }">
+                    <tiles:insertAttribute name="login" />
+                </c:if>
+                <tiles:insertAttribute name="navigation" />
+            </div>
             <div id="content">
                 <!--<h2>Header</h2>-->
                 <tiles:insertAttribute name="body" />

@@ -39,7 +39,7 @@ public class Comment {
     @NotNull
     private Date comm_time;
 
-    private boolean approved;
+    private boolean approved = true;
 
     @OneToOne
     private Comment parentComment;

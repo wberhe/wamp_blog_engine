@@ -192,7 +192,7 @@ public class PostController {
         blogn.removeBlogPost(post);
         blogService.modifyBlog(blogn);
         post.setParentBlog(null);
-        
+
         postService.deletePost(post);
         redattr.addAttribute("id", blogId);
         return "redirect:/postList/{id}";
@@ -261,10 +261,9 @@ public class PostController {
                 System.out.println("comment: " + comment);
                 comment.setParentPost(post2);
                 notificationService.notifyBloggerNewComment(author, comment);
-            } else {
-                post2.addComment(comment);
-                postService.modifyPost(post2);
             }
+            post2.addComment(comment);
+            postService.modifyPost(post2);
 
         }
         int blogId = mBlog.getId();
