@@ -54,6 +54,7 @@
 
     <mvc:view-controller path="settings" view-name="settings"/>
     <mvc:view-controller path="loginFail" view-name="loginFail"/>
+    <mvc:view-controller path="login" view-name="login2"/>
     
     
     

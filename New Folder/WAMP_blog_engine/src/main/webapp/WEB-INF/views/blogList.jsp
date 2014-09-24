@@ -11,9 +11,10 @@
     <tr bgcolor="#ABB2BA">
         <td width="20%">Blog Name</td>
         <td width="50%">Blog Text</td>
-
-        <td width="10%">Modify</td>
-        <td width="10%">Delete</td>
+        <sec:authorize access="hasRole('ROLE_BLOGGER')">
+            <td width="10%">Modify</td>
+            <td width="10%">Delete</td>
+        </sec:authorize>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <td width="10%">Status</td>
         </sec:authorize>
@@ -22,7 +23,14 @@
     <c:if test="${blogList!=null}" >
         <c:forEach var="blog" items="${blogList}">
             <tr bgcolor="#D1D5DA">
-                <td> <a href="postList/${blog.id}">${blog.name}</a></td>
+                <td>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        ${blog.name}
+                    </sec:authorize>
+                    <sec:authorize access="!hasRole('ROLE_ADMIN')">
+                    <a href="postList/${blog.id}">${blog.name}</a>
+                    </sec:authorize>
+                </td>
                     <c:choose>
                         <c:when test="${fn:length(blog.description) > 15}" >
                         <td>${fn:substring(blog.description, 0, 15)}...</td>
@@ -32,9 +40,10 @@
                     </c:otherwise>         
                 </c:choose>
 
-
-                <td><a href="blog/${blog.id}">Modify</a></td>
-                <td><a href="blog/delete/${blog.id}">Delete</a></td>
+                <sec:authorize access="hasRole('ROLE_BLOGGER')">
+                    <td><a href="blog/${blog.id}">Modify</a></td>
+                    <td><a href="blog/delete/${blog.id}">Delete</a></td>
+                </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
 
                     <c:if test="${blog.blocked == true}" >

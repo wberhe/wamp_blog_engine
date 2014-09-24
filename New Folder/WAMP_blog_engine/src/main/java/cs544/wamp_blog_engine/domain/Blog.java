@@ -109,6 +109,7 @@ public class Blog {
         this.comm_approval = comm_approval;
     }
 
+    @XmlTransient
     public List<Post> getBlogPosts() {
         return blogPosts;
     }
