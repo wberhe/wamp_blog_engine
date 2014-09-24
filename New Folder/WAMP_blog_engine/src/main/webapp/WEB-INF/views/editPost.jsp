@@ -16,6 +16,7 @@
         <h1>Edit post</h1>
 
           <form:form commandName="post" action="../editPost/${post.id}" method="post" >
+              
         
 
             <table>

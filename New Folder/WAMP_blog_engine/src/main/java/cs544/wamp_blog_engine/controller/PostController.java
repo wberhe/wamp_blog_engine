@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -124,19 +125,24 @@ public class PostController {
 //   o
 
     @RequestMapping(value = "/newpost/{blogid}", method = RequestMethod.POST)
-    public String createPost(@ModelAttribute("post") Post post, BindingResult result, Model model, @PathVariable int blogid) {
+    public String createPost(@ModelAttribute("post") @Valid Post post, BindingResult result, Model model, @PathVariable int blogid) {
         System.out.println("...........in newpost post method");
         System.out.println("select cats: " + post.getCategories());
-        Blog blog = blogService.getBlog(blogid);
-        post.setParentBlog(blog);
-        blog.addBlogPost(post);
-        postService.createPost(post);
-        System.out.println("post id: " + post.getId());
-        blogService.modifyBlog(blog);
-        model.addAttribute("Blog", blog);
-        System.out.println("select cats: getTitle: " + post.getTitle());
-        System.out.println("select cats: " + postService.getPost(post.getId()).getCategories());
-        return "redirect:/postList/{blogid}";
+        String next = "redirect:/postList/{blogid}";
+        if (result.hasErrors()) {
+            next = "createPost";
+        } else {
+            Blog blog = blogService.getBlog(blogid);
+            post.setParentBlog(blog);
+            blog.addBlogPost(post);
+            postService.createPost(post);
+            System.out.println("post id: " + post.getId());
+            blogService.modifyBlog(blog);
+            model.addAttribute("Blog", blog);
+            System.out.println("select cats: getTitle: " + post.getTitle());
+            System.out.println("select cats: " + postService.getPost(post.getId()).getCategories());
+        }
+        return next;
     }
 
     @RequestMapping(value = "/newpost/{id}", method = RequestMethod.GET)
@@ -192,7 +198,7 @@ public class PostController {
         blogn.removeBlogPost(post);
         blogService.modifyBlog(blogn);
         post.setParentBlog(null);
-        
+
         postService.deletePost(post);
         redattr.addAttribute("id", blogId);
         return "redirect:/postList/{id}";
@@ -201,11 +207,10 @@ public class PostController {
     @RequestMapping(value = "viewPost/{id}", method = RequestMethod.GET)
     public String viewPost(Model model, @ModelAttribute("post") Post post, @PathVariable int id, HttpSession session) {
         User blogger = (User) session.getAttribute("loggedUser");
-
+        System.out.println("blogger: " + blogger);
         Post post2 = postService.getPost(id);
-        System.out.println("viewPost: any cats in here?: " + post2.getCategories());
-        System.out.println("which post am i viewing?: " + post2.getId());
-        System.out.println("from the databse directly: cats: " + categoryTagService.categoriesInPost(post2));
+//        System.out.println("which post am i viewing?: " + post2.getId());
+//        System.out.println("from the databse directly: cats: " + categoryTagService.categoriesInPost(post2));
         Blog mBlog = post2.getParentBlog();
         Rating rating = postService.getRating(post2);
 
@@ -213,24 +218,31 @@ public class PostController {
 
             System.out.println("null check works");
             for (int i = 0; i < post2.getPostRatings().size(); i++) {
-                System.out.println("post2.getPostRatings().size(): " + post2.getPostRatings().size());
-                System.out.println("post2.getPostRatings().get(i).getUser().getId(): " + post2.getPostRatings().get(i).getUser().getId());
-                System.out.println("blogger.getId(): " + blogger.getId());
-                if (post2.getPostRatings().get(i).getUser().getId() == blogger.getId()) {
-                    blogger.setRatedPost(true);
+//                System.out.println("post2.getPostRatings().size(): " + post2.getPostRatings().size());
+//                System.out.println("post2.getPostRatings().get(i).getUser().getId(): " + post2.getPostRatings().get(i).getUser().getId());
+//                System.out.println("blogger.getId(): " + blogger.getId());
+
+                if (blogger != null) {
+//                    System.out.println("trying:......");
+                    if (post2.getPostRatings().get(i).getUser().getId() == blogger.getId()) {
+                        blogger.setRatedPost(true);
+                    }
+
                 }
+
             }
 
         }
         List<Category> postCats = categoryTagService.categoriesInPost(post);
-        System.out.println("categoriesInPost: " + postCats);
+//        System.out.println("categoriesInPost: " + postCats);
         model.addAttribute("post", post2);
-        System.out.println("comnts size: " + post2.getPostComments());
+//        System.out.println("comnts size: " + post2.getPostComments());
         model.addAttribute("postCategories", categoryTagService.categoriesInPost(post));
         model.addAttribute("comments", commentService.getPostComments(post));
         model.addAttribute("postRating", rating);
         model.addAttribute("blog", mBlog);
         model.addAttribute("blogger", blogger);
+        model.addAttribute("author", post2.getParentBlog().getBlogger());
         return "post";
     }
 
@@ -241,8 +253,8 @@ public class PostController {
 
         model.addAttribute("post", post2);
         Blog mBlog = post2.getParentBlog();
-        System.out.println("comment: " + post.getTempComment());
-        System.out.println("rating: " + post.getTempRating());
+//        System.out.println("comment: " + post.getTempComment());
+//        System.out.println("rating: " + post.getTempRating());
         if (post.getTempRating() != 0) {
             Rating r = new Rating(post.getTempRating());
             r.setUser(blogger);
@@ -255,10 +267,10 @@ public class PostController {
             Comment comment = new Comment(post.getTempComment(), new Date());
 
             comment.setCommentAuthor(blogger);
-            if (mBlog.isComm_approval()) {
+            if (mBlog.isComm_approval() && blogger.getId() != mBlog.getBlogger().getId()) {
                 User author = mBlog.getBlogger();
-                System.out.println("author: " + author);
-                System.out.println("comment: " + comment);
+//                System.out.println("author: " + author);
+//                System.out.println("comment: " + comment);
                 comment.setParentPost(post2);
                 notificationService.notifyBloggerNewComment(author, comment);
             } else {
@@ -283,12 +295,12 @@ public class PostController {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        System.out.println("fancy thingssss one");
+//        System.out.println("fancy thingssss one");
         binder.registerCustomEditor(List.class, "categories", new CustomCollectionEditor(List.class) {
 
             @Override
             protected Object convertElement(Object element) {
-                System.out.println("fancy thingssss");
+//                System.out.println("fancy thingssss");
                 Integer id = null;
 
                 if (element instanceof String && !((String) element).equals("")) {
@@ -311,12 +323,12 @@ public class PostController {
 
     @InitBinder
     protected void initBinder2(WebDataBinder binder) {
-        System.out.println("fancy thingssss two");
+//        System.out.println("fancy thingssss two");
         binder.registerCustomEditor(List.class, "postTags", new CustomCollectionEditor(List.class) {
 
             @Override
             protected Object convertElement(Object element) {
-                System.out.println("fancy thingssss");
+//                System.out.println("fancy thingssss");
                 Integer id = null;
 
                 if (element instanceof String && !((String) element).equals("")) {

@@ -15,73 +15,81 @@
     </head>
     <body>
         <form:form commandName="post" action="../viewPost/${post.id}" method="post" >
-            <a href="../postList/${blog.id}">view Blog</a>
+            <form:errors path="*" element="div"/>
+
             <table>
-
                 <tr>
-                    <td>Title:</td>
-                    <td>${post.title}</td>
-
+                    <td> ${author.firstname} ${author.lastname} wrote....</td>
                 </tr>
                 <tr>
-                    <c:choose>
-                        <c:when test="${postRating.rate>='1'}">
-                            <td>Rating:</td>
-                            <td>${postRating.rate}</td>
-                        </c:when>
+                    <td> view Blog
+                        <a href="../postList/${blog.id}"> ${blog.name} </a></td>
+            </tr>   
+            <tr>
+                <td>Title:</td>
+                <td>${post.title}</td>
 
-                    </c:choose>
+            </tr>
+            <tr>
+                <c:choose>
+                    <c:when test="${postRating.rate>='1'}">
+                        <td>Rating:</td>
+                        <td>${postRating.rate}</td>
+                    </c:when>
 
-                </tr>
+                </c:choose>
+
+            </tr>
+            <tr>
+                <td>Body:</td>
+                <td>${post.body}</td>
+            </tr>
+
+            <tr>
+                <td>Categories</td>
+                <td>
+
+                    <c:forEach var="category" items="${postCategories}">
                 <tr>
-                    <td>Body:</td>
-                    <td>${post.body}</td>
+              
+                    <td> <a href="">${category.name} </a></td>
                 </tr>
+                <option value="${category.name}">${category.name}</option>
+            </c:forEach>
 
-                <tr>
-                    <td>Categories</td>
-                    <td>
+        </td>
 
-                        <c:forEach var="category" items="${postCategories}">
-                    <tr>
-                            <td>${category.name}</td>
-                            </tr>
-                    <option value="${category.name}">${category.name}</option>
-                </c:forEach>
+    </tr>
 
-            </td>
+    <tr>
+        <td>Tags</td>
+        <td>
 
-        </tr>
+            <c:forEach var="tag" items="${post.postTags}">
+        <option value="${tag.name}">${tag.name}</option>
+    </c:forEach>
 
-        <tr>
-            <td>Tags</td>
-            <td>
-
-                <c:forEach var="tag" items="${post.postTags}">
-            <option value="${tag.name}">${tag.name}</option>
-        </c:forEach>
-
-    </td>
+</td>
 
 
 </tr>
 
 <tr>
     <c:choose>
-                        <c:when test="${blogger.ratedPost==false}">
-                            <!--<td>Rating: try when not rated</td>-->
-                            
-    <td>
-        <form:radiobutton path="tempRating" value="1"  />
-        <form:radiobutton path="tempRating" value="2"  />
-        <form:radiobutton path="tempRating" value="3"  />
-        <form:radiobutton path="tempRating" value="4"  />
-        <form:radiobutton path="tempRating" value="5"  />
-    <td><input type="submit" value="rate"/> </td>
+        <c:when test="${blogger.ratedPost==false && blogger.id != author.id}">
+            <!--<td>Rating: try when not rated</td>-->
 
-    </td>
-  </c:when>
-</c:choose> 
+            <td>
+                <form:radiobutton path="tempRating" value="1"  />
+                <form:radiobutton path="tempRating" value="2"  />
+                <form:radiobutton path="tempRating" value="3"  />
+                <form:radiobutton path="tempRating" value="4"  />
+                <form:radiobutton path="tempRating" value="5"  />
+            <td><input type="submit" value="rate"/> </td>
+
+            </td>
+        </c:when>
+    </c:choose> 
 </tr>
 
 
